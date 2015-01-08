@@ -21,8 +21,8 @@
 #'   Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.
 #' @param ... [\code{any}]\cr
 #'   Not used yet.
-#' @return [\code{data.frame}]
-#'   Data frame of the coordinates of the cluster points.
+#' @return [\code{ClusterInstance}]
+#'   Object of type \code{ClusterInstance}.
 #' @export
 generateClusteredInstance = function(n.cluster,
     n.points,
@@ -49,6 +49,16 @@ generateClusteredInstance = function(n.cluster,
         tmp$cluster = i
         the.cluster[[i]] = tmp
     }
+
     the.cluster = do.call(rbind, the.cluster)
-    return(the.cluster)
+
+    # not a particluar great software design decision, but it works for now
+    membership = as.numeric(the.cluster$cluster)
+    the.cluster$cluster = NULL
+
+    return(makeS3Obj(
+        coordinates = the.cluster,
+        membership = membership,
+        classes = "ClusterInstance"
+    ))
 }

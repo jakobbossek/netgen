@@ -30,8 +30,8 @@ Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS
 Not used yet.}
 }
 \value{
-[\code{data.frame}]
-  Data frame of the coordinates of the cluster points.
+[\code{ClusterInstance}]
+  Object of type \code{ClusterInstance}.
 }
 \description{
 Testing algorithms for the Vehicle-Routing-Problem and understanding their
