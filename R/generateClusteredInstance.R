@@ -30,12 +30,20 @@ generateClusteredInstance = function(n.cluster,
     generator = lhs::maximinLHS,
     lower = 0,
     upper = 1,
+    sigmas = NULL,
     ...) {
     assertInteger(n.cluster, lower = 2L, len = 1L, any.missing = FALSE)
     assertInteger(n.dim, lower = 2L, len = 1L, any.missing = FALSE)
     assertFunction(generator)
     assertNumber(lower, lower = 0)
     assertNumber(upper)
+
+    if (!is.null(sigmas)) {
+        assertList(sigmas, len = n.cluster, types = c("matrix"))
+        lapply(sigmas, function(sigma) {
+            assertMatrix(sigma, mode = "numeric", nrows = n.dim, ncols = n.dim)
+        })
+    }
 
     if (lower >= upper) {
         stop("Argument 'upper' must be greater than argument 'lower'.")
@@ -53,8 +61,12 @@ generateClusteredInstance = function(n.cluster,
     for (i in 1:nrow(cluster.centers)) {
         # get distance to nearest cluster center and set variance appropritely
         distance.to.nearest.neighbor = distances[i]
-        vvar = distance.to.nearest.neighbor #FIXME: magic number
-        tmp = mvtnorm::rmvnorm(mean = as.numeric(cluster.centers[i, ]), n = n.points.in.cluster[i], sigma = diag(rep(vvar, n.dim)))
+        sigma = diag(rep(distance.to.nearest.neighbor, n.dim)) #FIXME: magic number
+        if (!is.null(sigmas)) {
+            sigma = sigmas[[i]]
+        }
+        tmp = mvtnorm::rmvnorm(mean = as.numeric(cluster.centers[i, ]), n = n.points.in.cluster[i], sigma = sigma)
+        print(head(tmp))
         tmp = as.data.frame(tmp)
         colnames(tmp) = paste("x", 1:2, sep = "")
         tmp$cluster = i
