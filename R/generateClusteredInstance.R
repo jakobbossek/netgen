@@ -106,8 +106,8 @@ as.data.frame.ClusterInstance = function(x, row.names = NULL, optional = FALSE, 
 autoplot.ClusterInstance = function(object, ...) {
     df = as.data.frame(object, include.membership = TRUE)
     df$membership = as.factor(df$membership)
-    pl = ggplot(data = df, mapping = aes(x = x1, y = x2))
-    pl = pl + geom_point(aes(colour = membership))
+    pl = ggplot(data = df, mapping = aes_string(x = "x1", y = "x2"))
+    pl = pl + geom_point(aes_string(colour = "membership"))
     title = paste("#Nodes:", nrow(df), ", #Clusters:", length(unique(df$membership)))
     pl = pl + ggtitle(title)
     pl = pl + theme(legend.position = "top")
