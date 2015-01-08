@@ -78,13 +78,15 @@ generateClusteredInstance = function(n.cluster,
 #' @export
 as.data.frame.ClusterInstance = function(x, row.names = NULL, optional = FALSE, include.membership = TRUE, ...) {
     n = nrow(x$coordinates)
+    res = x$coordinates
 
     assertFlag(include.membership)
     if (!is.null(row.names)) {
         assertCharacter(row.names, len = n, any.missing = FALSE)
     }
+
     if (include.membership) {
         res$membership = x$membership
     }
-    as.data.frame(res, row.names = row.names, optional = optional)
+    as.data.frame(res, row.names = row.names, optional = optional, ...)
 }
