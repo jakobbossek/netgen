@@ -13,10 +13,10 @@
 #' @param n.dim [\code{integer(1)}]\cr
 #'   Number of dimensions. Most often you want to generate 2-dimensional instances
 #'   in the euclidean plane. Thus 2 is the default setting.
-#' @param scale.factor [\code{numeric(1)}]\cr
-#'   Instances are generaded in the \code{n.dims}-dimensional
-#'   [0,1] hypercube. The numeric scaling parameter can be used to stretch dimensions
-#'   to arbitrary dimensions.
+#' @param lower [\code{numeric(1)}]\cr
+#'   Lower bound for cube.
+#' @param upper [\code{numeric(1)}]\cr
+#'   Upper bound for cube.
 #' @param generator [\code{function}]\cr
 #'   Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.
 #' @param ... [\code{any}]\cr
@@ -27,10 +27,11 @@
 generateClusteredInstance = function(n.cluster,
     n.points,
     n.dim = 2L,
-    scale.factor = 1L,
     generator = lhs::maximinLHS,
+    lower = 0,
+    upper = 1,
     ...) {
-    cluster.centers = generateClusterCenters(n.cluster, n.dim, scale.factor, generator)
+    cluster.centers = generateClusterCenters(n.cluster, n.dim, generator, lower, upper)
     the.cluster = list()
 
     distances = computeDistancesToNearestClusterCenter(cluster.centers)$min.distance
@@ -42,7 +43,7 @@ generateClusteredInstance = function(n.cluster,
     for (i in 1:nrow(cluster.centers)) {
         # get distance to nearest cluster center and set variance appropritely
         distance.to.nearest.neighbor = distances[i]
-        vvar = distance.to.nearest.neighbor / 500 #FIXME: magic number
+        vvar = distance.to.nearest.neighbor #FIXME: magic number
         tmp = mvtnorm::rmvnorm(mean = as.numeric(cluster.centers[i, ]), n = n.points.in.cluster[i], sigma = diag(rep(vvar, n.dim)))
         tmp = as.data.frame(tmp)
         colnames(tmp) = paste("x", 1:2, sep = "")
@@ -111,6 +112,7 @@ autoplot.ClusterInstance = function(object, ...) {
     title = paste("#Nodes:", nrow(df), ", #Clusters:", length(unique(df$membership)))
     pl = pl + ggtitle(title)
     pl = pl + theme(legend.position = "top")
-    pl = pl + xlim(c(0, 1)) + ylim(c(0, 1))
+    #FIXME: probably it would be nice to save bounds in ClusterInstance
+    #pl = pl + xlim(c(0, 1)) + ylim(c(0, 1))
     return(pl)
 }
