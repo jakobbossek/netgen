@@ -18,4 +18,9 @@ test_that("generate clustered instance works as expected", {
 
     expect_equal(nrow(df), n.points)
     expect_equal(ncol(df), 2L) # no membership column
+
+    # check plotting
+    library(ggplot2)
+    pl = autoplot(inst)
+    expect_is(pl, c("gg", "ggplot"))
 })

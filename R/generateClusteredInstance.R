@@ -90,3 +90,27 @@ as.data.frame.ClusterInstance = function(x, row.names = NULL, optional = FALSE, 
     }
     as.data.frame(res, row.names = row.names, optional = optional, ...)
 }
+
+#' Autoplot function.
+#'
+#' Generates a \code{\link[ggplot2]{ggplot}} object. Nice possibility to
+#' visualize 2-dimensional (clustered) data sets in the euclidean plane.
+#'
+#' @param object [\code{ClusterInstance}]\cr
+#'   Instance to visualize.
+#' @param ... [any]\cr
+#'   Currently not used.
+#' @return [\code{\link[ggplot2]{ggplot}}]
+#'   ggplot2 object.
+#' @export
+autoplot.ClusterInstance = function(object, ...) {
+    df = as.data.frame(object, include.membership = TRUE)
+    df$membership = as.factor(df$membership)
+    pl = ggplot(data = df, mapping = aes(x = x1, y = x2))
+    pl = pl + geom_point(aes(colour = membership))
+    title = paste("#Nodes:", nrow(df), ", #Clusters:", length(unique(df$membership)))
+    pl = pl + ggtitle(title)
+    pl = pl + theme(legend.position = "top")
+    pl = pl + xlim(c(0, 1)) + ylim(c(0, 1))
+    return(pl)
+}
