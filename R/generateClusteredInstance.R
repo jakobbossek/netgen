@@ -31,6 +31,16 @@ generateClusteredInstance = function(n.cluster,
     lower = 0,
     upper = 1,
     ...) {
+    assertInteger(n.cluster, lower = 2L, len = 1L, any.missing = FALSE)
+    assertInteger(n.dim, lower = 2L, len = 1L, any.missing = FALSE)
+    assertFunction(generator)
+    assertNumber(lower, lower = 0)
+    assertNumber(upper)
+
+    if (lower >= upper) {
+        stop("Argument 'upper' must be greater than argument 'lower'.")
+    }
+
     cluster.centers = generateClusterCenters(n.cluster, n.dim, generator, lower, upper)
     the.cluster = list()
 
