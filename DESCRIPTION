@@ -1,0 +1,17 @@
+Package: ecr
+Type: Package
+Title: Cluster generation in R.
+Description: The package provides a method to generate clustered data, determinining
+cluster centers via a latin hypercube design and setting
+Version: 0.1
+Date: 2015-01-08
+Authors@R: c(person("Jakob", "Bossek", email = "j.bossek@gmail.com", role =
+    c("aut", "cre")))
+License: BSD_2_clause + file LICENSE
+Depends:
+    BBmisc (>= 1.6),
+Imports:
+    ggplot2,
+    checkmate (>= 1.1),
+Suggests:
+    testthat
