@@ -5,7 +5,7 @@
 \title{Function for generation of clustered instances.}
 \usage{
 generateClusteredInstance(n.cluster, n.points, n.dim = 2L,
-  generator = lhs::maximinLHS, lower = 0, upper = 1, ...)
+  generator = lhs::maximinLHS, lower = 0, upper = 1, sigmas = NULL, ...)
 }
 \arguments{
 \item{n.cluster}{[\code{integer(1)}]\cr
@@ -26,6 +26,12 @@ Lower bound for cube.}
 
 \item{upper}{[\code{numeric(1)}]\cr
 Upper bound for cube.}
+
+\item{sigmas}{[\code{list} | \code{NULL}]\cr
+Unnamed list of length \code{n.cluster} containing a covariance matrix
+for each cluster. Default is \code{NULL}. In this case the covariance
+matrix is a diagonal matrix containing the distance to the nearest
+cluster center as diogonal elements.}
 
 \item{...}{[\code{any}]\cr
 Not used yet.}

@@ -13,12 +13,17 @@
 #' @param n.dim [\code{integer(1)}]\cr
 #'   Number of dimensions. Most often you want to generate 2-dimensional instances
 #'   in the euclidean plane. Thus 2 is the default setting.
+#' @param generator [\code{function}]\cr
+#'   Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.
 #' @param lower [\code{numeric(1)}]\cr
 #'   Lower bound for cube.
 #' @param upper [\code{numeric(1)}]\cr
 #'   Upper bound for cube.
-#' @param generator [\code{function}]\cr
-#'   Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.
+#' @param sigmas [\code{list} | \code{NULL}]\cr
+#'   Unnamed list of length \code{n.cluster} containing a covariance matrix
+#'   for each cluster. Default is \code{NULL}. In this case the covariance
+#'   matrix is a diagonal matrix containing the distance to the nearest
+#'   cluster center as diogonal elements.
 #' @param ... [\code{any}]\cr
 #'   Not used yet.
 #' @return [\code{ClusterInstance}]
@@ -55,13 +60,12 @@ generateClusteredInstance = function(n.cluster,
     distances = computeDistancesToNearestClusterCenter(cluster.centers)$min.distance
 
     # deterime number of elements for each cluster
-    # FIXME: allow setting the number of points for each cluster seperately via another parameter
     n.points.in.cluster = determineNumberOfPointsPerCluster(n.cluster, n.points)
 
     for (i in 1:nrow(cluster.centers)) {
         # get distance to nearest cluster center and set variance appropritely
         distance.to.nearest.neighbor = distances[i]
-        sigma = diag(rep(distance.to.nearest.neighbor, n.dim)) #FIXME: magic number
+        sigma = diag(rep(distance.to.nearest.neighbor, n.dim))
         if (!is.null(sigmas)) {
             sigma = sigmas[[i]]
         }
