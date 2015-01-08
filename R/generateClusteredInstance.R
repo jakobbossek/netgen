@@ -62,3 +62,29 @@ generateClusteredInstance = function(n.cluster,
         classes = "ClusterInstance"
     ))
 }
+
+#' Convert cluster instance to data frame.
+#'
+#' @param x [\code{ClusterInstance}]\cr
+#'   Cluster instance.
+#' @param row.names [\code{character}]\cr
+#'   Row names for the result. Default is \code{NULL}.
+#' @param optional [any]\cr
+#'   Currently not used.
+#' @param include.membership [\code{logical(1)}]\cr
+#'   Include the membership as a seperate column? Default is \code{TRUE}.
+#' @param ... [any]\cr
+#'   Currently not used.
+#' @export
+as.data.frame.ClusterInstance = function(x, row.names = NULL, optional = FALSE, include.membership = TRUE, ...) {
+    n = nrow(x$coordinates)
+
+    assertFlag(include.membership)
+    if (!is.null(row.names)) {
+        assertCharacter(row.names, len = n, any.missing = FALSE)
+    }
+    if (include.membership) {
+        res$membership = x$membership
+    }
+    as.data.frame(res, row.names = row.names, optional = optional)
+}
