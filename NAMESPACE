@@ -3,6 +3,7 @@
 S3method(as.data.frame,ClusterInstance)
 S3method(autoplot,ClusterInstance)
 export(generateClusteredInstance)
+export(generateRandomInstance)
 import(BBmisc)
 import(checkmate)
 import(ggplot2)
