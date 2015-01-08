@@ -8,7 +8,7 @@
 #'
 #' @param n.cluster [\code{integer(1)}]\cr
 #'   Desired number of clusters.
-#' @param n.customers [\code{integer(1)}]\cr
+#' @param n.points [\code{integer(1)}]\cr
 #'   Number of points for the instance.
 #' @param n.dim [\code{integer(1)}]\cr
 #'   Number of dimensions. Most often you want to generate 2-dimensional instances
@@ -17,31 +17,38 @@
 #'   Instances are generaded in the \code{n.dims}-dimensional
 #'   [0,1] hypercube. The numeric scaling parameter can be used to stretch dimensions
 #'   to arbitrary dimensions.
+#' @param generator [\code{function}]\cr
+#'   Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.
 #' @param ... [\code{any}]\cr
 #'   Not used yet.
 #' @return [\code{data.frame}]
 #'   Data frame of the coordinates of the cluster points.
 #' @export
-generateClusteredInstance = function(n.cluster, n.customers, n.dim = 2L, scale.factor = 1L, ...) {
-    cluster.centers = generateClusterCenters(n.cluster, n.dim, scale.factor)
-    customers = list()
+generateClusteredInstance = function(n.cluster,
+    n.points,
+    n.dim = 2L,
+    scale.factor = 1L,
+    generator = lhs::maximinLHS,
+    ...) {
+    cluster.centers = generateClusterCenters(n.cluster, n.dim, scale.factor, generator)
+    the.cluster = list()
 
     distances = computeDistancesToNearestClusterCenter(cluster.centers)$min.distance
 
     # deterime number of elements for each cluster
     # FIXME: allow setting the number of points for each cluster seperately via another parameter
-    n.customers.in.cluster = determineNumberOfPointsPerCluster(n.cluster, n.customers)
+    n.points.in.cluster = determineNumberOfPointsPerCluster(n.cluster, n.points)
 
     for (i in 1:nrow(cluster.centers)) {
         # get distance to nearest cluster center and set variance appropritely
         distance.to.nearest.neighbor = distances[i]
         vvar = distance.to.nearest.neighbor / 500 #FIXME: magic number
-        tmp = mvtnorm::rmvnorm(mean = as.numeric(cluster.centers[i, ]), n = n.customers.in.cluster[i], sigma = diag(rep(vvar, n.dim)))
+        tmp = mvtnorm::rmvnorm(mean = as.numeric(cluster.centers[i, ]), n = n.points.in.cluster[i], sigma = diag(rep(vvar, n.dim)))
         tmp = as.data.frame(tmp)
         colnames(tmp) = paste("x", 1:2, sep = "")
         tmp$cluster = i
-        customers[[i]] = tmp
+        the.cluster[[i]] = tmp
     }
-    customers = do.call(rbind, customers)
-    return(customers)
+    the.cluster = do.call(rbind, the.cluster)
+    return(the.cluster)
 }

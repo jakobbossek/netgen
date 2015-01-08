@@ -4,14 +4,14 @@
 \alias{generateClusteredInstance}
 \title{Function for generation of clustered instances.}
 \usage{
-generateClusteredInstance(n.cluster, n.customers, n.dim = 2L,
-  scale.factor = 1L, ...)
+generateClusteredInstance(n.cluster, n.points, n.dim = 2L,
+  scale.factor = 1L, generator = lhs::maximinLHS, ...)
 }
 \arguments{
 \item{n.cluster}{[\code{integer(1)}]\cr
 Desired number of clusters.}
 
-\item{n.customers}{[\code{integer(1)}]\cr
+\item{n.points}{[\code{integer(1)}]\cr
 Number of points for the instance.}
 
 \item{n.dim}{[\code{integer(1)}]\cr
@@ -22,6 +22,9 @@ in the euclidean plane. Thus 2 is the default setting.}
 Instances are generaded in the \code{n.dims}-dimensional
 [0,1] hypercube. The numeric scaling parameter can be used to stretch dimensions
 to arbitrary dimensions.}
+
+\item{generator}{[\code{function}]\cr
+Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.}
 
 \item{...}{[\code{any}]\cr
 Not used yet.}
