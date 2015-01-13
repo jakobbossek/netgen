@@ -1,8 +1,8 @@
 .Rproj.user
 .Rhistory
 .RData
-clugen.Rcheck
-clugen.Rproj
+netgen.Rcheck
+netgen.Rproj
 playground.R
 todo.md
 test_specific.R

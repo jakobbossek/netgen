@@ -5,7 +5,7 @@ library(testthat)
 if (interactive()) {
   load_all(".")
 } else {
-  library(clugen)
+  library(netgen)
 }
 
 test_dir("tests/testthat")

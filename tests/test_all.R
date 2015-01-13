@@ -1,3 +1,3 @@
 library(testthat)
-test_check("clugen")
+test_check("netgen")
 
