@@ -116,7 +116,7 @@ as.data.frame.ClusteredNetwork = function(x, row.names = NULL, optional = FALSE,
 #' Autoplot function.
 #'
 #' Generates a \code{\link[ggplot2]{ggplot}} object. Nice possibility to
-#' visualize 2-dimensional (clustered) data sets in the euclidean plane.
+#' visualize 2-dimensional (clustered) networks in the euclidean plane.
 #'
 #' @param object [\code{ClusterInstance}]\cr
 #'   Instance to visualize.
@@ -125,12 +125,21 @@ as.data.frame.ClusteredNetwork = function(x, row.names = NULL, optional = FALSE,
 #' @return [\code{\link[ggplot2]{ggplot}}]
 #'   ggplot2 object.
 #' @export
-autoplot.ClusteredNetwork = function(object, ...) {
-    df = as.data.frame(object, include.membership = TRUE)
-    df$membership = as.factor(df$membership)
+autoplot.Network = function(object, ...) {
+    if (testClass(object, "ClusteredNetwork")) {
+        df = as.data.frame(object, include.membership = TRUE)
+        df$membership = as.factor(df$membership)
+    } else {
+        df = object$coordinates
+    }
     pl = ggplot(data = df, mapping = aes_string(x = "x1", y = "x2"))
-    pl = pl + geom_point(aes_string(colour = "membership"))
-    title = paste("#Nodes:", nrow(df), ", #Clusters:", length(unique(df$membership)))
+    if (!is.null(df$membership)) {
+        pl = pl + geom_point(aes_string(colour = "membership"))
+        title = paste("#Nodes:", nrow(df), ", #Clusters:", length(unique(df$membership)))
+    } else {
+        pl = pl + geom_point(colour = "tomato")
+        title = paste("#Nodes:", nrow(df))
+    }
     pl = pl + ggtitle(title)
     pl = pl + theme(legend.position = "top")
     #FIXME: probably it would be nice to save bounds in ClusterInstance
