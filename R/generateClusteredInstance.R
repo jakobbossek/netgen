@@ -70,7 +70,6 @@ generateClusteredInstance = function(n.cluster,
             sigma = sigmas[[i]]
         }
         tmp = mvtnorm::rmvnorm(mean = as.numeric(cluster.centers[i, ]), n = n.points.in.cluster[i], sigma = sigma)
-        print(head(tmp))
         tmp = as.data.frame(tmp)
         colnames(tmp) = paste("x", 1:2, sep = "")
         tmp$cluster = i
@@ -86,7 +85,7 @@ generateClusteredInstance = function(n.cluster,
     return(makeS3Obj(
         coordinates = the.cluster,
         membership = membership,
-        classes = "ClusterInstance"
+        classes = c("Network", "ClusteredNetwork")
     ))
 }
 
@@ -103,7 +102,7 @@ generateClusteredInstance = function(n.cluster,
 #' @param ... [any]\cr
 #'   Currently not used.
 #' @export
-as.data.frame.ClusterInstance = function(x, row.names = NULL, optional = FALSE, include.membership = TRUE, ...) {
+as.data.frame.ClusteredNetwork = function(x, row.names = NULL, optional = FALSE, include.membership = TRUE, ...) {
     n = nrow(x$coordinates)
     res = x$coordinates
 
@@ -130,7 +129,7 @@ as.data.frame.ClusterInstance = function(x, row.names = NULL, optional = FALSE, 
 #' @return [\code{\link[ggplot2]{ggplot}}]
 #'   ggplot2 object.
 #' @export
-autoplot.ClusterInstance = function(object, ...) {
+autoplot.ClusteredNetwork = function(object, ...) {
     df = as.data.frame(object, include.membership = TRUE)
     df$membership = as.factor(df$membership)
     pl = ggplot(data = df, mapping = aes_string(x = "x1", y = "x2"))
