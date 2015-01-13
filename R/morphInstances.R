@@ -20,7 +20,10 @@ morphInstances = function(x, y, alpha) {
     z = tspmeta::morph_instances(x, y, alpha)
     coordinates = as.data.frame(z$coords)
     colnames(coordinates) = c("x1", "x2")
-    makeNetwork(coordinates)
+    z = makeNetwork(coordinates)
+    attr(z, "morphed") = TRUE
+    attr(z, "morphing.grade") = alpha
+    return(z)
 }
 
 as_tsp_instance = function(x) {
