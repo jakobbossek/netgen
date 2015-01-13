@@ -9,7 +9,8 @@ Authors@R: c(person("Jakob", "Bossek", email = "j.bossek@gmail.com", role =
 License: BSD_2_clause + file LICENSE
 Depends:
     BBmisc (>= 1.6),
-    mvtnorm (>= 1.0-2)
+    mvtnorm (>= 1.0-2),
+    tspmeta (>= 1.1)
 Imports:
     ggplot2,
     checkmate (>= 1.5.1)
