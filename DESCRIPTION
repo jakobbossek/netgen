@@ -1,8 +1,7 @@
 Package: netgen
 Type: Package
 Title: Generating random networks in R.
-Description: The package provides methods to generate random (clustered) networks which may be used
-for benchmarking optimization algorithms, e.g., for the TSP or VRP.
+Description: The package provides methods to generate random (clustered) networks which may be used for benchmarking optimization algorithms, e.g., for the TSP or VRP.
 Version: 0.1
 Date: 2015-01-08
 Authors@R: c(person("Jakob", "Bossek", email = "j.bossek@gmail.com", role =
