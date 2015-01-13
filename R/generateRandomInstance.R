@@ -20,8 +20,8 @@ generateRandomInstance = function(n.points, n.dim = 2L, lower = 0, upper = 1) {
         stopf("Argument 'upper' must be greater than argument 'lower'.")
     }
 
-    inst = runif(n.points * n.dim, min = lower, max = upper)
-    inst = as.data.frame(matrix(inst, ncol = n.dim))
-    colnames(inst) = paste("x", seq(n.dim), sep = "")
-    return(inst)
+    coordinates = runif(n.points * n.dim, min = lower, max = upper)
+    coordinates = as.data.frame(matrix(coordinates, ncol = n.dim))
+    colnames(coordinates) = paste("x", seq(n.dim), sep = "")
+    makeNetwork(coordinates)
 }

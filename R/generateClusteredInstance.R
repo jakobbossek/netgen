@@ -82,11 +82,7 @@ generateClusteredInstance = function(n.cluster,
     membership = as.numeric(the.cluster$cluster)
     the.cluster$cluster = NULL
 
-    return(makeS3Obj(
-        coordinates = the.cluster,
-        membership = membership,
-        classes = c("Network", "ClusteredNetwork")
-    ))
+    makeClusteredNetwort(coordinates = the.cluster, membership = membership)
 }
 
 #' Convert cluster instance to data frame.

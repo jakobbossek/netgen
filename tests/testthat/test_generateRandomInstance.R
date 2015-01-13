@@ -5,9 +5,9 @@ test_that("generate random instance works as expected", {
     n.dims = 2:4
     for (n.dim in n.dims) {
         inst = generateRandomInstance(n.points, n.dim = n.dim)
-        expect_true(is.data.frame(inst))
-        expect_equal(n.points, nrow(inst))
-        expect_equal(n.dim, ncol(inst), info = paste("Number of columns does not match for n.dim", n.dim))
+        expect_is(inst, "Network")
+        expect_equal(n.points, nrow(inst$coordinates))
+        expect_equal(n.dim, ncol(inst$coordinates), info = paste("Number of columns does not match for n.dim", n.dim))
     }
 
     # check if points are within bounds
@@ -15,5 +15,5 @@ test_that("generate random instance works as expected", {
     upper = 0.5
 
     inst = generateRandomInstance(n.points = 1000L, lower = lower, upper = upper)
-    expect_true(all((inst >= lower) & (inst <= upper)))
+    expect_true(all((inst$coordinates >= lower) & (inst$coordinates <= upper)))
 })

@@ -4,7 +4,7 @@ test_that("generate clustered instance works as expected", {
     n.cluster = 5L
     n.points = 100L
     inst = generateClusteredInstance(n.cluster, n.points)
-    expect_is(inst, "ClusterInstance")
+    expect_is(inst, "ClusteredNetwork")
     expect_equal(n.cluster, length(unique(inst$membership)))
     expect_true(length(setdiff(n.cluster, unique(inst$membership))) == 0)
     expect_equal(n.points, nrow(inst$coordinates))
