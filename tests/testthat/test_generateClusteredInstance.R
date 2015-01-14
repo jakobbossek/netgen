@@ -8,9 +8,9 @@ test_that("generate clustered instance works as expected", {
     checkClusteredInstance = function(x, n.cluster, n.points, upper = 1) {
         expect_is(x, "Network")
         expect_is(x, "ClusteredNetwork")
-        expect_equal(n.cluster, length(unique(x$membership)))
+        expect_equal(n.cluster, getNumberOfClusters(x))
         expect_true(length(setdiff(n.cluster, unique(x$membership))) == 0)
-        expect_equal(n.points, nrow(x$coordinates))
+        expect_equal(n.points, getNumberOfNodes(x))
         expect_true(all(x$coordinates <= upper))
     }
 
