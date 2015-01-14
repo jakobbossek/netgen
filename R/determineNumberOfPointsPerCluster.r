@@ -5,19 +5,75 @@
 #   Desired number of clusters.
 # @param n.customers [\code{integer(1)}]\cr
 #   Number of points for the instance.
+# @param strategy [\code{character(1)}]\cr
+#   Strategy used to determine number of points per cluster.
+#   See \code{getPointDistributionStrategy} for a list of available strategies.
 # @return [\code{integer}]
 #   Vector of length \code{length(n.cluster)} containing the number of
 #   points assigned to this cluster.
-determineNumberOfPointsPerCluster = function(n.cluster, n.customers) {
+determineNumberOfPointsPerCluster = function(n.cluster, n.customers, strategy = "equally.distributed") {
+    if (strategy == "equally.distributed") {
+        getEquallyDistributedIntegerPartition(n.customers, n.cluster)
+    } else if (strategy == "random.partition") {
+        getRandomIntegerPartition(n.customers, n.cluster)
+    }
+}
+
+# Computes integer partition.
+#
+# Integer n should be partitioned in k integers, i1, ...,ik that way, that
+# the i1 + ... + ik = n and no ij is zero and i1 approx i2 approx ... approx ik.
+#
+# @param n [integer(1)]
+#   Integer we want to get an integer partiton for.
+# @param k [integer(1)]
+#   Number of partitions.
+# @return [integer(k)]
+getEquallyDistributedIntegerPartition = function(n, k) {
     # distribute equally over the clusters
-    n = floor(n.customers / n.cluster)
-    n.customers.in.cluster = rep(n, n.cluster)
+    m = floor(n / k)
+    partition = rep(m, k)
     # n * n.cluster might be lower than n.customers. Add the remaining points to
     # a randomly chosen cluster
     # FIXME: we might want to implement different strategies here
-    n.diff = n.customers - n * n.cluster
+    m.diff = n - m * k
     # sample random cluster
-    idx = sample(1:n.cluster, 1)
-    n.customers.in.cluster[idx] = n + n.diff
-    return(n.customers.in.cluster)
+    idx = sample(1:k, 1)
+    partition[idx] = m + m.diff
+    return(partition)
+}
+
+# Computes integer partition.
+#
+# Integer n should be partitioned in k integers, i1, ...,ik that way, that
+# the i1 + ... + ik = n and no ij is zero.
+#
+# @param n [integer(1)]
+#   Integer we want to get an integer partiton for.
+# @param k [integer(1)]
+#   Number of partitions.
+# @return [integer(k)]
+getRandomIntegerPartition = function(n, k) {
+    s = n
+    rest = s
+    # set up storage for partition
+    partition = integer(k)
+    for (i in seq(k)) {
+        # if the last partition is handled, we need to assign the 'rest' to it
+        if (i == k) {
+            partition[i] = rest
+            return(partition)
+        }
+        # otherwise sample a random number of maximal size
+        partition[i] = sample(1:(floor(rest / 2)), size = 1L)
+        rest = rest - partition[i]
+    }
+    return(partition)
+}
+
+#' Returns the available strategies for distributing points around clusters.
+#' @return [\code{character}]
+#' @export
+getPointDistributionStrategies = function() {
+    return(c("equally.distributed", "random.partition"))
 }

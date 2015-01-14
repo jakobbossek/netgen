@@ -6,7 +6,8 @@
 \usage{
 generateClusteredInstance(n.cluster, n.points, n.dim = 2L,
   generator = lhs::maximinLHS, lower = 0, upper = 1, sigmas = NULL,
-  cluster.centers = NULL, ...)
+  distribution.strategy = "equally.distributed", cluster.centers = NULL,
+  ...)
 }
 \arguments{
 \item{n.cluster}{[\code{integer(1)}]\cr
@@ -33,6 +34,10 @@ Unnamed list of length \code{n.cluster} containing a covariance matrix
 for each cluster. Default is \code{NULL}. In this case the covariance
 matrix is a diagonal matrix containing the distance to the nearest
 cluster center as diogonal elements.}
+
+\item{distribution.strategy}{[\code{character(1)}]\cr
+Define the strategy to distribute n.points on the n.cluster clusters. Default
+is 'equally.distributed'. Also available is 'random.partition'.}
 
 \item{cluster.centers}{[\code{matrix}]\cr
 Data frame of cluster centres of dimension \code{n.cluster} x \code{n.dim}. If

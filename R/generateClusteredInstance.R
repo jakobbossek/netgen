@@ -24,6 +24,10 @@
 #'   for each cluster. Default is \code{NULL}. In this case the covariance
 #'   matrix is a diagonal matrix containing the distance to the nearest
 #'   cluster center as diogonal elements.
+#' @param distribution.strategy [\code{character(1)}]\cr
+#FIXME: itemize all the strategies here.
+#'   Define the strategy to distribute n.points on the n.cluster clusters. Default
+#'   is 'equally.distributed'. Also available is 'random.partition'.
 #' @param cluster.centers [\code{matrix}]\cr
 #'   Data frame of cluster centres of dimension \code{n.cluster} x \code{n.dim}. If
 #'   this is set, cluster centres are not generated automatically.
@@ -40,6 +44,7 @@ generateClusteredInstance = function(n.cluster,
     lower = 0,
     upper = 1,
     sigmas = NULL,
+    distribution.strategy = "equally.distributed",
     cluster.centers = NULL,
     ...) {
     assertInteger(n.cluster, lower = 2L, len = 1L, any.missing = FALSE)
@@ -54,6 +59,8 @@ generateClusteredInstance = function(n.cluster,
             assertMatrix(sigma, mode = "numeric", nrows = n.dim, ncols = n.dim)
         })
     }
+
+    assertChoice(distribution.strategy, choices = getPointDistributionStrategies())
 
     if (lower >= upper) {
         stop("Argument 'upper' must be greater than argument 'lower'.")
@@ -70,8 +77,11 @@ generateClusteredInstance = function(n.cluster,
     distances = computeDistancesToNearestClusterCenter(cluster.centers)$min.distance
 
     # deterime number of elements for each cluster
-    n.points.in.cluster = determineNumberOfPointsPerCluster(n.cluster, n.points)
+    n.points.in.cluster = determineNumberOfPointsPerCluster(n.cluster, n.points, strategy = distribution.strategy)
 
+
+    print(cluster.centers)
+    print(n.points.in.cluster)
     for (i in 1:nrow(cluster.centers)) {
         # get distance to nearest cluster center and set variance appropritely
         distance.to.nearest.neighbor = distances[i]

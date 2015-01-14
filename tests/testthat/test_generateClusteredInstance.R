@@ -3,11 +3,23 @@ context("generate clustered instance")
 test_that("generate clustered instance works as expected", {
     n.cluster = 5L
     n.points = 100L
-    inst = generateClusteredInstance(n.cluster, n.points)
-    expect_is(inst, "ClusteredNetwork")
-    expect_equal(n.cluster, length(unique(inst$membership)))
-    expect_true(length(setdiff(n.cluster, unique(inst$membership))) == 0)
-    expect_equal(n.points, nrow(inst$coordinates))
+    upper = 100
+
+    checkClusteredInstance = function(x, n.cluster, n.points, upper = 1) {
+        expect_is(x, "Network")
+        expect_is(x, "ClusteredNetwork")
+        expect_equal(n.cluster, length(unique(x$membership)))
+        expect_true(length(setdiff(n.cluster, unique(x$membership))) == 0)
+        expect_equal(n.points, nrow(x$coordinates))
+        print(x$coordinates)
+        expect_true(all(x$coordinates <= upper))
+    }
+
+    inst = generateClusteredInstance(n.cluster, n.points, upper = upper)
+    checkClusteredInstance(inst, n.cluster, n.points, upper = upper)
+
+    inst = generateClusteredInstance(n.cluster, n.points, distribution.strategy = "random.partition")
+    checkClusteredInstance(inst, n.cluster, n.points)
 
     # check if as.data.frame works as expected
     df = as.data.frame(inst)
