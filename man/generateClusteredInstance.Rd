@@ -5,7 +5,8 @@
 \title{Function for generation of clustered instances.}
 \usage{
 generateClusteredInstance(n.cluster, n.points, n.dim = 2L,
-  generator = lhs::maximinLHS, lower = 0, upper = 1, sigmas = NULL, ...)
+  generator = lhs::maximinLHS, lower = 0, upper = 1, sigmas = NULL,
+  cluster.centers = NULL, ...)
 }
 \arguments{
 \item{n.cluster}{[\code{integer(1)}]\cr
@@ -32,6 +33,11 @@ Unnamed list of length \code{n.cluster} containing a covariance matrix
 for each cluster. Default is \code{NULL}. In this case the covariance
 matrix is a diagonal matrix containing the distance to the nearest
 cluster center as diogonal elements.}
+
+\item{cluster.centers}{[\code{matrix}]\cr
+Data frame of cluster centres of dimension \code{n.cluster} x \code{n.dim}. If
+this is set, cluster centres are not generated automatically.
+Default is \code{NULL}.}
 
 \item{...}{[\code{any}]\cr
 Not used yet.}

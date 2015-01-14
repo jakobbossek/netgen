@@ -24,6 +24,10 @@
 #'   for each cluster. Default is \code{NULL}. In this case the covariance
 #'   matrix is a diagonal matrix containing the distance to the nearest
 #'   cluster center as diogonal elements.
+#' @param cluster.centers [\code{matrix}]\cr
+#'   Data frame of cluster centres of dimension \code{n.cluster} x \code{n.dim}. If
+#'   this is set, cluster centres are not generated automatically.
+#'   Default is \code{NULL}.
 #' @param ... [\code{any}]\cr
 #'   Not used yet.
 #' @return [\code{ClusterInstance}]
@@ -36,12 +40,13 @@ generateClusteredInstance = function(n.cluster,
     lower = 0,
     upper = 1,
     sigmas = NULL,
+    cluster.centers = NULL,
     ...) {
     assertInteger(n.cluster, lower = 2L, len = 1L, any.missing = FALSE)
     assertInteger(n.dim, lower = 2L, len = 1L, any.missing = FALSE)
     assertFunction(generator)
-    assertNumber(lower, lower = 0)
-    assertNumber(upper)
+    assertNumber(lower, lower = 0, finite = TRUE)
+    assertNumber(upper, finite = TRUE)
 
     if (!is.null(sigmas)) {
         assertList(sigmas, len = n.cluster, types = c("matrix"))
@@ -54,7 +59,12 @@ generateClusteredInstance = function(n.cluster,
         stop("Argument 'upper' must be greater than argument 'lower'.")
     }
 
-    cluster.centers = generateClusterCenters(n.cluster, n.dim, generator, lower, upper)
+    if (is.null(cluster.centers)) {
+        cluster.centers = generateClusterCenters(n.cluster, n.dim, generator, lower, upper)
+    } else {
+        assertDataFrame(cluster.centers, nrows = n.cluster, ncols = n.dim)
+    }
+
     the.cluster = list()
 
     distances = computeDistancesToNearestClusterCenter(cluster.centers)$min.distance

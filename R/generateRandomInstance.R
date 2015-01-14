@@ -13,8 +13,8 @@
 generateRandomInstance = function(n.points, n.dim = 2L, lower = 0, upper = 1) {
     assertCount(n.points, na.ok = FALSE)
     assertInteger(n.dim, len = 1L, any.missing = FALSE, lower = 2L)
-    assertNumber(lower, lower = 0)
-    assertNumber(upper)
+    assertNumber(lower, lower = 0, finite = TRUE)
+    assertNumber(upper, finite = TRUE)
 
     if (upper <= lower) {
         stopf("Argument 'upper' must be greater than argument 'lower'.")
