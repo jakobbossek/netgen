@@ -21,13 +21,15 @@ autoplot.Network = function(object, ...) {
     pl = ggplot(data = df, mapping = aes_string(x = "x1", y = "x2"))
     if (!is.null(df$membership)) {
         pl = pl + geom_point(aes_string(colour = "membership"))
-        title = paste("#Nodes:", nrow(df), ", #Clusters:", length(unique(df$membership)))
     } else {
         pl = pl + geom_point(colour = "tomato")
-        title = paste("#Nodes:", nrow(df))
     }
-    pl = pl + ggtitle()
-    pl = pl + theme(legend.position = "none")
+    pl = pl + ggtitle(as.character(object))
+    pl = pl + theme(
+        legend.position = "none",
+        plot.title = element_text(size = rel(0.8), lineheight = 1.1, vjust = 1.6)
+    )
+    pl = pl + xlab(expression(x[1])) + ylab(expression(x[2]))
     #FIXME: probably it would be nice to save bounds in ClusterInstance
     #pl = pl + xlim(c(0, 1)) + ylim(c(0, 1))
     return(pl)
