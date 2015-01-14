@@ -11,7 +11,6 @@ test_that("generate clustered instance works as expected", {
         expect_equal(n.cluster, length(unique(x$membership)))
         expect_true(length(setdiff(n.cluster, unique(x$membership))) == 0)
         expect_equal(n.points, nrow(x$coordinates))
-        print(x$coordinates)
         expect_true(all(x$coordinates <= upper))
     }
 

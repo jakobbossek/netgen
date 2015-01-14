@@ -72,16 +72,12 @@ generateClusteredInstance = function(n.cluster,
         assertDataFrame(cluster.centers, nrows = n.cluster, ncols = n.dim)
     }
 
-    the.cluster = list()
-
+    coordinates = list()
     distances = computeDistancesToNearestClusterCenter(cluster.centers)$min.distance
 
     # deterime number of elements for each cluster
     n.points.in.cluster = determineNumberOfPointsPerCluster(n.cluster, n.points, strategy = distribution.strategy)
 
-
-    print(cluster.centers)
-    print(n.points.in.cluster)
     for (i in 1:nrow(cluster.centers)) {
         # get distance to nearest cluster center and set variance appropritely
         distance.to.nearest.neighbor = distances[i]
@@ -89,20 +85,34 @@ generateClusteredInstance = function(n.cluster,
         if (!is.null(sigmas)) {
             sigma = sigmas[[i]]
         }
-        tmp = mvtnorm::rmvnorm(mean = as.numeric(cluster.centers[i, ]), n = n.points.in.cluster[i], sigma = sigma)
-        tmp = as.data.frame(tmp)
-        colnames(tmp) = paste("x", 1:2, sep = "")
-        tmp$cluster = i
-        the.cluster[[i]] = tmp
+        the.coordinates = mvtnorm::rmvnorm(mean = as.numeric(cluster.centers[i, ]), n = n.points.in.cluster[i], sigma = sigma)
+        the.coordinates = as.data.frame(the.coordinates)
+        colnames(the.coordinates) = paste("x", 1:2, sep = "")
+        the.coordinates$membership = i
+        coordinates[[i]] = the.coordinates
+
     }
 
-    the.cluster = do.call(rbind, the.cluster)
+    coordinates = do.call(rbind, coordinates)
+    membership = as.integer(coordinates$membership)
+    coordinates$membership = NULL
+    coordinates = forceToBounds(coordinates, lower, upper)
 
-    # not a particluar great software design decision, but it works for now
-    membership = as.numeric(the.cluster$cluster)
-    the.cluster$cluster = NULL
+    makeClusteredNetwort(coordinates = coordinates, membership = membership)
+}
 
-    makeClusteredNetwort(coordinates = the.cluster, membership = membership)
+# Force coordinates out of bounds to bounds.
+#
+# @param coordinates [matrix | data.frame]
+#    Coordinates.
+# @param lower [numeric(1)]
+#   Lower bound for cube.
+# @param upper [numeric(1)]
+#   Upper bound for cube.
+# @return [data.frame]
+forceToBounds = function(coordinates, lower = 0, upper = 1) {
+    # getting warnings and NAs here, if I do this without the conversions
+    as.data.frame(pmin(pmax(as.matrix(coordinates), lower), upper))
 }
 
 #' Convert cluster instance to data frame.
