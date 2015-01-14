@@ -26,8 +26,8 @@ autoplot.Network = function(object, ...) {
         pl = pl + geom_point(colour = "tomato")
         title = paste("#Nodes:", nrow(df))
     }
-    pl = pl + ggtitle(title)
-    pl = pl + theme(legend.position = "top")
+    pl = pl + ggtitle()
+    pl = pl + theme(legend.position = "none")
     #FIXME: probably it would be nice to save bounds in ClusterInstance
     #pl = pl + xlim(c(0, 1)) + ylim(c(0, 1))
     return(pl)
