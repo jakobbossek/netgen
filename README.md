@@ -1,6 +1,6 @@
 # netgen: Generating random networks in R
 
-Travis CI build status: [![Build Status](https://travis-ci.org/jakobbossek/ecr.svg?branch=master)](https://travis-ci.org/jakobbossek/netgen)
+Travis CI build status: [![Build Status](https://travis-ci.org/jakobbossek/netgen.svg?branch=master)](https://travis-ci.org/jakobbossek/netgen)
 
 ## Descritption
 Coming soon ...
