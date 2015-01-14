@@ -142,3 +142,22 @@ as.data.frame.ClusteredNetwork = function(x, row.names = NULL, optional = FALSE,
     }
     as.data.frame(res, row.names = row.names, optional = optional, ...)
 }
+
+#' Get network information as a character string.
+#'
+#' @param x [\code{Network}]\cr
+#'   Network.
+#' @param ... [any]\cr
+#'   Not used at the moment.
+#' @return [\code{character(1)}]
+as.character.Network = function(x, ...)   {
+    n.points = getNumberOfNodes(x)
+    n.clusters = getNumberOfClusters(x)
+
+    char = paste("#Nodes:", n.points)
+    if (n.clusters > 1L)
+        char = paste(char, ", #Clusters:", n.clusters)
+    if (hasAttributes(x, "morphed"))
+        char = paste(char, "\n(Morphing coefficient ", attr(x, "morphing.grade"), ")", sep = "")
+    char
+}
