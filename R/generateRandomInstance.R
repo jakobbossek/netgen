@@ -34,8 +34,7 @@ generateRandomInstance = function(n.points, n.dim = 2L, n.depots = NULL, lower =
     }
 
     coordinates = runif(n.points * n.dim, min = lower, max = upper)
-    coordinates = as.data.frame(matrix(coordinates, ncol = n.dim))
-    colnames(coordinates) = paste("x", seq(n.dim), sep = "")
+    coordinates = matrix(coordinates, ncol = n.dim)
     types = rep("customer", n.points)
 
     if (!is.null(n.depots)) {

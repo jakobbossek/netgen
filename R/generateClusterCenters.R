@@ -21,9 +21,8 @@ generateClusterCenters = function(
     lower = 0, upper = 1,
     min.dist.to.bounds = 0) {
     # FIXME: make use of min.dist.to.bounds
-    cc = as.data.frame(generator(n.cluster, n.dims))
+    cc = generator(n.cluster, n.dims)
     # "stretch design"
     cc = cc * upper
-    colnames(cc) = paste("x", 1:2, sep = "")
     return(cc)
 }

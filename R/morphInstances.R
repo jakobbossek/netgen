@@ -15,21 +15,67 @@ morphInstances = function(x, y, alpha) {
     assertClass(y, "Network")
     assertNumber(alpha, lower = 0, upper = 1, na.ok = FALSE)
 
-    coords1 = x$coordinates
-    coords2 = y$coordinates
-    point.matching = getOptimalPointAssignment(coords1, coords2)
-    coordinates = makeConvexCombination(coords1, coords2[point.matching[, 2], ], alpha)
-    #FIXME: I should use matrizes whenever possible
-    coordinates = as.data.frame(coordinates)
-    colnames(coordinates) = c("x1", "x2")
+    getPointMatchingAndMorphCoordinates = function(coords1, coords2) {
+        point.matching = getOptimalPointAssignment(coords1, coords2)
+        coordinates = makeConvexCombination(coords1, coords2[point.matching[, 2], ], alpha)
+        return(coordinates)
+    }
+    x.coordinates = x$coordinates
+    y.coordinates = y$coordinates
+    print(hasDepots(y))
+
+    if (all(hasDepots(x), hasDepots(y))) {
+        depot.idx = which(x$types == "depot")
+        x.coordinates = x.coordinates[-depot.idx, , drop = FALSE]
+        y.coordinates = y.coordinates[-depot.idx, , drop = FALSE]
+    }
+
+    coordinates = getPointMatchingAndMorphCoordinates(x.coordinates, y.coordinates)
+    types = rep("customers", getNumberOfNodes(x) - 2)
+
+    if (!all(hasDepots(x), hasDepots(y))) {
+        stopf("Both or none of the instances must have depots")
+    }
+
+    if (all(hasDepots(x), hasDepots(y))) {
+        x.n.depots = getNumberOfDepots(x)
+        y.n.depots = getNumberOfDepots(y)
+        catf("x: %i, y: %i", x.n.depots, y.n.depots)
+        if (x.n.depots != y.n.depots) {
+            stopf("Number of depots must be equal, but x has %i and y has $i depots.", x.n.depots, y.n.depots)
+        }
+        x.depot.coordinates = getDepotCoordinates(x)
+        y.depot.coordinates = getDepotCoordinates(y)
+        depot.coordinates = getPointMatchingAndMorphCoordinates(x.depot.coordinates, y.depot.coordinates)
+        coordinates = rbind(depot.coordinates, coordinates)
+        types = c(rep("depot", x.n.depots), types)
+    }
     #FIXME: we need to handle customers and depots seperately
-    z = makeNetwork(coordinates, types = "customers")
+    z = makeNetwork(coordinates = coordinates, types = types)
     # FIXME: ugly to do that here
     attr(z, "morphed") = TRUE
     attr(z, "morphing.grade") = alpha
     return(z)
 }
 
+hasDepots = function(x) {
+    if (is.null(x$types))
+        return(FALSE)
+    any(x$types == "depot")
+}
+
+getDepotCoordinates = function(x) {
+    if (is.null(x$types))
+        stopf("This object has no depots.")
+    depots.idx = which(x$types == "depot")
+    return(x$coordinates[depots.idx, , drop = FALSE])
+}
+
+getNumberOfDepots = function(x) {
+    if (is.null(x$types))
+        stopf("FUUUU")
+    return(sum(x$types == "depot"))
+}
 
 #FIXME: write documentation. Export
 visualizePointMatching = function(coords1, coords2, point.matching) {
@@ -42,7 +88,19 @@ visualizePointMatching = function(coords1, coords2, point.matching) {
 
     df.lines = cbind(as.data.frame(coords1), as.data.frame(coords2[point.matching[, 2], ]))
     colnames(df.lines) = c("x1", "x2", "end1", "end2")
-    df.lines
+
+    # I don't get it
+    df.points$x1 = unlist(df.points$x1)
+    df.points$x2 = unlist(df.points$x2)
+    df.lines$x1 = unlist(df.lines$x1)
+    df.lines$x2 = unlist(df.lines$x2)
+
+    df.lines$end1 = unlist(df.lines$end1)
+    df.lines$end2 = unlist(df.lines$end2)
+
+    print(df.points$x1)
+
+    #print(head(df.lines))
 
     pl1 = ggplot(df.lines, aes(x = x1, y = x2))
     pl1 = pl1 + geom_segment(aes(x = x1, y = x2, xend = end1, yend = end2), arrow = arrow(length = unit(0.1, "inches")), colour = "gray")
@@ -61,11 +119,15 @@ getOptimalPointAssignment = function(coords1, coords2) {
     dist.matrix = matrix(nrow = nrow(coords1), ncol = nrow(coords2))
     for (i in seq(nrow(coords1))) {
         for (j in seq(nrow(coords2))) {
-            dist.matrix[i, j] = euklideanDistance(coords1[i, ], coords2[j, ])
+            # print(typeof(coords1[i, ]))
+            # print(typeof(coords2[j, ]))
+            # print("---")
+            dist.matrix[i, j] = euklideanDistance(unlist(coords1[i, ]), unlist(coords2[j, ]))
         }
     }
+    print(dist.matrix)
 
-    requirePackages("lpSolver", why = "getOptimalPointAssignment")
+    requirePackages("lpSolve", why = "getOptimalPointAssignment")
     lp.res = lp.assign(dist.matrix)
     if (lp.res$status != 0) {
         stop("Failed to find LP solution! No point matching possible.")

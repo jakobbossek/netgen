@@ -8,7 +8,7 @@
 #' @return [\code{Network}]
 #' @export
 makeNetwork = function(coordinates, types = NULL) {
-    assertDataFrame(coordinates)
+    assertMatrix(coordinates)
     if (!is.null(types))
         assertCharacter(types, any.missing = FALSE)
     obj = makeS3Obj(
@@ -32,7 +32,7 @@ makeNetwork = function(coordinates, types = NULL) {
 #' @export
 #FIXME: copy&paste crap!
 makeClusteredNetwort = function(coordinates, membership, types = NULL) {
-    assertDataFrame(coordinates)
+    assertMatrix(coordinates)
     assertNumeric(membership, any.missing = FALSE)
     if (!is.null(types))
         assertCharacter(types, any.missing = FALSE)

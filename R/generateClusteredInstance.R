@@ -119,6 +119,7 @@ generateClusteredInstance = function(n.cluster,
     )
     distances = distances$min.distance
 
+    membership = list()
     for (i in 1:nrow(cluster.centers)) {
         # get distance to nearest cluster center and set variance appropritely
         distance.to.nearest.neighbor = distances[i]
@@ -126,29 +127,25 @@ generateClusteredInstance = function(n.cluster,
         if (!is.null(sigmas)) {
             sigma = sigmas[[i]]
         }
-        the.coordinates = mvtnorm::rmvnorm(
+        the.coordinates= mvtnorm::rmvnorm(
             mean = as.numeric(cluster.centers[i, ]),
             n = n.points.in.cluster[i],
             sigma = sigma
         )
-        the.coordinates = as.data.frame(the.coordinates)
-        colnames(the.coordinates) = paste("x", 1:2, sep = "")
-        the.coordinates$membership = i
+        # the.coordinates = as.data.frame(the.coordinates)
+        # colnames(the.coordinates) = paste("x", 1:2, sep = "")
+        membership[[i]] = rep(i, n.points.in.cluster[i])
         coordinates[[i]] = the.coordinates
-
     }
 
     coordinates = do.call(rbind, coordinates)
-    membership = as.integer(coordinates$membership)
-    coordinates$membership = NULL
+    membership = do.call(c, membership)
     coordinates = forceToBounds(coordinates, lower, upper)
 
     types = rep("customer", n.points)
 
     # FIXME: these lines are ugly as sin!
     if (!is.null(n.depots)) {
-        depot.coordinates = as.data.frame(depot.coordinates)
-        names(depot.coordinates) = paste("x", seq(n.dim), sep = "")
         # print(names(depot.coordinates))
         # print(names(coordinates))
         # stop()
@@ -156,7 +153,7 @@ generateClusteredInstance = function(n.cluster,
         types = c(rep("depot", n.depots), types)
         membership = c(rep(0, n.depots), membership)
     }
-    rownames(coordinates) = NULL
+    #rownames(coordinates) = NULL
 
     makeClusteredNetwort(
         coordinates = coordinates,
@@ -176,7 +173,7 @@ generateClusteredInstance = function(n.cluster,
 # @return [data.frame]
 forceToBounds = function(coordinates, lower = 0, upper = 1) {
     # getting warnings and NAs here, if I do this without the conversions
-    as.data.frame(pmin(pmax(as.matrix(coordinates), lower), upper))
+    pmin(pmax(coordinates, lower), upper)
 }
 
 #' Convert (clustered) instance to data frame.
@@ -199,7 +196,8 @@ as.data.frame.Network = function(x,
     include.extras = TRUE,
     ...) {
     n = nrow(x$coordinates)
-    res = x$coordinates
+    res = as.data.frame(x$coordinates)
+    colnames(res) = c("x1", "x2")
 
     assertFlag(include.extras)
     if (!is.null(row.names)) {
