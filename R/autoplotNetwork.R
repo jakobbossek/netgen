@@ -12,20 +12,32 @@
 #'   ggplot2 object.
 #' @export
 autoplot.Network = function(object, ...) {
+    objectHasDepots = FALSE
     if (testClass(object, "ClusteredNetwork")) {
         df = as.data.frame(object, include.membership = TRUE)
+        # Man! WTF!?! df$x1 and df$x2 are lists and need to become unpacked.
+        df$x1 = unlist(df$x1)
+        df$x2 = unlist(df$x2)
         df$membership = as.factor(df$membership)
+        if (hasDepots(object)) {
+            objectHasDepots = TRUE
+            depot.idx = which(df$membership == 0)
+            df.depots = df[which(df$membership == 0), ]
+            df = df[-depot.idx, ]
+        }
     } else {
         df = object$coordinates
     }
-    # Man! WTF!?! df$x1 and df$x2 are lists and need to become unpacked.
-    df$x1 = unlist(df$x1)
-    df$x2 = unlist(df$x2)
+
     pl = ggplot(data = df, mapping = aes_string(x = "x1", y = "x2"))
     if (!is.null(df$membership)) {
         pl = pl + geom_point(aes_string(colour = "membership"))
     } else {
         pl = pl + geom_point(colour = "tomato")
+    }
+    if (hasDepots(object)) {
+        pl = pl + geom_point(data = df.depots, colour = "black", size = 4)
+        pl = pl + geom_point(data = df.depots, colour = "white", size = 3)
     }
     pl = pl + ggtitle(as.character(object))
     pl = pl + theme(
@@ -36,4 +48,8 @@ autoplot.Network = function(object, ...) {
     #FIXME: probably it would be nice to save bounds in ClusterInstance
     #pl = pl + xlim(c(0, 1)) + ylim(c(0, 1))
     return(pl)
+}
+
+hasDepots = function(x) {
+    any(x$membership == 0)
 }
