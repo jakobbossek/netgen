@@ -18,24 +18,38 @@ morphInstances = function(x, y, alpha) {
     coords1 = x$coordinates
     coords2 = y$coordinates
     point.matching = getOptimalPointAssignment(coords1, coords2)
-    print(point.matching)
     coordinates = makeConvexCombination(coords1, coords2[point.matching[, 2], ], alpha)
-    # x = as_tsp_instance(x)
-    # y = as_tsp_instance(y)
-
-    # z = tspmeta::morph_instances(x, y, alpha)
+    #FIXME: I should use matrizes whenever possible
     coordinates = as.data.frame(coordinates)
     colnames(coordinates) = c("x1", "x2")
     #FIXME: we need to handle customers and depots seperately
     z = makeNetwork(coordinates, types = "customers")
+    # FIXME: ugly to do that here
     attr(z, "morphed") = TRUE
     attr(z, "morphing.grade") = alpha
     return(z)
 }
 
-# as_tsp_instance = function(x) {
-#     tspmeta::tsp_instance(coords = as.matrix(x$coordinates))
-# }
+
+#FIXME: write documentation. Export
+visualizePointMatching = function(coords1, coords2, point.matching) {
+    rownames(coords1) = NULL
+    rownames(coords2) = NULL
+    df.points = as.data.frame(rbind(coords1, coords2), row.names = NULL)
+
+    df.points = cbind(df.points, data.frame(type = rep(c("a", "b"), each = nrow(coords1))))
+    colnames(df.points) = c("x1", "x2", "type")
+
+    df.lines = cbind(as.data.frame(coords1), as.data.frame(coords2[point.matching[, 2], ]))
+    colnames(df.lines) = c("x1", "x2", "end1", "end2")
+    df.lines
+
+    pl1 = ggplot(df.lines, aes(x = x1, y = x2))
+    pl1 = pl1 + geom_segment(aes(x = x1, y = x2, xend = end1, yend = end2), arrow = arrow(length = unit(0.1, "inches")), colour = "gray")
+    pl1 = pl1 + theme(legend.position = "none") + ggtitle("point mapping")
+    pl1 = pl1 + geom_point(data = df.points, aes(x = x1, y = x2, shape = as.factor(type), colour = as.factor(type)))
+    print(pl1)
+}
 
 #FIXME: comment this extensively
 makeConvexCombination = function(coords1, coords2, alpha) {
@@ -51,7 +65,7 @@ getOptimalPointAssignment = function(coords1, coords2) {
         }
     }
 
-    library(lpSolve)
+    requirePackages("lpSolver", why = "getOptimalPointAssignment")
     lp.res = lp.assign(dist.matrix)
     if (lp.res$status != 0) {
         stop("Failed to find LP solution! No point matching possible.")
