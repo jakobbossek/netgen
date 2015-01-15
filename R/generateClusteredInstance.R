@@ -24,6 +24,9 @@
 #'   for each cluster. Default is \code{NULL}. In this case the covariance
 #'   matrix is a diagonal matrix containing the distance to the nearest
 #'   cluster center as diogonal elements.
+#' @param min.dist.to.bounds [\code{numeric(1)}]\cr
+#'   Minimal distance of cluster centers to the bounding box. Default is
+#'   (\code{upper} - \code{lower}) / 20.
 #' @param distribution.strategy [\code{character(1)}]\cr
 #FIXME: itemize all the strategies here.
 #'   Define the strategy to distribute n.points on the n.cluster clusters. Default
@@ -44,6 +47,7 @@ generateClusteredInstance = function(n.cluster,
     lower = 0,
     upper = 1,
     sigmas = NULL,
+    min.dist.to.bounds = (upper - lower) / 20,
     distribution.strategy = "equally.distributed",
     cluster.centers = NULL,
     ...) {
@@ -60,6 +64,8 @@ generateClusteredInstance = function(n.cluster,
         })
     }
 
+    # FIXME: think about a reasonable upper bound for this
+    assertNumber(min.dist.to.bounds, lower = 0, finite = TRUE)
     assertChoice(distribution.strategy, choices = getPointDistributionStrategies())
 
     if (lower >= upper) {
@@ -67,7 +73,10 @@ generateClusteredInstance = function(n.cluster,
     }
 
     if (is.null(cluster.centers)) {
-        cluster.centers = generateClusterCenters(n.cluster, n.dim, generator, lower, upper)
+        cluster.centers = generateClusterCenters(
+            n.cluster, n.dim, generator,
+            lower, upper, min.dist.to.bounds
+        )
     } else {
         assertDataFrame(cluster.centers, nrows = n.cluster, ncols = n.dim)
     }
@@ -76,7 +85,11 @@ generateClusteredInstance = function(n.cluster,
     distances = computeDistancesToNearestClusterCenter(cluster.centers)$min.distance
 
     # deterime number of elements for each cluster
-    n.points.in.cluster = determineNumberOfPointsPerCluster(n.cluster, n.points, strategy = distribution.strategy)
+    n.points.in.cluster = determineNumberOfPointsPerCluster(
+        n.cluster, n.points,
+        strategy = distribution.strategy
+    )
+    print(n.points.in.cluster)
 
     for (i in 1:nrow(cluster.centers)) {
         # get distance to nearest cluster center and set variance appropritely
@@ -85,7 +98,11 @@ generateClusteredInstance = function(n.cluster,
         if (!is.null(sigmas)) {
             sigma = sigmas[[i]]
         }
-        the.coordinates = mvtnorm::rmvnorm(mean = as.numeric(cluster.centers[i, ]), n = n.points.in.cluster[i], sigma = sigma)
+        the.coordinates = mvtnorm::rmvnorm(
+            mean = as.numeric(cluster.centers[i, ]),
+            n = n.points.in.cluster[i],
+            sigma = sigma
+        )
         the.coordinates = as.data.frame(the.coordinates)
         colnames(the.coordinates) = paste("x", 1:2, sep = "")
         the.coordinates$membership = i
@@ -128,7 +145,11 @@ forceToBounds = function(coordinates, lower = 0, upper = 1) {
 #' @param ... [any]\cr
 #'   Currently not used.
 #' @export
-as.data.frame.ClusteredNetwork = function(x, row.names = NULL, optional = FALSE, include.membership = TRUE, ...) {
+as.data.frame.ClusteredNetwork = function(x,
+    row.names = NULL,
+    optional = FALSE,
+    include.membership = TRUE,
+    ...) {
     n = nrow(x$coordinates)
     res = x$coordinates
 

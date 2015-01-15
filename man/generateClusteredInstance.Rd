@@ -6,6 +6,7 @@
 \usage{
 generateClusteredInstance(n.cluster, n.points, n.dim = 2L,
   generator = lhs::maximinLHS, lower = 0, upper = 1, sigmas = NULL,
+  min.dist.to.bounds = (upper - lower)/20,
   distribution.strategy = "equally.distributed", cluster.centers = NULL,
   ...)
 }
@@ -34,6 +35,10 @@ Unnamed list of length \code{n.cluster} containing a covariance matrix
 for each cluster. Default is \code{NULL}. In this case the covariance
 matrix is a diagonal matrix containing the distance to the nearest
 cluster center as diogonal elements.}
+
+\item{min.dist.to.bounds}{[\code{numeric(1)}]\cr
+Minimal distance of cluster centers to the bounding box. Default is
+(\code{upper} - \code{lower}) / 20.}
 
 \item{distribution.strategy}{[\code{character(1)}]\cr
 Define the strategy to distribute n.points on the n.cluster clusters. Default

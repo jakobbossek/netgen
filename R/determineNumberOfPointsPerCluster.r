@@ -53,6 +53,8 @@ getEquallyDistributedIntegerPartition = function(n, k) {
 # @param k [integer(1)]
 #   Number of partitions.
 # @return [integer(k)]
+#FIXME: this does not work very well. First numbers are big, later small,
+#occasionally negative values in the end.
 getRandomIntegerPartition = function(n, k) {
     s = n
     rest = s
