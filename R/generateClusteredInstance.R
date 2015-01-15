@@ -158,7 +158,9 @@ generateClusteredInstance = function(n.cluster,
     makeClusteredNetwort(
         coordinates = coordinates,
         membership = membership,
-        types = types
+        types = types,
+        lower = lower,
+        upper = upper
     )
 }
 

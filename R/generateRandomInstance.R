@@ -48,6 +48,8 @@ generateRandomInstance = function(n.points, n.dim = 2L, n.depots = NULL, lower =
 
     makeNetwork(
         coordinates = coordinates,
-        types = types
+        types = types,
+        lower = lower,
+        upper = upper
     )
 }

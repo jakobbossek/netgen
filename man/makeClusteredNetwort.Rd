@@ -5,7 +5,8 @@
 \title{Generates clustered network instances based in coordinates
 and membership vector.}
 \usage{
-makeClusteredNetwort(coordinates, membership, types = NULL)
+makeClusteredNetwort(coordinates, membership, types = NULL, lower = 0,
+  upper = 1)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr

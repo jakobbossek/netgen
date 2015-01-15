@@ -7,13 +7,15 @@
 #'   depots and customers in the context of vehicle routing.
 #' @return [\code{Network}]
 #' @export
-makeNetwork = function(coordinates, types = NULL) {
+makeNetwork = function(coordinates, types = NULL, lower = 0, upper = 1) {
     assertMatrix(coordinates)
     if (!is.null(types))
         assertCharacter(types, any.missing = FALSE)
     obj = makeS3Obj(
         coordinates = coordinates,
         types = types,
+        lower = lower,
+        upper = upper,
         classes = "Network"
     )
 }
@@ -31,7 +33,7 @@ makeNetwork = function(coordinates, types = NULL) {
 #' @return [\code{ClusteredNetwork}]
 #' @export
 #FIXME: copy&paste crap!
-makeClusteredNetwort = function(coordinates, membership, types = NULL) {
+makeClusteredNetwort = function(coordinates, membership, types = NULL, lower = 0, upper = 1) {
     assertMatrix(coordinates)
     assertNumeric(membership, any.missing = FALSE)
     if (!is.null(types))
@@ -40,6 +42,8 @@ makeClusteredNetwort = function(coordinates, membership, types = NULL) {
         coordinates = coordinates,
         membership = membership,
         types = types,
+        lower = lower,
+        upper = upper,
         classes = c("Network", "ClusteredNetwork")
     )
 }

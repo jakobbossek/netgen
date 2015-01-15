@@ -43,8 +43,7 @@ autoplot.Network = function(object, ...) {
         plot.title = element_text(size = rel(0.8), lineheight = 1.1, vjust = 1.6)
     )
     pl = pl + xlab(expression(x[1])) + ylab(expression(x[2]))
-    #FIXME: probably it would be nice to save bounds in ClusterInstance
-    #pl = pl + xlim(c(0, 1)) + ylim(c(0, 1))
+    pl = pl + xlim(c(object$lower, object$upper)) + ylim(c(object$lower, object$upper))
     return(pl)
 }
 

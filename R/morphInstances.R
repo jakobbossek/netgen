@@ -51,7 +51,7 @@ morphInstances = function(x, y, alpha) {
         types = c(rep("depot", x.n.depots), types)
     }
     #FIXME: we need to handle customers and depots seperately
-    z = makeNetwork(coordinates = coordinates, types = types)
+    z = makeNetwork(coordinates = coordinates, types = types, lower = x$lower, upper = x$upper)
     # FIXME: ugly to do that here
     attr(z, "morphed") = TRUE
     attr(z, "morphing.grade") = alpha

@@ -4,7 +4,7 @@
 \alias{makeNetwork}
 \title{Generate Network instance based on coordinates.}
 \usage{
-makeNetwork(coordinates, types = NULL)
+makeNetwork(coordinates, types = NULL, lower = 0, upper = 1)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
