@@ -4,15 +4,28 @@
 #'   Number of points.
 #' @param n.dim [\code{integer(1)}]\cr
 #'   Number of dimensions. Default ist 2.
+#' @param n.depots [\code{integer(1)}]\cr
+#'   Number of depots in instances for the Vehicle Routing Problem (VRP).
+#'   Default is NULL, i. e., no depots. The proceeding is as follows:
+#'   If \code{n.depots} is 1, a random cluster center is defined to be the depot.
+#'   If \code{n.depots} is 2, the second depot has maximal distance to the first.
+#'   By convention the depots are placed as the first nodes in the coordinates
+#'   matrix.
 #' @param lower [\code{numeric(1)}]\cr
 #'   Lower bound of cube.
 #' @param upper [\code{numeric(1)}]\cr
 #'   Upper bound of cube.
 #' @return [\code{data.frame}]
 #' @export
-generateRandomInstance = function(n.points, n.dim = 2L, lower = 0, upper = 1) {
+generateRandomInstance = function(n.points, n.dim = 2L, n.depots = NULL, lower = 0, upper = 1) {
     assertCount(n.points, na.ok = FALSE)
     assertInteger(n.dim, len = 1L, any.missing = FALSE, lower = 2L)
+
+    if (!is.null(n.depots)) {
+        #FIXME: think about upper limit here
+        assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
+    }
+
     assertNumber(lower, lower = 0, finite = TRUE)
     assertNumber(upper, finite = TRUE)
 
@@ -23,5 +36,19 @@ generateRandomInstance = function(n.points, n.dim = 2L, lower = 0, upper = 1) {
     coordinates = runif(n.points * n.dim, min = lower, max = upper)
     coordinates = as.data.frame(matrix(coordinates, ncol = n.dim))
     colnames(coordinates) = paste("x", seq(n.dim), sep = "")
-    makeNetwork(coordinates)
+    types = rep("customer", n.points)
+
+    if (!is.null(n.depots)) {
+        types = c(rep("depot", n.depots), types)
+        depot.coordinates = generateClusterCenters(n.cluster = 2L, lower = lower, upper = upper)
+        if (n.depots == 1L) {
+            depot.coordinates = depot.coordinates[1, , drop = FALSE]
+        }
+        coordinates = rbind(depot.coordinates, coordinates)
+    }
+
+    makeNetwork(
+        coordinates = coordinates,
+        types = types
+    )
 }

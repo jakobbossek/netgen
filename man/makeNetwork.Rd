@@ -4,11 +4,15 @@
 \alias{makeNetwork}
 \title{Generate Network instance based on coordinates.}
 \usage{
-makeNetwork(coordinates)
+makeNetwork(coordinates, types = NULL)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
 Numeric matrix of 2D coordinates.}
+
+\item{types}{[\code{character}]\cr
+Vector of types for the nodes. For example to differentiate between
+depots and customers in the context of vehicle routing.}
 }
 \value{
 [\code{Network}]

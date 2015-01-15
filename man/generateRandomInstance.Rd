@@ -4,7 +4,8 @@
 \alias{generateRandomInstance}
 \title{Generates a random graph in a hypercube.}
 \usage{
-generateRandomInstance(n.points, n.dim = 2L, lower = 0, upper = 1)
+generateRandomInstance(n.points, n.dim = 2L, n.depots = NULL, lower = 0,
+  upper = 1)
 }
 \arguments{
 \item{n.points}{[\code{integer(1)}]\cr
@@ -12,6 +13,14 @@ Number of points.}
 
 \item{n.dim}{[\code{integer(1)}]\cr
 Number of dimensions. Default ist 2.}
+
+\item{n.depots}{[\code{integer(1)}]\cr
+Number of depots in instances for the Vehicle Routing Problem (VRP).
+Default is NULL, i. e., no depots. The proceeding is as follows:
+If \code{n.depots} is 1, a random cluster center is defined to be the depot.
+If \code{n.depots} is 2, the second depot has maximal distance to the first.
+By convention the depots are placed as the first nodes in the coordinates
+matrix.}
 
 \item{lower}{[\code{numeric(1)}]\cr
 Lower bound of cube.}

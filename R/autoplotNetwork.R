@@ -12,22 +12,22 @@
 #'   ggplot2 object.
 #' @export
 autoplot.Network = function(object, ...) {
-    objectHasDepots = FALSE
+    df = as.data.frame(object, include.extras = TRUE)
+
     if (testClass(object, "ClusteredNetwork")) {
-        df = as.data.frame(object, include.membership = TRUE)
-        # Man! WTF!?! df$x1 and df$x2 are lists and need to become unpacked.
-        df$x1 = unlist(df$x1)
-        df$x2 = unlist(df$x2)
         df$membership = as.factor(df$membership)
-        if (hasDepots(object)) {
-            objectHasDepots = TRUE
-            depot.idx = which(df$membership == 0)
-            df.depots = df[which(df$membership == 0), ]
-            df = df[-depot.idx, ]
-        }
-    } else {
-        df = object$coordinates
     }
+
+    # Man! WTF!?! df$x1 and df$x2 are lists and need to become unpacked.
+    df$x1 = unlist(df$x1)
+    df$x2 = unlist(df$x2)
+    print(df)
+    if (hasDepots(object)) {
+        depot.idx = which(df$types == "depot")
+        df.depots = df[which(df$types == "depot"), ]
+        df = df[-depot.idx, ]
+    }
+    print(df)
 
     pl = ggplot(data = df, mapping = aes_string(x = "x1", y = "x2"))
     if (!is.null(df$membership)) {
@@ -51,5 +51,7 @@ autoplot.Network = function(object, ...) {
 }
 
 hasDepots = function(x) {
-    any(x$membership == 0)
+    if (is.null(x$types))
+        return(FALSE)
+    any(x$types == "depot")
 }

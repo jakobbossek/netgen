@@ -2,12 +2,18 @@
 #'
 #' @param coordinates [\code{matrix}]\cr
 #'   Numeric matrix of 2D coordinates.
+#' @param types [\code{character}]\cr
+#'   Vector of types for the nodes. For example to differentiate between
+#'   depots and customers in the context of vehicle routing.
 #' @return [\code{Network}]
 #' @export
-makeNetwork = function(coordinates) {
+makeNetwork = function(coordinates, types = NULL) {
     assertDataFrame(coordinates)
+    if (!is.null(types))
+        assertCharacter(types, any.missing = FALSE)
     obj = makeS3Obj(
         coordinates = coordinates,
+        types = types,
         classes = "Network"
     )
 }
@@ -24,6 +30,7 @@ makeNetwork = function(coordinates) {
 #'   depots and customers in the context of vehicle routing.
 #' @return [\code{ClusteredNetwork}]
 #' @export
+#FIXME: copy&paste crap!
 makeClusteredNetwort = function(coordinates, membership, types = NULL) {
     assertDataFrame(coordinates)
     assertNumeric(membership, any.missing = FALSE)
