@@ -25,9 +25,9 @@ test_that("generate clustered instance works as expected", {
     # check if as.data.frame works as expected
     df = as.data.frame(inst)
     expect_equal(nrow(df), n.points)
-    expect_equal(ncol(df), 3L) # two dimensions plus membership column
+    expect_equal(ncol(df), 4L) # two dimensions plus membership column
 
-    df = as.data.frame(inst, include.membership = FALSE)
+    df = as.data.frame(inst, include.extras = FALSE)
 
     expect_equal(nrow(df), n.points)
     expect_equal(ncol(df), 2L) # no membership column

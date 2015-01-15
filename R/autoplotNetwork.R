@@ -21,13 +21,11 @@ autoplot.Network = function(object, ...) {
     # Man! WTF!?! df$x1 and df$x2 are lists and need to become unpacked.
     df$x1 = unlist(df$x1)
     df$x2 = unlist(df$x2)
-    print(df)
     if (hasDepots(object)) {
         depot.idx = which(df$types == "depot")
         df.depots = df[which(df$types == "depot"), ]
         df = df[-depot.idx, ]
     }
-    print(df)
 
     pl = ggplot(data = df, mapping = aes_string(x = "x1", y = "x2"))
     if (!is.null(df$membership)) {
