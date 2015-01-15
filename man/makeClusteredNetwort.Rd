@@ -5,7 +5,7 @@
 \title{Generates clustered network instances based in coordinates
 and membership vector.}
 \usage{
-makeClusteredNetwort(coordinates, membership)
+makeClusteredNetwort(coordinates, membership, types = NULL)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
@@ -13,6 +13,10 @@ Numeric matrix of 2D coordinates.}
 
 \item{membership}{[\code{numeric}]\cr
 Vector of memberships.}
+
+\item{types}{[\code{character}]\cr
+Vector of types for the nodes. For example to differentiate between
+depots and customers in the context of vehicle routing.}
 }
 \value{
 [\code{ClusteredNetwork}]

@@ -24,6 +24,13 @@
 #'   for each cluster. Default is \code{NULL}. In this case the covariance
 #'   matrix is a diagonal matrix containing the distance to the nearest
 #'   cluster center as diogonal elements.
+#' @param n.depots [\code{integer(1)}]\cr
+#'   Number of depots in instances for the Vehicle Routing Problem (VRP).
+#'   Default is NULL, i. e., no depots. The proceeding is as follows:
+#'   If \code{n.depots} is 1, a random cluster center is defined to be the depot.
+#'   If \code{n.depots} is 2, the second depot has maximal distance to the first.
+#'   By convention the depots are placed as the first nodes in the coordinates
+#'   matrix.
 #' @param min.dist.to.bounds [\code{numeric(1)}]\cr
 #'   Minimal distance of cluster centers to the bounding box. Default is
 #'   (\code{upper} - \code{lower}) / 20.
@@ -47,6 +54,7 @@ generateClusteredInstance = function(n.cluster,
     lower = 0,
     upper = 1,
     sigmas = NULL,
+    n.depots = NULL,
     min.dist.to.bounds = (upper - lower) / 20,
     distribution.strategy = "equally.distributed",
     cluster.centers = NULL,
@@ -62,6 +70,11 @@ generateClusteredInstance = function(n.cluster,
         lapply(sigmas, function(sigma) {
             assertMatrix(sigma, mode = "numeric", nrows = n.dim, ncols = n.dim)
         })
+    }
+
+    if (!is.null(n.depots)) {
+        #FIXME: think about upper limit here
+        assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
     }
 
     # FIXME: think about a reasonable upper bound for this
@@ -82,14 +95,29 @@ generateClusteredInstance = function(n.cluster,
     }
 
     coordinates = list()
-    distances = computeDistancesToNearestClusterCenter(cluster.centers)$min.distance
+    # at the moment n.depos is only allowed to be in {1,2}
+    depot.coordinates = matrix(NA, ncol = n.dim, nrow = 2L)
+
+    # compute distances and ids to/of nearest neighbor cluster centers
+    distances = computeDistancesToNearestClusterCenter(cluster.centers)
+
+    #FIXME: make function out of this!
+    if (!is.null(n.depots)) {
+        # get first depot randomly
+        depot.1.idx = sample(seq(n.cluster), 1L)
+        depot.coordinates = matrix(cluster.centers[depot.1.idx, ], nrow = 1L)
+        if (n.depots == 2L) {
+            depot.2.idx = distances$min.distance.idx[depot.1.idx]
+            depot.coordinates = rbind(depot.coordinates, matrix(cluster.centers[depot.2.idx, ], nrow = 1L))
+        }
+    }
 
     # deterime number of elements for each cluster
     n.points.in.cluster = determineNumberOfPointsPerCluster(
         n.cluster, n.points,
         strategy = distribution.strategy
     )
-    print(n.points.in.cluster)
+    distances = distances$min.distance
 
     for (i in 1:nrow(cluster.centers)) {
         # get distance to nearest cluster center and set variance appropritely
@@ -115,7 +143,26 @@ generateClusteredInstance = function(n.cluster,
     coordinates$membership = NULL
     coordinates = forceToBounds(coordinates, lower, upper)
 
-    makeClusteredNetwort(coordinates = coordinates, membership = membership)
+    types = rep("customer", n.points)
+
+    # FIXME: these lines are ugly as sin!
+    if (!is.null(n.depots)) {
+        depot.coordinates = as.data.frame(depot.coordinates)
+        names(depot.coordinates) = paste("x", seq(n.dim), sep = "")
+        # print(names(depot.coordinates))
+        # print(names(coordinates))
+        # stop()
+        coordinates = rbind(depot.coordinates, coordinates)
+        types = c(rep("depot", n.depots), types)
+        membership = c(rep(0, n.depots), membership)
+    }
+    rownames(coordinates) = NULL
+
+    makeClusteredNetwort(
+        coordinates = coordinates,
+        membership = membership,
+        types = types
+    )
 }
 
 # Force coordinates out of bounds to bounds.

@@ -19,14 +19,20 @@ makeNetwork = function(coordinates) {
 #'   Numeric matrix of 2D coordinates.
 #' @param membership [\code{numeric}]\cr
 #'   Vector of memberships.
+#' @param types [\code{character}]\cr
+#'   Vector of types for the nodes. For example to differentiate between
+#'   depots and customers in the context of vehicle routing.
 #' @return [\code{ClusteredNetwork}]
 #' @export
-makeClusteredNetwort = function(coordinates, membership) {
+makeClusteredNetwort = function(coordinates, membership, types = NULL) {
     assertDataFrame(coordinates)
     assertNumeric(membership, any.missing = FALSE)
+    if (!is.null(types))
+        assertCharacter(types, any.missing = FALSE)
     makeS3Obj(
         coordinates = coordinates,
         membership = membership,
+        types = types,
         classes = c("Network", "ClusteredNetwork")
     )
 }

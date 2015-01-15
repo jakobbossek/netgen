@@ -4,6 +4,7 @@ test_that("generate clustered instance works as expected", {
     n.cluster = 5L
     n.points = 100L
     upper = 100
+    n.depots = 2L
 
     checkClusteredInstance = function(x, n.cluster, n.points, upper = 1) {
         expect_is(x, "Network")
@@ -14,6 +15,7 @@ test_that("generate clustered instance works as expected", {
         expect_true(all(x$coordinates <= upper))
     }
 
+    # WITHOUT DEPOTS
     inst = generateClusteredInstance(n.cluster, n.points, upper = upper)
     checkClusteredInstance(inst, n.cluster, n.points, upper = upper)
 
@@ -29,6 +31,13 @@ test_that("generate clustered instance works as expected", {
 
     expect_equal(nrow(df), n.points)
     expect_equal(ncol(df), 2L) # no membership column
+
+    # WITH DEPOTS
+    inst = generateClusteredInstance(n.cluster, n.points, n.depots = n.depots)
+    # in this case we have to nodes (the depots) more!
+    checkClusteredInstance(inst, n.cluster, n.points + n.depots)
+
+
 
     # check plotting
     library(ggplot2)

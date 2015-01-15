@@ -10,7 +10,10 @@ getNumberOfClusters = function(x) {
     assertClass(x, "Network")
     n.cluster = 1L
     if (testClass(x, "ClusteredNetwork")) {
-        n.cluster = length(unique(x$membership))
+        # NOTE: depots are encoded as special cluster members of the depot 0.
+        # we filter these out!
+        membership = x$membership[which(x$membership != 0)]
+        n.cluster = length(unique(membership))
     }
     n.cluster
 }

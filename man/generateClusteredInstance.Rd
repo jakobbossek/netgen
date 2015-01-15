@@ -6,7 +6,7 @@
 \usage{
 generateClusteredInstance(n.cluster, n.points, n.dim = 2L,
   generator = lhs::maximinLHS, lower = 0, upper = 1, sigmas = NULL,
-  min.dist.to.bounds = (upper - lower)/20,
+  n.depots = NULL, min.dist.to.bounds = (upper - lower)/20,
   distribution.strategy = "equally.distributed", cluster.centers = NULL,
   ...)
 }
@@ -35,6 +35,14 @@ Unnamed list of length \code{n.cluster} containing a covariance matrix
 for each cluster. Default is \code{NULL}. In this case the covariance
 matrix is a diagonal matrix containing the distance to the nearest
 cluster center as diogonal elements.}
+
+\item{n.depots}{[\code{integer(1)}]\cr
+Number of depots in instances for the Vehicle Routing Problem (VRP).
+Default is NULL, i. e., no depots. The proceeding is as follows:
+If \code{n.depots} is 1, a random cluster center is defined to be the depot.
+If \code{n.depots} is 2, the second depot has maximal distance to the first.
+By convention the depots are placed as the first nodes in the coordinates
+matrix.}
 
 \item{min.dist.to.bounds}{[\code{numeric(1)}]\cr
 Minimal distance of cluster centers to the bounding box. Default is

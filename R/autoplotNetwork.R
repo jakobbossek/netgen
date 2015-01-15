@@ -18,6 +18,9 @@ autoplot.Network = function(object, ...) {
     } else {
         df = object$coordinates
     }
+    # Man! WTF!?! df$x1 and df$x2 are lists and need to become unpacked.
+    df$x1 = unlist(df$x1)
+    df$x2 = unlist(df$x2)
     pl = ggplot(data = df, mapping = aes_string(x = "x1", y = "x2"))
     if (!is.null(df$membership)) {
         pl = pl + geom_point(aes_string(colour = "membership"))
