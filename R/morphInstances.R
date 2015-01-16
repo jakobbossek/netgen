@@ -22,7 +22,10 @@ morphInstances = function(x, y, alpha) {
     }
     x.coordinates = x$coordinates
     y.coordinates = y$coordinates
-    print(hasDepots(y))
+
+    if (!all(hasDepots(x), hasDepots(y))) {
+        stopf("Both or none of the instances must have depots")
+    }
 
     if (all(hasDepots(x), hasDepots(y))) {
         depot.idx = which(x$types == "depot")
@@ -32,10 +35,6 @@ morphInstances = function(x, y, alpha) {
 
     coordinates = getPointMatchingAndMorphCoordinates(x.coordinates, y.coordinates)
     types = rep("customers", getNumberOfNodes(x) - 2)
-
-    if (!all(hasDepots(x), hasDepots(y))) {
-        stopf("Both or none of the instances must have depots")
-    }
 
     if (all(hasDepots(x), hasDepots(y))) {
         x.n.depots = getNumberOfDepots(x)
@@ -98,7 +97,7 @@ visualizePointMatching = function(coords1, coords2, point.matching) {
     df.lines$end1 = unlist(df.lines$end1)
     df.lines$end2 = unlist(df.lines$end2)
 
-    print(df.points$x1)
+    #print(df.points$x1)
 
     #print(head(df.lines))
 
@@ -125,7 +124,7 @@ getOptimalPointAssignment = function(coords1, coords2) {
             dist.matrix[i, j] = euklideanDistance(unlist(coords1[i, ]), unlist(coords2[j, ]))
         }
     }
-    print(dist.matrix)
+    #print(dist.matrix)
 
     requirePackages("lpSolve", why = "getOptimalPointAssignment")
     lp.res = lp.assign(dist.matrix)
