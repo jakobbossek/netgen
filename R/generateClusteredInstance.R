@@ -91,7 +91,7 @@ generateClusteredInstance = function(n.cluster,
             lower, upper, min.dist.to.bounds
         )
     } else {
-        assertDataFrame(cluster.centers, nrows = n.cluster, ncols = n.dim)
+        assertMatrix(cluster.centers, nrows = n.cluster, ncols = n.dim)
     }
 
     coordinates = list()
@@ -144,16 +144,11 @@ generateClusteredInstance = function(n.cluster,
 
     types = rep("customer", n.points)
 
-    # FIXME: these lines are ugly as sin!
     if (!is.null(n.depots)) {
-        # print(names(depot.coordinates))
-        # print(names(coordinates))
-        # stop()
         coordinates = rbind(depot.coordinates, coordinates)
         types = c(rep("depot", n.depots), types)
         membership = c(rep(0, n.depots), membership)
     }
-    #rownames(coordinates) = NULL
 
     makeClusteredNetwork(
         coordinates = coordinates,
