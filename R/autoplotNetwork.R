@@ -1,4 +1,3 @@
-
 #' Autoplot function.
 #'
 #' Generates a \code{\link[ggplot2]{ggplot}} object. Nice possibility to
@@ -12,18 +11,19 @@
 #'   ggplot2 object.
 #' @export
 autoplot.Network = function(object, ...) {
+    if (getNumberOfNodes(object) > 2L) {
+        stopf("Only 2-dimensional networks can be plotted.")
+    }
+
     df = as.data.frame(object, include.extras = TRUE)
 
     if (testClass(object, "ClusteredNetwork")) {
         df$membership = as.factor(df$membership)
     }
 
-    # Man! WTF!?! df$x1 and df$x2 are lists and need to become unpacked.
-    df$x1 = unlist(df$x1)
-    df$x2 = unlist(df$x2)
     if (hasDepots(object)) {
         depot.idx = which(df$types == "depot")
-        df.depots = df[which(df$types == "depot"), ]
+        df.depots = df[depot.idx, ]
         df = df[-depot.idx, ]
     }
 
@@ -45,10 +45,4 @@ autoplot.Network = function(object, ...) {
     pl = pl + xlab(expression(x[1])) + ylab(expression(x[2]))
     pl = pl + xlim(c(object$lower, object$upper)) + ylim(c(object$lower, object$upper))
     return(pl)
-}
-
-hasDepots = function(x) {
-    if (is.null(x$types))
-        return(FALSE)
-    any(x$types == "depot")
 }
