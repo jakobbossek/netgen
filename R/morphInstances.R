@@ -57,25 +57,6 @@ morphInstances = function(x, y, alpha) {
     return(z)
 }
 
-hasDepots = function(x) {
-    if (is.null(x$types))
-        return(FALSE)
-    any(x$types == "depot")
-}
-
-getDepotCoordinates = function(x) {
-    if (is.null(x$types))
-        stopf("This object has no depots.")
-    depots.idx = which(x$types == "depot")
-    return(x$coordinates[depots.idx, , drop = FALSE])
-}
-
-getNumberOfDepots = function(x) {
-    if (is.null(x$types))
-        stopf("FUUUU")
-    return(sum(x$types == "depot"))
-}
-
 #FIXME: write documentation. Export
 visualizePointMatching = function(coords1, coords2, point.matching) {
     rownames(coords1) = NULL
