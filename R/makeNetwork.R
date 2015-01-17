@@ -15,7 +15,7 @@ makeNetwork = function(coordinates, types = NULL, lower = 0, upper = 1) {
     assertMatrix(coordinates)
     if (!is.null(types))
         assertCharacter(types, any.missing = FALSE)
-    obj = makeS3Obj(
+    makeS3Obj(
         coordinates = coordinates,
         types = types,
         lower = lower,
@@ -40,18 +40,15 @@ makeNetwork = function(coordinates, types = NULL, lower = 0, upper = 1) {
 #'   Upper bound of bounding box.
 #' @return [\code{ClusteredNetwork}]
 #' @export
-#FIXME: copy&paste crap!
 makeClusteredNetwork = function(coordinates, membership, types = NULL, lower = 0, upper = 1) {
-    assertMatrix(coordinates)
-    assertNumeric(membership, any.missing = FALSE)
-    if (!is.null(types))
-        assertCharacter(types, any.missing = FALSE)
-    makeS3Obj(
+    network = makeNetwork(
         coordinates = coordinates,
-        membership = membership,
         types = types,
         lower = lower,
-        upper = upper,
-        classes = c("Network", "ClusteredNetwork")
+        upper = upper
     )
+    assertNumeric(membership, any.missing = FALSE)
+    network$membership = membership
+    network = addClasses(network, "ClusteredNetwork")
+    return(network)
 }
