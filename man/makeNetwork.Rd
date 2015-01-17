@@ -13,6 +13,12 @@ Numeric matrix of 2D coordinates.}
 \item{types}{[\code{character}]\cr
 Vector of types for the nodes. For example to differentiate between
 depots and customers in the context of vehicle routing.}
+
+\item{lower}{[\code{numeric(1)}]\cr
+Lower bound of bounding box.}
+
+\item{upper}{[\code{numeric(1)}]\cr
+Upper bound of bounding box.}
 }
 \value{
 [\code{Network}]

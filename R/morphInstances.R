@@ -84,27 +84,15 @@ visualizePointMatching = function(coords1, coords2, point.matching) {
 
     df.points = cbind(df.points, data.frame(type = rep(c("a", "b"), each = nrow(coords1))))
     colnames(df.points) = c("x1", "x2", "type")
+    df.points$type = as.factor(df.points$type)
 
     df.lines = cbind(as.data.frame(coords1), as.data.frame(coords2[point.matching[, 2], ]))
     colnames(df.lines) = c("x1", "x2", "end1", "end2")
 
-    # I don't get it
-    df.points$x1 = unlist(df.points$x1)
-    df.points$x2 = unlist(df.points$x2)
-    df.lines$x1 = unlist(df.lines$x1)
-    df.lines$x2 = unlist(df.lines$x2)
-
-    df.lines$end1 = unlist(df.lines$end1)
-    df.lines$end2 = unlist(df.lines$end2)
-
-    #print(df.points$x1)
-
-    #print(head(df.lines))
-
-    pl1 = ggplot(df.lines, aes(x = x1, y = x2))
-    pl1 = pl1 + geom_segment(aes(x = x1, y = x2, xend = end1, yend = end2), arrow = arrow(length = unit(0.1, "inches")), colour = "gray")
+    pl1 = ggplot(df.lines, aes_string(x = "x1", y = "x2"))
+    pl1 = pl1 + geom_segment(aes_string(x = "x1", y = "x2", xend = "end1", yend = "end2"), arrow = grid::arrow(length = grid::unit(0.1, "inches")), colour = "gray")
     pl1 = pl1 + theme(legend.position = "none") + ggtitle("point mapping")
-    pl1 = pl1 + geom_point(data = df.points, aes(x = x1, y = x2, shape = as.factor(type), colour = as.factor(type)))
+    pl1 = pl1 + geom_point(data = df.points, aes_string(x = "x1", y = "x2", shape = "type", colour = "type"))
     print(pl1)
 }
 

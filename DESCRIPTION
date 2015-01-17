@@ -14,6 +14,7 @@ Depends:
     lhs (>= 0.10)
 Imports:
     ggplot2,
+    lpSolve,
     checkmate (>= 1.5.1)
 Suggests:
     testthat

@@ -5,6 +5,10 @@
 #' @param types [\code{character}]\cr
 #'   Vector of types for the nodes. For example to differentiate between
 #'   depots and customers in the context of vehicle routing.
+#' @param lower [\code{numeric(1)}]\cr
+#'   Lower bound of bounding box.
+#' @param upper [\code{numeric(1)}]\cr
+#'   Upper bound of bounding box.
 #' @return [\code{Network}]
 #' @export
 makeNetwork = function(coordinates, types = NULL, lower = 0, upper = 1) {
@@ -30,10 +34,14 @@ makeNetwork = function(coordinates, types = NULL, lower = 0, upper = 1) {
 #' @param types [\code{character}]\cr
 #'   Vector of types for the nodes. For example to differentiate between
 #'   depots and customers in the context of vehicle routing.
+#' @param lower [\code{numeric(1)}]\cr
+#'   Lower bound of bounding box.
+#' @param upper [\code{numeric(1)}]\cr
+#'   Upper bound of bounding box.
 #' @return [\code{ClusteredNetwork}]
 #' @export
 #FIXME: copy&paste crap!
-makeClusteredNetwort = function(coordinates, membership, types = NULL, lower = 0, upper = 1) {
+makeClusteredNetwork = function(coordinates, membership, types = NULL, lower = 0, upper = 1) {
     assertMatrix(coordinates)
     assertNumeric(membership, any.missing = FALSE)
     if (!is.null(types))

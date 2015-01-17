@@ -11,7 +11,7 @@
 #'   ggplot2 object.
 #' @export
 autoplot.Network = function(object, ...) {
-    if (getNumberOfNodes(object) > 2L) {
+    if (ncol(object$coordinates) > 2L) {
         stopf("Only 2-dimensional networks can be plotted.")
     }
 

@@ -155,7 +155,7 @@ generateClusteredInstance = function(n.cluster,
     }
     #rownames(coordinates) = NULL
 
-    makeClusteredNetwort(
+    makeClusteredNetwork(
         coordinates = coordinates,
         membership = membership,
         types = types,
