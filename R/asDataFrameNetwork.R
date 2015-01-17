@@ -19,8 +19,7 @@ as.data.frame.Network = function(x,
     ...) {
     n = nrow(x$coordinates)
     res = as.data.frame(x$coordinates)
-    #FIXME: what if we have more than two dimensions. generalize!
-    colnames(res) = c("x1", "x2")
+    colnames(res) = paste("x", seq(ncol(res)), sep = "")
 
     assertFlag(include.extras)
     if (!is.null(row.names)) {
