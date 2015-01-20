@@ -72,4 +72,11 @@ generate clustered instances. It first generates n cluster centeres via a
 LHS method and then distributes points to the clusters according to
 gaussian distributions.
 }
+\examples{
+x = generateClusteredInstance(n.points = 20L, n.cluster = 2L)
+  y = generateClusteredInstance(n.points = 40L, n.cluster = 3L, n.depots = 2L)
+}
+\seealso{
+\code{\link{generateRandomInstance}}
+}
 

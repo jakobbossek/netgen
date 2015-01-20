@@ -46,6 +46,10 @@
 #'   Not used yet.
 #' @return [\code{ClusteredNetwork}]
 #'   Object of type \code{ClusteredNetwork}.
+#' @examples
+#'   x = generateClusteredInstance(n.points = 20L, n.cluster = 2L)
+#'   y = generateClusteredInstance(n.points = 40L, n.cluster = 3L, n.depots = 2L)
+#' @seealso \code{\link{generateRandomInstance}}
 #' @export
 generateClusteredInstance = function(n.cluster,
     n.points,

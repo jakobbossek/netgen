@@ -34,4 +34,7 @@ Upper bound of cube.}
 \description{
 Generates a random graph in a hypercube.
 }
+\examples{
+x = generateRandomInstance(n.points = 100L, n.depots = 2L, upper = 50)
+}
 

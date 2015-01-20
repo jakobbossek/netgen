@@ -15,6 +15,16 @@
 #'   Coeffiecient alpha for convex combination.
 #' @return [\code{Network}]
 #'   Morphed Network instance.
+#' @examples
+#'   x = generateRandomInstance(n.points = 40L, n.depots = 2L)
+#'   y = generateClusteredInstance(n.points = 40L, n.cluster = 2L, n.depots = 2L)
+#'   z = morphInstances(x, y, alpha = 0.2)
+#'   \dontrun{
+#'   library(gridExtra)
+#'   plot.list = list(autoplot(x), autoplot(z), autoplot(y))
+#'   plot.list$nrow = 1
+#'   do.call(grid.arrange, plot.list)
+#'   }
 #' @export
 morphInstances = function(x, y, alpha) {
     assertClass(x, "Network")
