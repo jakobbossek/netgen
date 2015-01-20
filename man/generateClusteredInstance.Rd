@@ -8,7 +8,7 @@ generateClusteredInstance(n.cluster, n.points, n.dim = 2L,
   generator = lhs::maximinLHS, lower = 0, upper = 1, sigmas = NULL,
   n.depots = NULL, min.dist.to.bounds = 0,
   distribution.strategy = "equally.distributed", cluster.centers = NULL,
-  ...)
+  out.of.bounds.handling = "reset", ...)
 }
 \arguments{
 \item{n.cluster}{[\code{integer(1)}]\cr
@@ -58,8 +58,19 @@ Data frame of cluster centres of dimension \code{n.cluster} x \code{n.dim}. If
 this is set, cluster centres are not generated automatically.
 Default is \code{NULL}.}
 
+\item{out.of.bounds.handling}{[\code{character(1)}]\cr
+Clusters are generated on base of a multivariate gaussian distribution with
+the cluster center as the mean vector. Possibly some of the points might fall
+out of bounds, i. e., get coordinates larger than upper or lower than lower.
+There are two strategies to force them to stick to the bounds:
+\describe{
+  \item{\dQuote{reset}}{Set the violating coordinates to the bounds.}
+  \item{\dQuote{mirror}}{Mirror the coordinates at the violated axis.}
+}
+Default is \dQuote{reset}.}
+
 \item{...}{[\code{any}]\cr
-Not used yet.}
+Currently not used.}
 }
 \value{
 [\code{ClusteredNetwork}]

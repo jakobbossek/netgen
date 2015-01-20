@@ -16,31 +16,36 @@ test_that("generate clustered instance works as expected", {
     }
 
     # WITHOUT DEPOTS
-    inst = generateClusteredInstance(n.cluster, n.points, upper = upper)
-    checkClusteredInstance(inst, n.cluster, n.points, upper = upper)
+    x = generateClusteredInstance(n.cluster, n.points, upper = upper)
+    checkClusteredInstance(x, n.cluster, n.points, upper = upper)
+
+    # check mirroring strategy
+    x = generateClusteredInstance(n.cluster, n.points, upper = upper, out.of.bounds.handling = "mirror")
+    checkClusteredInstance(x, n.cluster, n.points, upper = upper)
+
 
     #FIXME: reenable when "random.partition" is finished
-    # inst = generateClusteredInstance(n.cluster, n.points, distribution.strategy = "random.partition")
-    # checkClusteredInstance(inst, n.cluster, n.points)
+    # x = generateClusteredInstance(n.cluster, n.points, distribution.strategy = "random.partition")
+    # checkClusteredInstance(x, n.cluster, n.points)
 
     # check if as.data.frame works as expected
-    df = as.data.frame(inst)
+    df = as.data.frame(x)
     expect_equal(nrow(df), n.points)
     expect_equal(ncol(df), 4L) # two dimensions plus membership column
 
-    df = as.data.frame(inst, include.extras = FALSE)
+    df = as.data.frame(x, include.extras = FALSE)
 
     expect_equal(nrow(df), n.points)
     expect_equal(ncol(df), 2L) # no membership column
 
 
     # WITH DEPOTS
-    inst = generateClusteredInstance(n.cluster, n.points, n.depots = n.depots)
+    x = generateClusteredInstance(n.cluster, n.points, n.depots = n.depots)
     # in this case we have to nodes (the depots) more!
-    checkClusteredInstance(inst, n.cluster, n.points + n.depots)
+    checkClusteredInstance(x, n.cluster, n.points + n.depots)
 
     # check plotting
     library(ggplot2)
-    pl = autoplot(inst)
+    pl = autoplot(x)
     expect_is(pl, c("gg", "ggplot"))
 })

@@ -42,8 +42,18 @@
 #'   Data frame of cluster centres of dimension \code{n.cluster} x \code{n.dim}. If
 #'   this is set, cluster centres are not generated automatically.
 #'   Default is \code{NULL}.
+#' @param out.of.bounds.handling [\code{character(1)}]\cr
+#'   Clusters are generated on base of a multivariate gaussian distribution with
+#'   the cluster center as the mean vector. Possibly some of the points might fall
+#'   out of bounds, i. e., get coordinates larger than upper or lower than lower.
+#'   There are two strategies to force them to stick to the bounds:
+#'   \describe{
+#'     \item{\dQuote{reset}}{Set the violating coordinates to the bounds.}
+#'     \item{\dQuote{mirror}}{Mirror the coordinates at the violated axis.}
+#'   }
+#'   Default is \dQuote{reset}.
 #' @param ... [\code{any}]\cr
-#'   Not used yet.
+#'   Currently not used.
 #' @return [\code{ClusteredNetwork}]
 #'   Object of type \code{ClusteredNetwork}.
 #' @examples
@@ -62,6 +72,7 @@ generateClusteredInstance = function(n.cluster,
     min.dist.to.bounds = 0,
     distribution.strategy = "equally.distributed",
     cluster.centers = NULL,
+    out.of.bounds.handling = "reset",
     ...) {
     assertInteger(n.cluster, lower = 2L, len = 1L, any.missing = FALSE)
     assertInteger(n.dim, lower = 2L, len = 1L, any.missing = FALSE)
@@ -143,7 +154,7 @@ generateClusteredInstance = function(n.cluster,
 
     coordinates = do.call(rbind, coordinates)
     membership = do.call(c, membership)
-    coordinates = forceToBounds(coordinates, lower, upper)
+    coordinates = forceToBounds(coordinates, out.of.bounds.handling, lower, upper)
 
     types = rep("customer", n.points)
 
@@ -165,15 +176,26 @@ generateClusteredInstance = function(n.cluster,
 # Force coordinates out of bounds to bounds.
 #
 # @param coordinates [matrix | data.frame]
-#    Coordinates.
+#   Coordinates.
+# @param out.of.bounds.handling, [character(1)]
+#   Strategy to handle out of bounds coordinates.
 # @param lower [numeric(1)]
 #   Lower bound for cube.
 # @param upper [numeric(1)]
 #   Upper bound for cube.
 # @return [data.frame]
-forceToBounds = function(coordinates, lower = 0, upper = 1) {
-    # getting warnings and NAs here, if I do this without the conversions
-    pmin(pmax(coordinates, lower), upper)
+forceToBounds = function(coordinates, out.of.bounds.handling, lower = 0, upper = 1) {
+    if (out.of.bounds.handling == "reset") {
+        return(pmin(pmax(coordinates, lower), upper))
+    } else if (out.of.bounds.handling == "mirror") {
+        for (i in seq(ncol(coordinates))) {
+            idx.lower = which(coordinates[, i] < lower)
+            coordinates[idx.lower, i] = lower + abs(coordinates[idx.lower, i] - lower)
+            idx.upper = which(coordinates[, i] > upper)
+            coordinates[idx.upper, i] = upper - abs(coordinates[idx.upper, i] - upper)
+        }
+        return(coordinates)
+    }
 }
 
 #' Get network information as a character string.
