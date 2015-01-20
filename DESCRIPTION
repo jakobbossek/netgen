@@ -1,6 +1,6 @@
 Package: netgen
 Type: Package
-Title: Generating random networks in R.
+Title: Generating random (clustered) networks in R
 Description: The package provides methods to generate random (clustered) networks which may be used for benchmarking optimization algorithms, e.g., for the TSP or VRP.
 Version: 1.0
 Date: 2015-01-20
@@ -9,7 +9,7 @@ Authors@R: c(person("Jakob", "Bossek", email = "j.bossek@gmail.com", role =
 Maintainer: Jakob Bossek <j.bossek@gmail.com>
 URL: https://github.com/jakobbossek/netgen
 BugReports: https://github.com/jakobbossek/netgen/issues
-License: BSD_2_clause + file LICENSE
+License: BSD_3_clause + file LICENSE
 Depends:
     BBmisc (>= 1.6),
     mvtnorm (>= 1.0-2),
