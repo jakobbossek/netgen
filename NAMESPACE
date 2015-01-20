@@ -2,6 +2,7 @@
 
 S3method(as.data.frame,Network)
 S3method(autoplot,Network)
+S3method(print,Network)
 export(generateClusteredInstance)
 export(generateRandomInstance)
 export(getDepotCoordinates)
