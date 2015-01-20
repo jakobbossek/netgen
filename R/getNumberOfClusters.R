@@ -3,7 +3,7 @@
 #' @param x [\code{Network}]\cr
 #'   Network.
 #' @return [\code{integer(1)}]
-#'   Return the number of clusters.
+#'   Number of clusters.
 #' @note For simple random instances this function always returns 1.
 #' @export
 getNumberOfClusters = function(x) {

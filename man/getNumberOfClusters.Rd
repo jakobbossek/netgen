@@ -12,7 +12,7 @@ Network.}
 }
 \value{
 [\code{integer(1)}]
-  Return the number of clusters.
+  Number of clusters.
 }
 \description{
 Return the number of clusters of a network.

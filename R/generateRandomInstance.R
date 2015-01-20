@@ -15,14 +15,15 @@
 #'   Lower bound of cube.
 #' @param upper [\code{numeric(1)}]\cr
 #'   Upper bound of cube.
-#' @return [\code{data.frame}]
+#' @return [\code{Network}]
 #' @export
 generateRandomInstance = function(n.points, n.dim = 2L, n.depots = NULL, lower = 0, upper = 1) {
     assertCount(n.points, na.ok = FALSE)
     assertInteger(n.dim, len = 1L, any.missing = FALSE, lower = 2L)
 
     if (!is.null(n.depots)) {
-        #FIXME: think about upper limit here
+        #FIXME: think about upper limit here. Do this laters. At the moment
+        # at most two depots may exist.
         assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
     }
 

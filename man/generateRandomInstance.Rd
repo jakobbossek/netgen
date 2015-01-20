@@ -29,7 +29,7 @@ Lower bound of cube.}
 Upper bound of cube.}
 }
 \value{
-[\code{data.frame}]
+[\code{Network}]
 }
 \description{
 Generates a random graph in a hypercube.

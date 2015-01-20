@@ -1,5 +1,12 @@
 #' Morphing of two networks with a convex combination of the coordinates.
 #'
+#' This function takes two (clustered) networks with equal number of nodes,
+#' and generates another instance by applying a convex combination to the coordinates
+#' of node pairs. The node pairs are determined by a point matching algorithm,
+#' which solves this assignement problem via a integer programming procedure.
+#' If both instances contain depots, point matching is done seperately on depots
+#' and the remaining nodes.
+#'
 #' @param x [\code{Network}]\cr
 #'   Network or ClusteredNetwork.
 #' @param y [\code{Network}]\cr
@@ -9,7 +16,6 @@
 #' @return [\code{Network}]
 #'   Morphed Network instance.
 # @export
-#FIXME: comment this extensively
 morphInstances = function(x, y, alpha) {
     assertClass(x, "Network")
     assertClass(y, "Network")
@@ -20,6 +26,7 @@ morphInstances = function(x, y, alpha) {
         coordinates = makeConvexCombination(coords1, coords2[point.matching[, 2], ], alpha)
         return(coordinates)
     }
+
     x.coordinates = x$coordinates
     y.coordinates = y$coordinates
 
@@ -41,7 +48,8 @@ morphInstances = function(x, y, alpha) {
         y.n.depots = getNumberOfDepots(y)
         catf("x: %i, y: %i", x.n.depots, y.n.depots)
         if (x.n.depots != y.n.depots) {
-            stopf("Number of depots must be equal, but x has %i and y has $i depots.", x.n.depots, y.n.depots)
+            stopf("Number of depots must be equal, but x has %i and y has $i depots.",
+                x.n.depots, y.n.depots)
         }
         x.depot.coordinates = getDepotCoordinates(x)
         y.depot.coordinates = getDepotCoordinates(y)
@@ -49,7 +57,6 @@ morphInstances = function(x, y, alpha) {
         coordinates = rbind(depot.coordinates, coordinates)
         types = c(rep("depot", x.n.depots), types)
     }
-    #FIXME: we need to handle customers and depots seperately
     z = makeNetwork(coordinates = coordinates, types = types, lower = x$lower, upper = x$upper)
     # FIXME: ugly to do that here
     attr(z, "morphed") = TRUE
@@ -57,7 +64,18 @@ morphInstances = function(x, y, alpha) {
     return(z)
 }
 
-#FIXME: write documentation. Export
+# Visualize point matching.
+#
+# Draw the points and lines between the matched points for visualization.
+#
+# @param coords1 [matrix]
+#   Matrix of coordinates of the first point set.
+# @param coords2 [matrix]
+#   Matrix of coordinates of the second point set.
+# @param point.matching [matrix]
+#   Point matching received via \code{getOptimalPointAssignment}.
+# @return [ggplot]
+#   ggplot2 object.
 visualizePointMatching = function(coords1, coords2, point.matching) {
     rownames(coords1) = NULL
     rownames(coords2) = NULL
@@ -74,26 +92,41 @@ visualizePointMatching = function(coords1, coords2, point.matching) {
     pl1 = pl1 + geom_segment(aes_string(x = "x1", y = "x2", xend = "end1", yend = "end2"), arrow = grid::arrow(length = grid::unit(0.1, "inches")), colour = "gray")
     pl1 = pl1 + theme(legend.position = "none") + ggtitle("point mapping")
     pl1 = pl1 + geom_point(data = df.points, aes_string(x = "x1", y = "x2", shape = "type", colour = "type"))
-    print(pl1)
+    return(pl1)
 }
 
-#FIXME: comment this extensively
+# Component-wise convex combination of two matrizes.
+#
+# @param coords1 [matrix]
+#   First matrix.
+# @param coords2 [matrix]
+#   Second matrix.
+# @param alpha [numeric(1)]
+#   Coefficient for convex combination.
+# @return [matrix]
 makeConvexCombination = function(coords1, coords2, alpha) {
   alpha * coords1 + (1 - alpha) * coords2
 }
 
-#FIXME: comment this extensively
+# Computes optimal point assignment for two sets of points of equal size.
+#
+# Internally it handles the points and the possible matchings as a bi-partite
+# graphs and finds an  optimal matching due to euclidean distance by an
+# efficient linear programming solver.
+#
+# @param coords1 [matrix]
+#   Matrix of coordinates of the first point set.
+# @param coords2 [matrix]
+#   Matrix of coordinates of the second point set.
+# @return [matrix]
+#   Each row consists of the indizes of the pairwise matchings.
 getOptimalPointAssignment = function(coords1, coords2) {
     dist.matrix = matrix(nrow = nrow(coords1), ncol = nrow(coords2))
     for (i in seq(nrow(coords1))) {
         for (j in seq(nrow(coords2))) {
-            # print(typeof(coords1[i, ]))
-            # print(typeof(coords2[j, ]))
-            # print("---")
-            dist.matrix[i, j] = euklideanDistance(unlist(coords1[i, ]), unlist(coords2[j, ]))
+            dist.matrix[i, j] = euklideanDistance(coords1[i, ], coords2[j, ])
         }
     }
-    #print(dist.matrix)
 
     requirePackages("lpSolve", why = "getOptimalPointAssignment")
     lp.res = lp.assign(dist.matrix)
@@ -101,10 +134,10 @@ getOptimalPointAssignment = function(coords1, coords2) {
         stop("Failed to find LP solution! No point matching possible.")
     }
     lp.res = lp.res$solution
+
     # now construct mapping matrix
     res = matrix(nrow = nrow(lp.res), ncol = 2)
     res[, 1] = 1:nrow(lp.res)
-    #stop()
     for (i in 1:nrow(lp.res)) {
         res[i, 2] = which(lp.res[i, ] != 0)
     }

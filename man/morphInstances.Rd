@@ -21,6 +21,11 @@ Coeffiecient alpha for convex combination.}
   Morphed Network instance.
 }
 \description{
-Morphing of two networks with a convex combination of the coordinates.
+This function takes two (clustered) networks with equal number of nodes,
+and generates another instance by applying a convex combination to the coordinates
+of node pairs. The node pairs are determined by a point matching algorithm,
+which solves this assignement problem via a integer programming procedure.
+If both instances contain depots, point matching is done seperately on depots
+and the remaining nodes.
 }
 
