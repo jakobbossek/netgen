@@ -106,6 +106,11 @@ generateClusteredInstance = function(n.cluster,
         )
     } else {
         assertMatrix(cluster.centers, nrows = n.cluster, ncols = n.dim)
+        for (i in seq(n.cluster)) {
+            for (j in seq(n.dim)) {
+                assertNumber(cluster.centers[i, j], lower = lower, upper = upper)
+            }
+        }
     }
 
     coordinates = list()
