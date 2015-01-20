@@ -15,7 +15,7 @@
 #'   Coeffiecient alpha for convex combination.
 #' @return [\code{Network}]
 #'   Morphed Network instance.
-# @export
+#' @export
 morphInstances = function(x, y, alpha) {
     assertClass(x, "Network")
     assertClass(y, "Network")
@@ -30,7 +30,7 @@ morphInstances = function(x, y, alpha) {
     x.coordinates = x$coordinates
     y.coordinates = y$coordinates
 
-    if (!all(hasDepots(x), hasDepots(y))) {
+    if ((hasDepots(x) && !hasDepots(y)) || (!hasDepots(x) && hasDepots(y))) {
         stopf("Both or none of the instances must have depots")
     }
 
@@ -46,7 +46,6 @@ morphInstances = function(x, y, alpha) {
     if (all(hasDepots(x), hasDepots(y))) {
         x.n.depots = getNumberOfDepots(x)
         y.n.depots = getNumberOfDepots(y)
-        catf("x: %i, y: %i", x.n.depots, y.n.depots)
         if (x.n.depots != y.n.depots) {
             stopf("Number of depots must be equal, but x has %i and y has $i depots.",
                 x.n.depots, y.n.depots)
