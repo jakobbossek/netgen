@@ -18,7 +18,7 @@ Row names for the result. Default is \code{NULL}.}
 Currently not used.}
 
 \item{include.extras}{[\code{logical(1)}]\cr
-Include additional information like membership, types as seperate columns?
+Include additional information like membership and types as seperate columns?
 Default is \code{TRUE}.}
 
 \item{...}{[any]\cr

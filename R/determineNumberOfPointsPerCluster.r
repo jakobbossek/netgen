@@ -76,6 +76,8 @@ getRandomIntegerPartition = function(n, k) {
 #' Returns the available strategies for distributing points around clusters.
 #' @return [\code{character}]
 #' @export
+#FIXME: we do not export "random.partition", since there is a bug in the
+# implementation so far.
 getPointDistributionStrategies = function() {
-    return(c("equally.distributed", "random.partition"))
+    return(c("equally.distributed")) #, "random.partition"))
 }

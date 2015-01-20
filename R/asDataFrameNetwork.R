@@ -7,7 +7,7 @@
 #' @param optional [any]\cr
 #'   Currently not used.
 #' @param include.extras [\code{logical(1)}]\cr
-#'   Include additional information like membership, types as seperate columns?
+#'   Include additional information like membership and types as seperate columns?
 #'   Default is \code{TRUE}.
 #' @param ... [any]\cr
 #'   Currently not used.

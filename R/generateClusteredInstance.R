@@ -32,20 +32,20 @@
 #'   By convention the depots are placed as the first nodes in the coordinates
 #'   matrix.
 #' @param min.dist.to.bounds [\code{numeric(1)}]\cr
-#'   Minimal distance of cluster centers to the bounding box. Default is
-#'   (\code{upper} - \code{lower}) / 20.
+#'   Minimal distance ratio of cluster centers to the bounding box. Default is 0,
+#'   which means, that cluster centers can be located very close or even on the
+#'   bounding box.
 #' @param distribution.strategy [\code{character(1)}]\cr
-#FIXME: itemize all the strategies here.
 #'   Define the strategy to distribute n.points on the n.cluster clusters. Default
-#'   is 'equally.distributed'. Also available is 'random.partition'.
+#'   is 'equally.distributed', which is the only option at the moment.
 #' @param cluster.centers [\code{matrix}]\cr
 #'   Data frame of cluster centres of dimension \code{n.cluster} x \code{n.dim}. If
 #'   this is set, cluster centres are not generated automatically.
 #'   Default is \code{NULL}.
 #' @param ... [\code{any}]\cr
 #'   Not used yet.
-#' @return [\code{ClusterInstance}]
-#'   Object of type \code{ClusterInstance}.
+#' @return [\code{ClusteredNetwork}]
+#'   Object of type \code{ClusteredNetwork}.
 #' @export
 generateClusteredInstance = function(n.cluster,
     n.points,
@@ -77,8 +77,7 @@ generateClusteredInstance = function(n.cluster,
         assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
     }
 
-    # FIXME: think about a reasonable upper bound for this
-    assertNumber(min.dist.to.bounds, lower = 0, finite = TRUE)
+    assertNumber(min.dist.to.bounds, lower = 0, upper = 1, na.ok = FALSE)
     assertChoice(distribution.strategy, choices = getPointDistributionStrategies())
 
     if (lower >= upper) {

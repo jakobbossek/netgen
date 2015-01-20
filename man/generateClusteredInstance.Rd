@@ -45,12 +45,13 @@ By convention the depots are placed as the first nodes in the coordinates
 matrix.}
 
 \item{min.dist.to.bounds}{[\code{numeric(1)}]\cr
-Minimal distance of cluster centers to the bounding box. Default is
-(\code{upper} - \code{lower}) / 20.}
+Minimal distance ratio of cluster centers to the bounding box. Default is 0,
+which means, that cluster centers can be located very close or even on the
+bounding box.}
 
 \item{distribution.strategy}{[\code{character(1)}]\cr
 Define the strategy to distribute n.points on the n.cluster clusters. Default
-is 'equally.distributed'. Also available is 'random.partition'.}
+is 'equally.distributed', which is the only option at the moment.}
 
 \item{cluster.centers}{[\code{matrix}]\cr
 Data frame of cluster centres of dimension \code{n.cluster} x \code{n.dim}. If
@@ -61,8 +62,8 @@ Default is \code{NULL}.}
 Not used yet.}
 }
 \value{
-[\code{ClusterInstance}]
-  Object of type \code{ClusterInstance}.
+[\code{ClusteredNetwork}]
+  Object of type \code{ClusteredNetwork}.
 }
 \description{
 Testing algorithms for the Vehicle-Routing-Problem and understanding their
