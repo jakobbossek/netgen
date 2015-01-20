@@ -77,11 +77,11 @@ Currently not used.}
   Object of type \code{ClusteredNetwork}.
 }
 \description{
-Testing algorithms for the Vehicle-Routing-Problem and understanding their
-behaviour requires investigation of differnet instances. This function
-generate clustered instances. It first generates n cluster centeres via a
-LHS method and then distributes points to the clusters according to
-gaussian distributions.
+This function generates clustered instances. It first generates n cluster
+centeres via a latin hypercube design to ensure space-filling property.
+It then then distributes points to the clusters according to
+gaussian distributions using the cluster centers as the mean vector and
+the distance to the nearest neighbor cluster as the variance.
 }
 \examples{
 x = generateClusteredInstance(n.points = 20L, n.cluster = 2L)

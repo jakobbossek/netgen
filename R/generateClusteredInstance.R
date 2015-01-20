@@ -1,10 +1,10 @@
 #' Function for generation of clustered instances.
 #'
-#' Testing algorithms for the Vehicle-Routing-Problem and understanding their
-#' behaviour requires investigation of differnet instances. This function
-#' generate clustered instances. It first generates n cluster centeres via a
-#' LHS method and then distributes points to the clusters according to
-#' gaussian distributions.
+#' This function generates clustered instances. It first generates n cluster
+#' centeres via a latin hypercube design to ensure space-filling property.
+#' It then then distributes points to the clusters according to
+#' gaussian distributions using the cluster centers as the mean vector and
+#' the distance to the nearest neighbor cluster as the variance.
 #'
 #' @param n.cluster [\code{integer(1)}]\cr
 #'   Desired number of clusters.
@@ -74,43 +74,18 @@ generateClusteredInstance = function(n.cluster,
     cluster.centers = NULL,
     out.of.bounds.handling = "reset",
     ...) {
-    assertInteger(n.cluster, lower = 2L, len = 1L, any.missing = FALSE)
-    assertInteger(n.dim, lower = 2L, len = 1L, any.missing = FALSE)
-    assertFunction(generator)
-    assertNumber(lower, lower = 0, finite = TRUE)
-    assertNumber(upper, finite = TRUE)
 
-    if (!is.null(sigmas)) {
-        assertList(sigmas, len = n.cluster, types = c("matrix"))
-        lapply(sigmas, function(sigma) {
-            assertMatrix(sigma, mode = "numeric", nrows = n.dim, ncols = n.dim)
-        })
-    }
-
-    if (!is.null(n.depots)) {
-        #FIXME: think about upper limit here
-        assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
-    }
-
-    assertNumber(min.dist.to.bounds, lower = 0, upper = 1, na.ok = FALSE)
-    assertChoice(distribution.strategy, choices = getPointDistributionStrategies())
-
-    if (lower >= upper) {
-        stop("Argument 'upper' must be greater than argument 'lower'.")
-    }
+    # do a load of sanity checks
+    doSanityChecks(n.cluster, n.points, n.dim,
+        generator, lower, upper, sigmas,
+        n.depots, min.dist.to.bounds, distribution.strategy,
+        cluster.centers, out.of.bounds.handling)
 
     if (is.null(cluster.centers)) {
         cluster.centers = generateClusterCenters(
             n.cluster, n.dim, generator,
             lower, upper, min.dist.to.bounds
         )
-    } else {
-        assertMatrix(cluster.centers, nrows = n.cluster, ncols = n.dim)
-        for (i in seq(n.cluster)) {
-            for (j in seq(n.dim)) {
-                assertNumber(cluster.centers[i, j], lower = lower, upper = upper)
-            }
-        }
     }
 
     coordinates = list()
@@ -122,13 +97,7 @@ generateClusteredInstance = function(n.cluster,
 
     #FIXME: make function out of this!
     if (!is.null(n.depots)) {
-        # get first depot randomly
-        depot.1.idx = sample(seq(n.cluster), 1L)
-        depot.coordinates = matrix(cluster.centers[depot.1.idx, ], nrow = 1L)
-        if (n.depots == 2L) {
-            depot.2.idx = distances$max.distance.idx[depot.1.idx]
-            depot.coordinates = rbind(depot.coordinates, matrix(cluster.centers[depot.2.idx, ], nrow = 1L))
-        }
+        depot.coordinates = buildDepots(n.depots, cluster.centers, distances)
     }
 
     # deterime number of elements for each cluster
@@ -176,6 +145,81 @@ generateClusteredInstance = function(n.cluster,
         lower = lower,
         upper = upper
     )
+}
+
+
+# Performs all the sanity checks for generateClusteredInstance.
+#
+# @params See params of generateClusteredInstance.
+# @return Nothing
+doSanityChecks = function(n.cluster,
+    n.points,
+    n.dim = 2L,
+    generator = lhs::maximinLHS,
+    lower = 0,
+    upper = 1,
+    sigmas = NULL,
+    n.depots = NULL,
+    min.dist.to.bounds = 0,
+    distribution.strategy = "equally.distributed",
+    cluster.centers = NULL,
+    out.of.bounds.handling = "reset") {
+    assertInteger(n.cluster, lower = 2L, len = 1L, any.missing = FALSE)
+    assertInteger(n.dim, lower = 2L, len = 1L, any.missing = FALSE)
+    assertFunction(generator)
+    assertNumber(lower, lower = 0, finite = TRUE)
+    assertNumber(upper, finite = TRUE)
+
+    if (!is.null(sigmas)) {
+        assertList(sigmas, len = n.cluster, types = c("matrix"))
+        lapply(sigmas, function(sigma) {
+            assertMatrix(sigma, mode = "numeric", nrows = n.dim, ncols = n.dim)
+        })
+    }
+
+    if (!is.null(n.depots)) {
+        #FIXME: think about upper limit here
+        assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
+    }
+
+    assertNumber(min.dist.to.bounds, lower = 0, upper = 1, na.ok = FALSE)
+    assertChoice(distribution.strategy, choices = getPointDistributionStrategies())
+
+    if (lower >= upper) {
+        stop("Argument 'upper' must be greater than argument 'lower'.")
+    }
+
+    if (!is.null(cluster.centers)) {
+        assertMatrix(cluster.centers, nrows = n.cluster, ncols = n.dim)
+        # check if the coordinates are all in bounds
+        for (i in seq(n.cluster)) {
+            for (j in seq(n.dim)) {
+                assertNumber(cluster.centers[i, j], lower = lower, upper = upper)
+            }
+        }
+    }
+}
+
+# Select cluster centers to form depots.
+#
+# @param n.depots [integer(1)]
+#   Number of depots. Currently at most 2.
+# @param cluster.centers [\matrix]
+#   Matrix containing the coordinates of the cluster centers.
+# @param distances [list]
+#   See return value of computeDistancesToNearestClusterCenters.
+# @return [matrix]
+#   Coordinates of the depots.
+buildDepots = function(n.depots, cluster.centers, distances) {
+    n.cluster = nrow(cluster.centers)
+    # get first depot randomly
+    depot.1.idx = sample(seq(n.cluster), 1L)
+    depot.coordinates = matrix(cluster.centers[depot.1.idx, ], nrow = 1L)
+    if (n.depots == 2L) {
+        depot.2.idx = distances$max.distance.idx[depot.1.idx]
+        depot.coordinates = rbind(depot.coordinates, matrix(cluster.centers[depot.2.idx, ], nrow = 1L))
+    }
+    return(depot.coordinates)
 }
 
 # Force coordinates out of bounds to bounds.
