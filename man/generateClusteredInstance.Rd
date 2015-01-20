@@ -6,7 +6,7 @@
 \usage{
 generateClusteredInstance(n.cluster, n.points, n.dim = 2L,
   generator = lhs::maximinLHS, lower = 0, upper = 1, sigmas = NULL,
-  n.depots = NULL, min.dist.to.bounds = (upper - lower)/20,
+  n.depots = NULL, min.dist.to.bounds = 0,
   distribution.strategy = "equally.distributed", cluster.centers = NULL,
   ...)
 }

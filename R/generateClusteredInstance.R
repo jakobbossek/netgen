@@ -55,7 +55,7 @@ generateClusteredInstance = function(n.cluster,
     upper = 1,
     sigmas = NULL,
     n.depots = NULL,
-    min.dist.to.bounds = (upper - lower) / 20,
+    min.dist.to.bounds = 0,
     distribution.strategy = "equally.distributed",
     cluster.centers = NULL,
     ...) {
