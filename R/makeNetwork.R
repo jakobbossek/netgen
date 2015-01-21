@@ -2,22 +2,22 @@
 #'
 #' @param coordinates [\code{matrix}]\cr
 #'   Numeric matrix of 2D coordinates.
-#' @param types [\code{character}]\cr
-#'   Vector of types for the nodes. For example to differentiate between
-#'   depots and customers in the context of vehicle routing.
+#' @param depot.coordinates [\code{matrix} | NULL]\cr
+#'   Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
+#'   means no depots at all.
 #' @param lower [\code{numeric(1)}]\cr
 #'   Lower bound of bounding box.
 #' @param upper [\code{numeric(1)}]\cr
 #'   Upper bound of bounding box.
 #' @return [\code{Network}]
 #' @export
-makeNetwork = function(coordinates, types = NULL, lower = 0, upper = 1) {
+makeNetwork = function(coordinates, depot.coordinates = NULL, lower = 0, upper = 1) {
     assertMatrix(coordinates)
-    if (!is.null(types))
-        assertCharacter(types, any.missing = FALSE)
+    if (!is.null(depot.coordinates))
+        assertMatrix(depot.coordinates)
     makeS3Obj(
         coordinates = coordinates,
-        types = types,
+        depot.coordinates = depot.coordinates,
         lower = lower,
         upper = upper,
         classes = "Network"
@@ -29,21 +29,21 @@ makeNetwork = function(coordinates, types = NULL, lower = 0, upper = 1) {
 #'
 #' @param coordinates [\code{matrix}]\cr
 #'   Numeric matrix of 2D coordinates.
+#' @param depot.coordinates [\code{matrix} | NULL]\cr
+#'   Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
+#'   means no depots at all.
 #' @param membership [\code{numeric}]\cr
 #'   Vector of memberships.
-#' @param types [\code{character}]\cr
-#'   Vector of types for the nodes. For example to differentiate between
-#'   depots and customers in the context of vehicle routing.
 #' @param lower [\code{numeric(1)}]\cr
 #'   Lower bound of bounding box.
 #' @param upper [\code{numeric(1)}]\cr
 #'   Upper bound of bounding box.
 #' @return [\code{ClusteredNetwork}]
 #' @export
-makeClusteredNetwork = function(coordinates, membership, types = NULL, lower = 0, upper = 1) {
+makeClusteredNetwork = function(coordinates, depot.coordinates = NULL, membership, lower = 0, upper = 1) {
     network = makeNetwork(
         coordinates = coordinates,
-        types = types,
+        depot.coordinates = depot.coordinates,
         lower = lower,
         upper = upper
     )

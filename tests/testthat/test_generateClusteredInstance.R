@@ -42,7 +42,7 @@ test_that("generate clustered instance works as expected", {
     # WITH DEPOTS
     x = generateClusteredInstance(n.cluster, n.points, n.depots = n.depots)
     # in this case we have to nodes (the depots) more!
-    checkClusteredInstance(x, n.cluster, n.points + n.depots)
+    checkClusteredInstance(x, n.cluster, n.points)
 
     # check plotting
     library(ggplot2)

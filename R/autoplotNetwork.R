@@ -21,6 +21,7 @@ autoplot.Network = function(object, ...) {
         df$membership = as.factor(df$membership)
     }
 
+    #FIXME: can be done easier now! depot.idx = 1:getNumberOfDepots(object)?
     if (hasDepots(object)) {
         depot.idx = which(df$types == "depot")
         df.depots = df[depot.idx, ]

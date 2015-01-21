@@ -5,7 +5,5 @@
 #' @return [\code{logical(1)}]
 #' @export
 hasDepots = function(x) {
-    if (is.null(x$types))
-        return(FALSE)
-    any(x$types == "depot")
+    !is.null(x$depot.coordinates)
 }

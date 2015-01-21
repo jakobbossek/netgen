@@ -89,8 +89,7 @@ generateClusteredInstance = function(n.cluster,
     }
 
     coordinates = list()
-    # at the moment n.depos is only allowed to be in {1,2}
-    depot.coordinates = matrix(NA, ncol = n.dim, nrow = 2L)
+    depot.coordinates = NULL
 
     # compute distances and ids to/of nearest neighbor cluster centers
     distances = computeDistancesToNearestClusterCenter(cluster.centers)
@@ -130,18 +129,10 @@ generateClusteredInstance = function(n.cluster,
     membership = do.call(c, membership)
     coordinates = forceToBounds(coordinates, out.of.bounds.handling, lower, upper)
 
-    types = rep("customer", n.points)
-
-    if (!is.null(n.depots)) {
-        coordinates = rbind(depot.coordinates, coordinates)
-        types = c(rep("depot", n.depots), types)
-        membership = c(rep(0, n.depots), membership)
-    }
-
     makeClusteredNetwork(
         coordinates = coordinates,
+        depot.coordinates = depot.coordinates,
         membership = membership,
-        types = types,
         lower = lower,
         upper = upper
     )

@@ -44,17 +44,8 @@ morphInstances = function(x, y, alpha) {
         stopf("Both or none of the instances must have depots")
     }
 
-    types = rep("customers", getNumberOfNodes(x))
-
-    if (all(hasDepots(x), hasDepots(y))) {
-        depot.idx = which(x$types == "depot")
-        x.coordinates = x.coordinates[-depot.idx, , drop = FALSE]
-        y.coordinates = y.coordinates[-depot.idx, , drop = FALSE]
-        n.depots = getNumberOfDepots(x)
-        types = c(rep("depot", n.depots), rep("customers", getNumberOfNodes(x) - n.depots))
-    }
-
     coordinates = getPointMatchingAndMorphCoordinates(x.coordinates, y.coordinates)
+    depot.coordinates = NULL
 
     if (all(hasDepots(x), hasDepots(y))) {
         x.n.depots = getNumberOfDepots(x)
@@ -66,9 +57,13 @@ morphInstances = function(x, y, alpha) {
         x.depot.coordinates = getDepotCoordinates(x)
         y.depot.coordinates = getDepotCoordinates(y)
         depot.coordinates = getPointMatchingAndMorphCoordinates(x.depot.coordinates, y.depot.coordinates)
-        coordinates = rbind(depot.coordinates, coordinates)
     }
-    z = makeNetwork(coordinates = coordinates, types = types, lower = x$lower, upper = x$upper)
+    z = makeNetwork(
+        coordinates = coordinates,
+        depot.coordinates = depot.coordinates,
+        lower = x$lower,
+        upper = x$upper
+    )
     # FIXME: ugly to do that here
     attr(z, "morphed") = TRUE
     attr(z, "morphing.grade") = alpha

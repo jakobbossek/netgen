@@ -17,8 +17,12 @@ as.data.frame.Network = function(x,
     optional = FALSE,
     include.extras = TRUE,
     ...) {
-    n = nrow(x$coordinates)
+    n = getNumberOfNodes(x)
     res = as.data.frame(x$coordinates)
+
+    if (hasDepots(x)) {
+        res = rbind(as.data.frame(x$depot.coordinates), res)
+    }
     colnames(res) = paste("x", seq(ncol(res)), sep = "")
 
     assertFlag(include.extras)
@@ -27,9 +31,17 @@ as.data.frame.Network = function(x,
     }
 
     if (include.extras) {
-        res$types = x$types
+        if (!hasDepots(x)) {
+            res$types = "customers"
+        } else {
+            res$types = c(rep("depot", getNumberOfDepots(x)), rep("customers", n))
+        }
         if (!is.null(x$membership)) {
-            res$membership = x$membership
+            if (!hasDepots(x)) {
+                res$membership = x$membership
+            } else {
+                res$membership = c(rep(0, getNumberOfDepots(x)), x$membership)
+            }
         }
     }
     as.data.frame(res, row.names = row.names, optional = optional, ...)

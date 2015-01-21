@@ -5,7 +5,6 @@
 #' @return [\code{integer(1)}]
 #' @export
 getNumberOfDepots = function(x) {
-    if (is.null(x$types))
-        return(0)
-    return(sum(x$types == "depot"))
+    assertClass(x, "Network")
+    nrow(x$depot.coordinates)
 }

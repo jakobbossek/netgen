@@ -38,20 +38,19 @@ generateRandomInstance = function(n.points, n.dim = 2L, n.depots = NULL, lower =
 
     coordinates = runif(n.points * n.dim, min = lower, max = upper)
     coordinates = matrix(coordinates, ncol = n.dim)
-    types = rep("customer", n.points)
+
+    depot.coordinates = NULL
 
     if (!is.null(n.depots)) {
-        types = c(rep("depot", n.depots), types)
         depot.coordinates = generateClusterCenters(n.cluster = 2L, lower = lower, upper = upper)
         if (n.depots == 1L) {
             depot.coordinates = depot.coordinates[1, , drop = FALSE]
         }
-        coordinates = rbind(depot.coordinates, coordinates)
     }
 
     makeNetwork(
         coordinates = coordinates,
-        types = types,
+        depot.coordinates = depot.coordinates,
         lower = lower,
         upper = upper
     )

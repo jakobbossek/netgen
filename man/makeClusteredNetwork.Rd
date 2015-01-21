@@ -5,19 +5,19 @@
 \title{Generates clustered network instances based in coordinates
 and membership vector.}
 \usage{
-makeClusteredNetwork(coordinates, membership, types = NULL, lower = 0,
-  upper = 1)
+makeClusteredNetwork(coordinates, depot.coordinates = NULL, membership,
+  lower = 0, upper = 1)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
 Numeric matrix of 2D coordinates.}
 
+\item{depot.coordinates}{[\code{matrix} | NULL]\cr
+Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
+means no depots at all.}
+
 \item{membership}{[\code{numeric}]\cr
 Vector of memberships.}
-
-\item{types}{[\code{character}]\cr
-Vector of types for the nodes. For example to differentiate between
-depots and customers in the context of vehicle routing.}
 
 \item{lower}{[\code{numeric(1)}]\cr
 Lower bound of bounding box.}

@@ -33,7 +33,7 @@ dynamise = function(x, n.dynamic = NULL, dyn.customers.ratio = NULL, arrival.lim
     }
 
     if (!is.null(n.dynamic)) {
-        assertInteger(n.dynamic, lower = 1, upper = getNumberOfNodes(x) - 2L)
+        assertInteger(n.dynamic, lower = 1, upper = getNumberOfNodes(x))
     }
 
     n.customers = getNumberOfNodes(x) - 2L # minus depots
@@ -46,10 +46,10 @@ dynamise = function(x, n.dynamic = NULL, dyn.customers.ratio = NULL, arrival.lim
     rate = arrival.limit / n.dynamic
 
     # add preliminary request times
-    x$arrival.times = rep(0, n.customers + 2L)
+    x$arrival.times = rep(0, n.customers)
 
     # randomly select n.dynamic customers
-    idx.dyn = sample(3:(n.customers + 2L), replace = FALSE, size = n.dynamic)
+    idx.dyn = sample(1:n.customers, replace = FALSE, size = n.dynamic)
 
     # sample arrival times according to Poisson process
     x$arrival.times[idx.dyn] = sampleArrivalTimes(n.dynamic, arrival.limit, 1 / rate)
