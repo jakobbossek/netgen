@@ -7,7 +7,9 @@ Travis CI build status: [![Build Status](https://travis-ci.org/jakobbossek/netge
 The *netgen* package offers several methods to generate random graphs respectively
 networks for benchmarking purposes. You may want to generate some random graphs
 or clustered graphs to perform benchmark studies on some fine algorithms for
-the travelling salesperson problem as an example.
+the travelling salesperson problem as an example. Examples of generated networks 
+are depicted in the following figure.
+![Examplary networks](https://raw.githubusercontent.com/jakobbossek/netgen/master/images/instance_examples.png)
 
 **Note:** To install the current developement version of the package, install
 the [devtools package](http://cran.r-project.org/web/packages/devtools/index.html)
@@ -45,8 +47,7 @@ print(x)
 autoplot(x)
 ```
 
-Example of generated networks are depicted in the following figure.
-![Examplary networks](https://raw.githubusercontent.com/jakobbossek/netgen/master/images/instance_examples.png)
+
 
 ## Contact
 
