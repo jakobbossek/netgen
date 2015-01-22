@@ -45,6 +45,9 @@ print(x)
 autoplot(x)
 ```
 
+Example of generated networks are depicted in the following figure.
+![Examplary networks](https://raw.githubusercontent.com/jakobbossek/netgen/master/images/instance_examples.png)
+
 ## Contact
 
 Please address questions and missing features about the **netgen package** to the author Jakob Bossek <j.bossek@gmail.com>. Found some nasty bugs? Please use the [issue tracker](https://github.com/jbossek/netgen/issues) for this. Pay attention to explain the problem as good as possible. At its best you provide an example, so I can reproduce your problem.
