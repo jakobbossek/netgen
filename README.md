@@ -11,9 +11,11 @@ the travelling salesperson problem as an example. Examples of generated networks
 are depicted in the following figure.
 ![Examplary networks](https://raw.githubusercontent.com/jakobbossek/netgen/master/images/instance_examples.png)
 
-**Note:** To install the current developement version of the package, install
-the [devtools package](http://cran.r-project.org/web/packages/devtools/index.html)
-by Hadley Wickham, load it and type the following line to a R session:
+## Installation
+
+Currently there is only this developement version of netgen. The package will
+be available on CRAN soon. 
+To install the current developement version of the package, install the [devtools package](http://cran.r-project.org/web/packages/devtools/index.html) by Hadley Wickham, load it and type the following line to a R session:
 
 ```splus
 install_github("jakobbossek/netgen")
@@ -46,7 +48,6 @@ y = generateClusteredInstance(n.cluster = 5L, n.points = 150, upper = 100)
 print(x)
 autoplot(x)
 ```
-
 
 
 ## Contact
