@@ -4,7 +4,8 @@
 \alias{visualizeMorphing}
 \title{Fancy visualization of morphing.}
 \usage{
-visualizeMorphing(x, y, alphas = c(0.25, 0.5, 0.75), arrows = TRUE)
+visualizeMorphing(x, y, point.matching = NULL, alphas = c(0.25, 0.5, 0.75),
+  arrows = TRUE)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
@@ -12,6 +13,11 @@ Network or ClusteredNetwork.}
 
 \item{y}{[\code{Network}]\cr
 Network or ClusteredNetwork.}
+
+\item{point.matching}{[\code{matrix}]\cr
+Point matching which shall be used for morphing. If \code{NULL}, an optimal
+point matching is generated via function \code{\link{getOptimalPointMatching}}.
+Default is \code{NULL}.}
 
 \item{alphas}{[\code{numeric}]\cr
 Coeffiecients 'alpha' for different convex combinations.}

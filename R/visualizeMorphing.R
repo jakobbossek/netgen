@@ -8,6 +8,10 @@
 #'   Network or ClusteredNetwork.
 #' @param y [\code{Network}]\cr
 #'   Network or ClusteredNetwork.
+#' @param point.matching [\code{matrix}]\cr
+#'   Point matching which shall be used for morphing. If \code{NULL}, an optimal
+#'   point matching is generated via function \code{\link{getOptimalPointMatching}}.
+#'   Default is \code{NULL}.
 #' @param alphas [\code{numeric}]\cr
 #'   Coeffiecients 'alpha' for different convex combinations.
 #' @param arrows [\code{logical(1)}]\cr
@@ -16,13 +20,18 @@
 #' @return [\code{\link[ggplot2]{ggplot}}]
 #' @seealso \code{\link{morphInstances}}
 #' @export
-visualizeMorphing = function(x, y, alphas = c(0.25, 0.5, 0.75), arrows = TRUE) {
+visualizeMorphing = function(x, y,
+    point.matching = NULL,
+    alphas = c(0.25, 0.5, 0.75), arrows = TRUE) {
     assertClass(x, "Network")
     assertClass(y, "Network")
     assertNumeric(alphas, any.missing = FALSE, lower = 0, upper = 0.75)
 
     # we compute the point matching here one time additionaly for later use
-    point.matching = getOptimalPointMatching(x$coordinates, y$coordinates)
+    if (is.null(point.matching)) {
+        point.matching = getOptimalPointMatching(x$coordinates, y$coordinates)
+    }
+    assertMatrix(point.matching, mode = "numeric", any.missing = FALSE)
 
     # do the morphing
     instances = lapply(alphas, function(alpha) {
