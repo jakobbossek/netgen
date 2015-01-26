@@ -5,7 +5,7 @@
 \title{Fancy visualization of morphing.}
 \usage{
 visualizeMorphing(x, y, point.matching = NULL, alphas = c(0.25, 0.5, 0.75),
-  arrows = TRUE)
+  arrows = TRUE, in.one.plot = TRUE)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
@@ -25,6 +25,13 @@ Coeffiecients 'alpha' for different convex combinations.}
 \item{arrows}{[\code{logical(1)}]\cr
 Draw arrows originating in the points of \code{x} and ending in the
 points matched in \code{y}. Default is \code{TRUE}.}
+
+\item{in.one.plot}{[\code{logical(1)}]\cr
+Currently the function offers two different types of plot. If \code{in.one.plot}
+is \code{TRUE}, which is the default value, the morphing is dipicted in one plot.
+This is in particular useful for small instances. If set to \code{FALSE},
+a matrix of plots is generated via \code{\link[ggplot2]{facet_grid}}. One
+plot for each alpha value in \code{alphas}.}
 }
 \value{
 [\code{\link[ggplot2]{ggplot}}]
@@ -32,7 +39,8 @@ points matched in \code{y}. Default is \code{TRUE}.}
 \description{
 Takes two instances of equal size and some alphas. Computes the point matching
 and morphings and visualizes the points of the first instance gradually move
-towards their matched counterparts of the second instance.
+towards their matched counterparts of the second instance with two different
+methods.
 }
 \seealso{
 \code{\link{morphInstances}}
