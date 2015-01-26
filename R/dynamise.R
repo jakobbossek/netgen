@@ -36,7 +36,7 @@ dynamise = function(x, n.dynamic = NULL, dyn.customers.ratio = NULL, arrival.lim
         assertInteger(n.dynamic, lower = 1, upper = getNumberOfNodes(x))
     }
 
-    n.customers = getNumberOfNodes(x) - 2L # minus depots
+    n.customers = getNumberOfNodes(x)
     # ignore n.dynamic if ratio is set
     if (!is.null(dyn.customers.ratio)) {
         assertNumber(dyn.customers.ratio, lower = 0, upper = 1)
