@@ -1,15 +1,16 @@
-# Visualize point matching.
-#
-# Draw the points and lines between the matched points for visualization.
-#
-# @param coords1 [matrix]
-#   Matrix of coordinates of the first point set.
-# @param coords2 [matrix]
-#   Matrix of coordinates of the second point set.
-# @param point.matching [matrix]
-#   Point matching received via \code{getOptimalPointMatching}.
-# @return [ggplot]
-#   ggplot2 object.
+#' Visualize point matching.
+#'
+#' Draw the points and lines between the matched points for visualization.
+#'
+#' @param coords1 [\code{matrix}]\cr
+#'   Matrix of coordinates of the first point set.
+#' @param coords2 [\code{matrix}]\cr
+#'   Matrix of coordinates of the second point set.
+#' @param point.matching [\code{matrix}]\cr
+#'   Point matching received via \code{getOptimalPointMatching}.
+#' @return [ggplot]
+#'   ggplot2 object.
+#' @export
 visualizePointMatching = function(coords1, coords2, point.matching) {
     rownames(coords1) = NULL
     rownames(coords2) = NULL

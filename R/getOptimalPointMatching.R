@@ -1,15 +1,17 @@
-# Computes optimal point assignment for two sets of points of equal size.
-#
-# Internally it handles the points and the possible matchings as a bi-partite
-# graphs and finds an  optimal matching due to euclidean distance by an
-# efficient linear programming solver.
-#
-# @param coords1 [matrix]
-#   Matrix of coordinates of the first point set.
-# @param coords2 [matrix]
-#   Matrix of coordinates of the second point set.
-# @return [matrix]
-#   Each row consists of the indizes of the pairwise matchings.
+#' Computes optimal point assignment for two sets of points of equal size.
+#'
+#' Internally it handles the points and the possible matchings as a bi-partite
+#' graphs and finds an  optimal matching due to euclidean distance by an
+#' efficient linear programming solver.
+#'
+#' @param coords1 [\code{matrix}]\cr
+#'   Matrix of coordinates of the first point set.
+#' @param coords2 [\code{matrix}]\cr
+#'   Matrix of coordinates of the second point set.
+#' @return [\code{matrix}]
+#'   Each row consists of the indizes of the pairwise matchings.
+#' @seealso \code{\link{visualizePointMatching}}
+#' @export
 getOptimalPointMatching = function(coords1, coords2) {
     dist.matrix = matrix(nrow = nrow(coords1), ncol = nrow(coords2))
     for (i in seq(nrow(coords1))) {
