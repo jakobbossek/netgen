@@ -4,7 +4,8 @@
 \alias{visualizePointMatching}
 \title{Visualize point matching.}
 \usage{
-visualizePointMatching(coords1, coords2, point.matching)
+visualizePointMatching(coords1, coords2, point.matching,
+  highlight.longest = 0)
 }
 \arguments{
 \item{coords1}{[\code{matrix}]\cr
@@ -15,6 +16,10 @@ Matrix of coordinates of the second point set.}
 
 \item{point.matching}{[\code{matrix}]\cr
 Point matching received via \code{getOptimalPointMatching}.}
+
+\item{highlight.longest}{[\code{integer(1)}]\cr
+Number of longest distances which should be particularly highlighted.
+Default is \code{0}.}
 }
 \value{
 [ggplot]
