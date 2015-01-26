@@ -32,7 +32,7 @@ morphInstances = function(x, y, alpha) {
     assertNumber(alpha, lower = 0, upper = 1, na.ok = FALSE)
 
     getPointMatchingAndMorphCoordinates = function(coords1, coords2) {
-        point.matching = getOptimalPointAssignment(coords1, coords2)
+        point.matching = getOptimalPointMatching(coords1, coords2)
         coordinates = makeConvexCombination(coords1, coords2[point.matching[, 2], ], alpha)
         return(coordinates)
     }

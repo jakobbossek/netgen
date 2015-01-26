@@ -7,7 +7,7 @@
 # @param coords2 [matrix]
 #   Matrix of coordinates of the second point set.
 # @param point.matching [matrix]
-#   Point matching received via \code{getOptimalPointAssignment}.
+#   Point matching received via \code{getOptimalPointMatching}.
 # @return [ggplot]
 #   ggplot2 object.
 visualizePointMatching = function(coords1, coords2, point.matching) {

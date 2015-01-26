@@ -22,7 +22,7 @@ visualizeMorphing = function(x, y, alphas = c(0.25, 0.5, 0.75), arrows = TRUE) {
     assertNumeric(alphas, any.missing = FALSE, lower = 0, upper = 0.75)
 
     # we compute the point matching here one time additionaly for later use
-    point.matching = getOptimalPointAssignment(x$coordinates, y$coordinates)
+    point.matching = getOptimalPointMatching(x$coordinates, y$coordinates)
 
     # do the morphing
     instances = lapply(alphas, function(alpha) {

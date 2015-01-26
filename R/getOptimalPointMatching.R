@@ -10,7 +10,7 @@
 #   Matrix of coordinates of the second point set.
 # @return [matrix]
 #   Each row consists of the indizes of the pairwise matchings.
-getOptimalPointAssignment = function(coords1, coords2) {
+getOptimalPointMatching = function(coords1, coords2) {
     dist.matrix = matrix(nrow = nrow(coords1), ncol = nrow(coords2))
     for (i in seq(nrow(coords1))) {
         for (j in seq(nrow(coords2))) {
@@ -18,7 +18,7 @@ getOptimalPointAssignment = function(coords1, coords2) {
         }
     }
 
-    requirePackages("lpSolve", why = "getOptimalPointAssignment")
+    requirePackages("lpSolve", why = "getOptimalPointMatching")
     lp.res = lp.assign(dist.matrix)
     if (lp.res$status != 0) {
         stop("Failed to find LP solution! No point matching possible.")
