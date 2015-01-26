@@ -65,6 +65,9 @@ visualizeMorphing = function(x, y,
     df.points$membership = as.factor(df.points$membership)
     df.points$alpha = as.factor(df.points$alpha)
 
+    lower = x$lower
+    upper = x$upper
+
     #FIXME: outsource both variants to seperate files
     if (in.one.plot) {
         pl = ggplot(data = df.points, mapping = aes_string(x = "x1", y = "x2", colour = "alpha"))
@@ -80,10 +83,7 @@ visualizeMorphing = function(x, y,
                     colour = "gray"
                 )
         }
-
         pl = pl + geom_point()
-        #pl = pl + geom_point(data = subset(df.points, alpha %in% c(0, 1)), colour = "black", size = 3)
-        return(pl)
     } else {
         # we want nice 'alpha = value' labels for the facets
         df.points$alpha = paste("alpha == ", df.points$alpha)
@@ -93,8 +93,13 @@ visualizeMorphing = function(x, y,
         pl = pl + geom_point(data = df.points[(df.points$types == "depot"), ], colour = "white", size = 3)
         # keep in mind labeller to parse expressions!
         pl = pl + facet_grid(. ~ alpha, labeller = label_parsed)
-        pl = pl + theme(legend.position = "none")
-        return(pl)
     }
-
+    pl = pl + theme(
+        legend.position = "none",
+        plot.title = element_text(size = rel(0.8), lineheight = 1.1, vjust = 1.6)
+    )
+    pl = pl + xlim(c(lower, upper)) + ylim(c(lower, upper))
+    pl = pl + ggtitle(paste("#Nodes:", getNumberOfNodes(x)))
+    pl = pl + xlab(expression(x[1])) + ylab(expression(x[2]))
+    return(pl)
 }
