@@ -24,7 +24,7 @@ in the euclidean plane. Thus \code{2L} is the default setting.}
 Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.}
 
 \item{lower}{[\code{numeric(1)}]\cr
-Lower bound for cube.}
+Lower bound for cube. Default is \code{0}. Other}
 
 \item{upper}{[\code{numeric(1)}]\cr
 Upper bound for cube.}

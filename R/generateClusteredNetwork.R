@@ -16,7 +16,7 @@
 #' @param generator [\code{function}]\cr
 #'   Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.
 #' @param lower [\code{numeric(1)}]\cr
-#'   Lower bound for cube.
+#'   Lower bound for cube. Default is \code{0}. Other
 #' @param upper [\code{numeric(1)}]\cr
 #'   Upper bound for cube.
 #' @param sigmas [\code{list} | \code{NULL}]\cr

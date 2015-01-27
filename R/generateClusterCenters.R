@@ -21,6 +21,6 @@ generateClusterCenters = function(
     cc = generator(n.cluster, n.dims)
 
     # "stretch design"
-    cc = cc * upper
+    cc = lower + (upper - lower) * cc
     return(cc)
 }
