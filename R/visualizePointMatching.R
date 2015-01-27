@@ -2,10 +2,10 @@
 #'
 #' Draw the points and lines between the matched points for visualization.
 #'
-#' @param coords1 [\code{matrix}]\cr
-#'   Matrix of coordinates of the first point set.
-#' @param coords2 [\code{matrix}]\cr
-#'   Matrix of coordinates of the second point set.
+#' @param x [\code{matrix}]\cr
+#'   First \code{Network} object.
+#' @param y [\code{matrix}]\cr
+#'   Second \code{Network} object.
 #' @param point.matching [\code{matrix}]\cr
 #'   Point matching received via \code{getOptimalPointMatching}.
 #' @param highlight.longest [\code{integer(1)}]\cr
@@ -14,11 +14,14 @@
 #' @return [ggplot]
 #'   ggplot2 object.
 #' @export
-visualizePointMatching = function(coords1, coords2, point.matching, highlight.longest = 0) {
-    assertMatrix(coords1, mode = "numeric")
-    assertMatrix(coords2, mode = "numeric")
+visualizePointMatching = function(x, y, point.matching, highlight.longest = 0) {
+    assertClass(x, "Network")
+    assertClass(y, "Network")
     assertMatrix(point.matching, mode = "numeric")
     assertInteger(highlight.longest, len = 1L, lower = 1L, any.missing = FALSE)
+
+    coords1 = x$coordinates
+    coords2 = y$coordinates
 
     df.points = as.data.frame(rbind(coords1, coords2), row.names = NULL)
     df.points = cbind(df.points, data.frame(type = rep(c("a", "b"), each = nrow(coords1))))
@@ -32,23 +35,19 @@ visualizePointMatching = function(coords1, coords2, point.matching, highlight.lo
     distances = computeDistancesOfPairedPoints(coords1, coords2, point.matching)
     longest.dist.idx = order(distances, decreasing = TRUE)[1:highlight.longest]
 
-    pl1 = ggplot(df.lines, aes_string(x = "x1", y = "x2"))
+    pl = ggplot(df.lines, aes_string(x = "x1", y = "x2"))
 
     if (highlight.longest > 0) {
         # highlight the longest distances in particular
-        pl1 = pl1 + geom_segment(data = df.lines[-longest.dist.idx, ], aes_string(x = "x1", y = "x2", xend = "end1", yend = "end2"), arrow = grid::arrow(length = grid::unit(0.1, "inches")), colour = "gray")
-        pl1 = pl1 + geom_segment(data = df.lines[longest.dist.idx, ], aes_string(x = "x1", y = "x2", xend = "end1", yend = "end2"), arrow = grid::arrow(length = grid::unit(0.1, "inches")), colour = "darkgray", size = 0.9)
+        pl = pl + geom_segment(data = df.lines[-longest.dist.idx, ], aes_string(x = "x1", y = "x2", xend = "end1", yend = "end2"), arrow = grid::arrow(length = grid::unit(0.1, "inches")), colour = "gray")
+        pl = pl + geom_segment(data = df.lines[longest.dist.idx, ], aes_string(x = "x1", y = "x2", xend = "end1", yend = "end2"), arrow = grid::arrow(length = grid::unit(0.1, "inches")), colour = "darkgray", size = 0.9)
     } else {
-        pl1 = pl1 + geom_segment(aes_string(x = "x1", y = "x2", xend = "end1", yend = "end2"), arrow = grid::arrow(length = grid::unit(0.1, "inches")), colour = "gray")
+        pl = pl + geom_segment(aes_string(x = "x1", y = "x2", xend = "end1", yend = "end2"), arrow = grid::arrow(length = grid::unit(0.1, "inches")), colour = "gray")
     }
-    pl1 = pl1 + theme(
-        legend.position = "none",
-        plot.title = element_text(size = rel(0.8), lineheight = 1.1, vjust = 1.6)
-    )
-    pl1 = pl1 + ggtitle("point mapping")
-    pl1 = pl1 + xlab(expression(x[1])) + ylab(expression(x[2]))
-    pl1 = pl1 + geom_point(data = df.points, aes_string(x = "x1", y = "x2", shape = "type", colour = "type"))
-    return(pl1)
+    pl = pl + geom_point(data = df.points, aes_string(x = "x1", y = "x2", shape = "type", colour = "type"))
+    pl = pl + ggtitle("point mapping")
+    pl = decorateGGPlot(pl, lower = x$lower, upper = x$upper)
+    return(pl)
 }
 
 # Computes distances of

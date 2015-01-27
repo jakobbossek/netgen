@@ -94,12 +94,7 @@ visualizeMorphing = function(x, y,
         # keep in mind labeller to parse expressions!
         pl = pl + facet_grid(. ~ alpha, labeller = label_parsed)
     }
-    pl = pl + theme(
-        legend.position = "none",
-        plot.title = element_text(size = rel(0.8), lineheight = 1.1, vjust = 1.6)
-    )
-    pl = pl + xlim(c(lower, upper)) + ylim(c(lower, upper))
     pl = pl + ggtitle(paste("#Nodes:", getNumberOfNodes(x)))
-    pl = pl + xlab(expression(x[1])) + ylab(expression(x[2]))
+    pl = decorateGGPlot(pl, lower, upper)
     return(pl)
 }

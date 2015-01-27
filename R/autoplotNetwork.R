@@ -39,11 +39,6 @@ autoplot.Network = function(object, ...) {
         pl = pl + geom_point(data = df.depots, colour = "white", size = 3)
     }
     pl = pl + ggtitle(as.character(object))
-    pl = pl + theme(
-        legend.position = "none",
-        plot.title = element_text(size = rel(0.8), lineheight = 1.1, vjust = 1.6)
-    )
-    pl = pl + xlab(expression(x[1])) + ylab(expression(x[2]))
-    pl = pl + xlim(c(object$lower, object$upper)) + ylim(c(object$lower, object$upper))
+    pl = decorateGGPlot(pl, lower = object$lower, upper = object$upper)
     return(pl)
 }

@@ -4,15 +4,14 @@
 \alias{visualizePointMatching}
 \title{Visualize point matching.}
 \usage{
-visualizePointMatching(coords1, coords2, point.matching,
-  highlight.longest = 0)
+visualizePointMatching(x, y, point.matching, highlight.longest = 0)
 }
 \arguments{
-\item{coords1}{[\code{matrix}]\cr
-Matrix of coordinates of the first point set.}
+\item{x}{[\code{matrix}]\cr
+First \code{Network} object.}
 
-\item{coords2}{[\code{matrix}]\cr
-Matrix of coordinates of the second point set.}
+\item{y}{[\code{matrix}]\cr
+Second \code{Network} object.}
 
 \item{point.matching}{[\code{matrix}]\cr
 Point matching received via \code{getOptimalPointMatching}.}
