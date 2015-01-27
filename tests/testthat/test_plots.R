@@ -37,4 +37,10 @@ test_that("all of our plots produce nice gglot2 objects", {
         }
     }
 
+    # test visualization of point matchings
+    x = generateRandomInstance(n.points = 10L)
+    y = generateClusteredInstance(n.points = 10L, n.cluster = 2L)
+    pm = netgen::getOptimalPointMatching(x$coordinates, y$coordinates)
+    pl = visualizePointMatching(x, y, pm)
+    expect_is_ggplot(pl)
 })
