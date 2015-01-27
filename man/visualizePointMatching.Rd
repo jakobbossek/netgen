@@ -4,7 +4,7 @@
 \alias{visualizePointMatching}
 \title{Visualize point matching.}
 \usage{
-visualizePointMatching(x, y, point.matching, highlight.longest = 0)
+visualizePointMatching(x, y, point.matching, highlight.longest = 0L)
 }
 \arguments{
 \item{x}{[\code{matrix}]\cr

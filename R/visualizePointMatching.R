@@ -14,11 +14,13 @@
 #' @return [ggplot]
 #'   ggplot2 object.
 #' @export
-visualizePointMatching = function(x, y, point.matching, highlight.longest = 0) {
+visualizePointMatching = function(x, y, point.matching, highlight.longest = 0L) {
     assertClass(x, "Network")
     assertClass(y, "Network")
     assertMatrix(point.matching, mode = "numeric")
-    assertInteger(highlight.longest, len = 1L, lower = 1L, any.missing = FALSE)
+    if (highlight.longest > 0L) {
+        assertInteger(highlight.longest, len = 1L, lower = 1L, any.missing = FALSE)
+    }
 
     coords1 = x$coordinates
     coords2 = y$coordinates
