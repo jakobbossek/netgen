@@ -29,7 +29,7 @@ Maximal arrival time.}
 \description{
 Some variante of the Vehicle Routing Problem (VRP) consider static as well
 as dynamic customers (nodes). This function takes a \code{Network} and
-dynamises it, i. e., it adds dynamic arrival times to the nodes via a
+dynamises it, i. e., it adds dynamic arrival times to the customers via a
 Poisson process.
 }
 \examples{

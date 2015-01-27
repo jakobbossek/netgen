@@ -3,12 +3,11 @@
 #' Generates a \code{\link[ggplot2]{ggplot}} object. Nice possibility to
 #' visualize 2-dimensional (clustered) networks in the euclidean plane.
 #'
-#' @param object [\code{ClusterInstance}]\cr
+#' @param object [\code{Network}]\cr
 #'   Instance to visualize.
 #' @param ... [any]\cr
 #'   Currently not used.
 #' @return [\code{\link[ggplot2]{ggplot}}]
-#'   ggplot2 object.
 #' @export
 autoplot.Network = function(object, ...) {
     if (ncol(object$coordinates) > 2L) {

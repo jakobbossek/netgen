@@ -55,6 +55,7 @@ getEquallyDistributedIntegerPartition = function(n, k) {
 # @return [integer(k)]
 #FIXME: this does not work very well. First numbers are big, later small,
 #occasionally negative values in the end.
+#FIXME: this is currently disabled, because it is buggy! Next release.
 getRandomIntegerPartition = function(n, k) {
     s = n
     rest = s
@@ -74,6 +75,7 @@ getRandomIntegerPartition = function(n, k) {
 }
 
 #' Returns the available strategies for distributing points around clusters.
+#'
 #' @return [\code{character}]
 #' @export
 #FIXME: we do not export "random.partition", since there is a bug in the

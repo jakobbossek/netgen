@@ -7,7 +7,7 @@
 \method{autoplot}{Network}(object, ...)
 }
 \arguments{
-\item{object}{[\code{ClusterInstance}]\cr
+\item{object}{[\code{Network}]\cr
 Instance to visualize.}
 
 \item{...}{[any]\cr
@@ -15,7 +15,6 @@ Currently not used.}
 }
 \value{
 [\code{\link[ggplot2]{ggplot}}]
-  ggplot2 object.
 }
 \description{
 Generates a \code{\link[ggplot2]{ggplot}} object. Nice possibility to

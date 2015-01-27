@@ -7,10 +7,11 @@
 #' @param optional [any]\cr
 #'   Currently not used.
 #' @param include.extras [\code{logical(1)}]\cr
-#'   Include additional information like membership and types as seperate columns?
+#'   Include additional information like membership and types as specific columns?
 #'   Default is \code{TRUE}.
 #' @param ... [any]\cr
 #'   Currently not used.
+#' @return [\code{data.frame}]
 #' @export
 as.data.frame.Network = function(x,
     row.names = NULL,
@@ -20,6 +21,7 @@ as.data.frame.Network = function(x,
     n = getNumberOfNodes(x)
     res = as.data.frame(x$coordinates)
 
+    # depot coordinates always the first ones
     if (hasDepots(x)) {
         res = rbind(as.data.frame(x$depot.coordinates), res)
     }

@@ -7,24 +7,35 @@
 visualizePointMatching(x, y, point.matching, highlight.longest = 0L)
 }
 \arguments{
-\item{x}{[\code{matrix}]\cr
+\item{x}{[\code{Network}]\cr
 First \code{Network} object.}
 
-\item{y}{[\code{matrix}]\cr
+\item{y}{[\code{Network}]\cr
 Second \code{Network} object.}
 
 \item{point.matching}{[\code{matrix}]\cr
-Point matching received via \code{getOptimalPointMatching}.}
+Point matching received via \code{getOptimalPointMatching} for example.}
 
 \item{highlight.longest}{[\code{integer(1)}]\cr
 Number of longest distances which should be particularly highlighted.
 Default is \code{0}.}
 }
 \value{
-[ggplot]
-  ggplot2 object.
+[\code{\link[ggplot2]{ggplot}}]
 }
 \description{
 Draw the points and lines between the matched points for visualization.
+}
+\examples{
+x = generateRandomInstance(n.points = 20L, upper = 100)
+  y = generateClusteredInstance(n.points = 20L, n.cluster = 2L, upper = 100)
+  \dontrun{
+  pm = getOptimalPointMatching(x$coordinates, y$coordinates)
+  print(visualizePointMatching(x, y, pm, highlight.longest = 2L))
+  }
+}
+\seealso{
+\code{\link{getOptimalPointMatching}}, \code{\link{morphInstances}},
+  \code{\link{visualizeMorphing}}
 }
 

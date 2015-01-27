@@ -32,7 +32,7 @@ visualizeMorphing = function(x, y,
     alphas = c(0.25, 0.5, 0.75), arrows = TRUE, in.one.plot = TRUE) {
     assertClass(x, "Network")
     assertClass(y, "Network")
-    assertNumeric(alphas, any.missing = FALSE, lower = 0, upper = 0.75)
+    assertNumeric(alphas, any.missing = FALSE, lower = 0, upper = 1)
     assertFlag(arrows)
     assertFlag(in.one.plot)
 
@@ -54,6 +54,8 @@ visualizeMorphing = function(x, y,
     # build data frame of points
     df.points = lapply(1:length(instances), function(i) {
         df = as.data.frame(instances[[i]], include.extra = TRUE)
+        # we need to add membership here for ggplot
+        # This is only the case if we morph a clustered and a non-clustered instance
         if (is.null(df$membership)) {
             df$membership = 1L
         }

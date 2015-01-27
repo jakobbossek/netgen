@@ -24,8 +24,6 @@ generateRandomInstance = function(n.points, n.dim = 2L, n.depots = NULL, lower =
     assertInteger(n.dim, len = 1L, any.missing = FALSE, lower = 2L)
 
     if (!is.null(n.depots)) {
-        #FIXME: think about upper limit here. Do this laters. At the moment
-        # at most two depots may exist.
         assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
     }
 

@@ -6,9 +6,8 @@
 \usage{
 generateClusteredInstance(n.cluster, n.points, n.dim = 2L,
   generator = lhs::maximinLHS, lower = 0, upper = 1, sigmas = NULL,
-  n.depots = NULL, min.dist.to.bounds = 0,
-  distribution.strategy = "equally.distributed", cluster.centers = NULL,
-  out.of.bounds.handling = "reset", ...)
+  n.depots = NULL, distribution.strategy = "equally.distributed",
+  cluster.centers = NULL, out.of.bounds.handling = "reset", ...)
 }
 \arguments{
 \item{n.cluster}{[\code{integer(1)}]\cr
@@ -19,7 +18,7 @@ Number of points for the instance.}
 
 \item{n.dim}{[\code{integer(1)}]\cr
 Number of dimensions. Most often you want to generate 2-dimensional instances
-in the euclidean plane. Thus 2 is the default setting.}
+in the euclidean plane. Thus \code{2L} is the default setting.}
 
 \item{generator}{[\code{function}]\cr
 Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.}
@@ -34,24 +33,19 @@ Upper bound for cube.}
 Unnamed list of length \code{n.cluster} containing a covariance matrix
 for each cluster. Default is \code{NULL}. In this case the covariance
 matrix is a diagonal matrix containing the distance to the nearest
-cluster center as diogonal elements.}
+cluster center as diagonal elements.}
 
 \item{n.depots}{[\code{integer(1)}]\cr
 Number of depots in instances for the Vehicle Routing Problem (VRP).
-Default is NULL, i. e., no depots. The proceeding is as follows:
-If \code{n.depots} is 1, a random cluster center is defined to be the depot.
-If \code{n.depots} is 2, the second depot has maximal distance to the first.
+Default is \code{NULL}, i. e., no depots. The proceeding is as follows:
+If \code{n.depots} is \code{1L}, a random cluster center is defined to be the depot.
+If \code{n.depots} is \code{2L}, the second depot has maximal distance to the first.
 By convention the depots are placed as the first nodes in the coordinates
-matrix.}
-
-\item{min.dist.to.bounds}{[\code{numeric(1)}]\cr
-Minimal distance ratio of cluster centers to the bounding box. Default is 0,
-which means, that cluster centers can be located very close or even on the
-bounding box.}
+matrix. At the moment at most two depots are possible.}
 
 \item{distribution.strategy}{[\code{character(1)}]\cr
-Define the strategy to distribute n.points on the n.cluster clusters. Default
-is 'equally.distributed', which is the only option at the moment.}
+Define the strategy to distribute \code{n.points} on the \code{n.cluster} clusters.
+Default is \dQuote{equally.distributed}, which is the only option at the moment.}
 
 \item{cluster.centers}{[\code{matrix}]\cr
 Data frame of cluster centres of dimension \code{n.cluster} x \code{n.dim}. If

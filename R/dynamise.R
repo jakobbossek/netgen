@@ -2,7 +2,7 @@
 #'
 #' Some variante of the Vehicle Routing Problem (VRP) consider static as well
 #' as dynamic customers (nodes). This function takes a \code{Network} and
-#' dynamises it, i. e., it adds dynamic arrival times to the nodes via a
+#' dynamises it, i. e., it adds dynamic arrival times to the customers via a
 #' Poisson process.
 #'
 #' @param x [\code{Network}]\cr
@@ -54,8 +54,6 @@ dynamise = function(x, n.dynamic = NULL, dyn.customers.ratio = NULL, arrival.lim
     # sample arrival times according to Poisson process
     x$arrival.times[idx.dyn] = sampleArrivalTimes(n.dynamic, arrival.limit, 1 / rate)
 
-    # expect_true(sum(x$arrival.times != 0) == n.dynamic)
-    # expect_true(all(x$arrival.times <= arrival.limit))
     attr(x, "dyn.customers.ratio") = dyn.customers.ratio
     return(x)
 }

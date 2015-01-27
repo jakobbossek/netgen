@@ -1,9 +1,9 @@
 # Helper function for the computation of the distances to the nearest/farthest
 # neighbor cluster center.
 #
-# @param cluster.centers [\code{matrix}]\cr
+# @param cluster.centers [matrix]
 #   Numeric matrix. Each row corresponds to the coordinates of a cluster center.
-# @return [\code{list}]
+# @return [list]
 #   List of two elements.
 #   \describe{
 #     \item{min.distance}{Numeric vector of the distance to the nearest neighbor}

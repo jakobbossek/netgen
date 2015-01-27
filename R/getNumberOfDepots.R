@@ -6,5 +6,8 @@
 #' @export
 getNumberOfDepots = function(x) {
     assertClass(x, "Network")
-    nrow(x$depot.coordinates)
+    if (hasDepots(x)) {
+        return(nrow(x$depot.coordinates))
+    }
+    return(0L)
 }

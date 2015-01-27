@@ -12,7 +12,7 @@
 #'   Number of points for the instance.
 #' @param n.dim [\code{integer(1)}]\cr
 #'   Number of dimensions. Most often you want to generate 2-dimensional instances
-#'   in the euclidean plane. Thus 2 is the default setting.
+#'   in the euclidean plane. Thus \code{2L} is the default setting.
 #' @param generator [\code{function}]\cr
 #'   Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.
 #' @param lower [\code{numeric(1)}]\cr
@@ -23,21 +23,17 @@
 #'   Unnamed list of length \code{n.cluster} containing a covariance matrix
 #'   for each cluster. Default is \code{NULL}. In this case the covariance
 #'   matrix is a diagonal matrix containing the distance to the nearest
-#'   cluster center as diogonal elements.
+#'   cluster center as diagonal elements.
 #' @param n.depots [\code{integer(1)}]\cr
 #'   Number of depots in instances for the Vehicle Routing Problem (VRP).
-#'   Default is NULL, i. e., no depots. The proceeding is as follows:
-#'   If \code{n.depots} is 1, a random cluster center is defined to be the depot.
-#'   If \code{n.depots} is 2, the second depot has maximal distance to the first.
+#'   Default is \code{NULL}, i. e., no depots. The proceeding is as follows:
+#'   If \code{n.depots} is \code{1L}, a random cluster center is defined to be the depot.
+#'   If \code{n.depots} is \code{2L}, the second depot has maximal distance to the first.
 #'   By convention the depots are placed as the first nodes in the coordinates
-#'   matrix.
-#' @param min.dist.to.bounds [\code{numeric(1)}]\cr
-#'   Minimal distance ratio of cluster centers to the bounding box. Default is 0,
-#'   which means, that cluster centers can be located very close or even on the
-#'   bounding box.
+#'   matrix. At the moment at most two depots are possible.
 #' @param distribution.strategy [\code{character(1)}]\cr
-#'   Define the strategy to distribute n.points on the n.cluster clusters. Default
-#'   is 'equally.distributed', which is the only option at the moment.
+#'   Define the strategy to distribute \code{n.points} on the \code{n.cluster} clusters.
+#'   Default is \dQuote{equally.distributed}, which is the only option at the moment.
 #' @param cluster.centers [\code{matrix}]\cr
 #'   Data frame of cluster centres of dimension \code{n.cluster} x \code{n.dim}. If
 #'   this is set, cluster centres are not generated automatically.
@@ -69,7 +65,6 @@ generateClusteredInstance = function(n.cluster,
     upper = 1,
     sigmas = NULL,
     n.depots = NULL,
-    min.dist.to.bounds = 0,
     distribution.strategy = "equally.distributed",
     cluster.centers = NULL,
     out.of.bounds.handling = "reset",
@@ -78,13 +73,13 @@ generateClusteredInstance = function(n.cluster,
     # do a load of sanity checks
     doSanityChecks(n.cluster, n.points, n.dim,
         generator, lower, upper, sigmas,
-        n.depots, min.dist.to.bounds, distribution.strategy,
+        n.depots, distribution.strategy,
         cluster.centers, out.of.bounds.handling)
 
     if (is.null(cluster.centers)) {
         cluster.centers = generateClusterCenters(
             n.cluster, n.dim, generator,
-            lower, upper, min.dist.to.bounds
+            lower, upper
         )
     }
 
@@ -94,7 +89,6 @@ generateClusteredInstance = function(n.cluster,
     # compute distances and ids to/of nearest neighbor cluster centers
     distances = computeDistancesToNearestClusterCenter(cluster.centers)
 
-    #FIXME: make function out of this!
     if (!is.null(n.depots)) {
         depot.coordinates = buildDepots(n.depots, cluster.centers, distances)
     }
@@ -119,8 +113,6 @@ generateClusteredInstance = function(n.cluster,
             n = n.points.in.cluster[i],
             sigma = sigma
         )
-        # the.coordinates = as.data.frame(the.coordinates)
-        # colnames(the.coordinates) = paste("x", 1:2, sep = "")
         membership[[i]] = rep(i, n.points.in.cluster[i])
         coordinates[[i]] = the.coordinates
     }
@@ -138,7 +130,6 @@ generateClusteredInstance = function(n.cluster,
     )
 }
 
-
 # Performs all the sanity checks for generateClusteredInstance.
 #
 # @params See params of generateClusteredInstance.
@@ -151,7 +142,6 @@ doSanityChecks = function(n.cluster,
     upper = 1,
     sigmas = NULL,
     n.depots = NULL,
-    min.dist.to.bounds = 0,
     distribution.strategy = "equally.distributed",
     cluster.centers = NULL,
     out.of.bounds.handling = "reset") {
@@ -169,11 +159,9 @@ doSanityChecks = function(n.cluster,
     }
 
     if (!is.null(n.depots)) {
-        #FIXME: think about upper limit here
         assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
     }
 
-    assertNumber(min.dist.to.bounds, lower = 0, upper = 1, na.ok = FALSE)
     assertChoice(distribution.strategy, choices = getPointDistributionStrategies())
 
     if (lower >= upper) {
@@ -189,70 +177,4 @@ doSanityChecks = function(n.cluster,
             }
         }
     }
-}
-
-# Select cluster centers to form depots.
-#
-# @param n.depots [integer(1)]
-#   Number of depots. Currently at most 2.
-# @param cluster.centers [\matrix]
-#   Matrix containing the coordinates of the cluster centers.
-# @param distances [list]
-#   See return value of computeDistancesToNearestClusterCenters.
-# @return [matrix]
-#   Coordinates of the depots.
-buildDepots = function(n.depots, cluster.centers, distances) {
-    n.cluster = nrow(cluster.centers)
-    # get first depot randomly
-    depot.1.idx = sample(seq(n.cluster), 1L)
-    depot.coordinates = matrix(cluster.centers[depot.1.idx, ], nrow = 1L)
-    if (n.depots == 2L) {
-        depot.2.idx = distances$max.distance.idx[depot.1.idx]
-        depot.coordinates = rbind(depot.coordinates, matrix(cluster.centers[depot.2.idx, ], nrow = 1L))
-    }
-    return(depot.coordinates)
-}
-
-# Force coordinates out of bounds to bounds.
-#
-# @param coordinates [matrix | data.frame]
-#   Coordinates.
-# @param out.of.bounds.handling, [character(1)]
-#   Strategy to handle out of bounds coordinates.
-# @param lower [numeric(1)]
-#   Lower bound for cube.
-# @param upper [numeric(1)]
-#   Upper bound for cube.
-# @return [data.frame]
-forceToBounds = function(coordinates, out.of.bounds.handling, lower = 0, upper = 1) {
-    if (out.of.bounds.handling == "reset") {
-        return(pmin(pmax(coordinates, lower), upper))
-    } else if (out.of.bounds.handling == "mirror") {
-        for (i in seq(ncol(coordinates))) {
-            idx.lower = which(coordinates[, i] < lower)
-            coordinates[idx.lower, i] = lower + abs(coordinates[idx.lower, i] - lower)
-            idx.upper = which(coordinates[, i] > upper)
-            coordinates[idx.upper, i] = upper - abs(coordinates[idx.upper, i] - upper)
-        }
-        return(coordinates)
-    }
-}
-
-#' Get network information as a character string.
-#'
-#' @param x [\code{Network}]\cr
-#'   Network.
-#' @param ... [any]\cr
-#'   Not used at the moment.
-#' @return [\code{character(1)}]
-as.character.Network = function(x, ...)   {
-    n.points = getNumberOfNodes(x)
-    n.clusters = getNumberOfClusters(x)
-
-    char = paste("#Nodes:", n.points)
-    if (n.clusters > 1L)
-        char = paste(char, ", #Clusters:", n.clusters)
-    if (hasAttributes(x, "morphed"))
-        char = paste(char, "\n(Morphing coefficient ", attr(x, "morphing.grade"), ")", sep = "")
-    char
 }

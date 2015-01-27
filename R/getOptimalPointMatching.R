@@ -13,6 +13,16 @@
 #' @seealso \code{\link{visualizePointMatching}}
 #' @export
 getOptimalPointMatching = function(coords1, coords2) {
+    assertMatrix(coords1, mode = "numeric")
+    assertMatrix(coords2, mode = "numeric")
+    if (ncol(coords1) > 2L || ncol(coords2) > 2L) {
+        stopf("At the moment only 2-dimensional point sets can be matched.")
+    }
+
+    if (!all(dim(coords1) == dim(coords2))) {
+        stopf("Both matrizes need to have the same dimensions.")
+    }
+
     dist.matrix = matrix(nrow = nrow(coords1), ncol = nrow(coords2))
     for (i in seq(nrow(coords1))) {
         for (j in seq(nrow(coords2))) {
@@ -36,5 +46,5 @@ getOptimalPointMatching = function(coords1, coords2) {
     #FIXME: what the fuck is going on here??? Each line consists of exactly one 1
     # but R does not find it! if I ask for != 0, it works! -.-w
     #res[, 2] = as.numeric(apply(lp.res, 1, function(row) as.numeric(which(row == 1))))
-    res
+    return(res)
 }
