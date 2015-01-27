@@ -23,10 +23,10 @@ By convention the depots are placed as the first nodes in the coordinates
 matrix.}
 
 \item{lower}{[\code{numeric(1)}]\cr
-Lower bound of cube.}
+Lower box constraint of cube.}
 
 \item{upper}{[\code{numeric(1)}]\cr
-Upper bound of cube.}
+Upper box constraint of cube.}
 }
 \value{
 [\code{Network}]

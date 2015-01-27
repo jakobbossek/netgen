@@ -5,9 +5,9 @@
 # @param out.of.bounds.handling, [character(1)]
 #   Strategy to handle out of bounds coordinates.
 # @param lower [numeric(1)]
-#   Lower bound for cube.
+#   Lower box constaint for cube.
 # @param upper [numeric(1)]
-#   Upper bound for cube.
+#   Upper box constaint for cube.
 # @return [data.frame]
 forceToBounds = function(coordinates, out.of.bounds.handling, lower = 0, upper = 1) {
     if (out.of.bounds.handling == "reset") {

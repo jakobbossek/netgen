@@ -6,9 +6,9 @@
 #'   Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
 #'   means no depots at all.
 #' @param lower [\code{numeric(1)}]\cr
-#'   Lower bound of bounding box.
+#'   Lower box constraint of cube.
 #' @param upper [\code{numeric(1)}]\cr
-#'   Upper bound of bounding box.
+#'   Upper box constraint of cube.
 #' @return [\code{Network}]
 #' @export
 makeNetwork = function(coordinates, depot.coordinates = NULL, lower = 0, upper = 1) {
@@ -35,9 +35,9 @@ makeNetwork = function(coordinates, depot.coordinates = NULL, lower = 0, upper =
 #' @param membership [\code{numeric}]\cr
 #'   Vector of memberships.
 #' @param lower [\code{numeric(1)}]\cr
-#'   Lower bound of bounding box.
+#'   Lower box constraint of cube.
 #' @param upper [\code{numeric(1)}]\cr
-#'   Upper bound of bounding box.
+#'   Upper box constraint of cube.
 #' @return [\code{ClusteredNetwork}]
 #' @export
 makeClusteredNetwork = function(coordinates, depot.coordinates = NULL, membership, lower = 0, upper = 1) {

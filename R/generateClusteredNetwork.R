@@ -16,9 +16,9 @@
 #' @param generator [\code{function}]\cr
 #'   Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.
 #' @param lower [\code{numeric(1)}]\cr
-#'   Lower bound for cube. Default is \code{0}. Other
+#'   Lower box constaint for cube. Default is \code{0}.
 #' @param upper [\code{numeric(1)}]\cr
-#'   Upper bound for cube.
+#'   Upper box constaint for cube. Default is \code{100}.
 #' @param sigmas [\code{list} | \code{NULL}]\cr
 #'   Unnamed list of length \code{n.cluster} containing a covariance matrix
 #'   for each cluster. Default is \code{NULL}. In this case the covariance
@@ -41,8 +41,8 @@
 #' @param out.of.bounds.handling [\code{character(1)}]\cr
 #'   Clusters are generated on base of a multivariate gaussian distribution with
 #'   the cluster center as the mean vector. Possibly some of the points might fall
-#'   out of bounds, i. e., get coordinates larger than upper or lower than lower.
-#'   There are two strategies to force them to stick to the bounds:
+#'   out of bounds, i. e., get coordinates larger than \code{upper} or lower than
+#'   \code{lower}. There are two strategies to force them to stick to the bounds:
 #'   \describe{
 #'     \item{\dQuote{reset}}{Set the violating coordinates to the bounds.}
 #'     \item{\dQuote{mirror}}{Mirror the coordinates at the violated axis.}
@@ -62,7 +62,7 @@ generateClusteredNetwork = function(n.cluster,
     n.dim = 2L,
     generator = lhs::maximinLHS,
     lower = 0,
-    upper = 1,
+    upper = 100,
     sigmas = NULL,
     n.depots = NULL,
     distribution.strategy = "equally.distributed",

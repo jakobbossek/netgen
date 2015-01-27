@@ -3,9 +3,9 @@
 # @param pl [ggplot]
 #   Object to decorate.
 # @param lower [numeric(1)]
-#   Lower bound for plot.
+#   Lower box constaint for cube.
 # @param upper [numeric(1)]
-#   Upper bound for plot.
+#   Upper box constaint for cube.
 # @return [ggplot]
 #   Decorated plot object.
 decorateGGPlot = function(pl, lower, upper) {

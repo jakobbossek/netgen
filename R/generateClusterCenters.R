@@ -8,9 +8,9 @@
 # @param n.dims [\code{integer(1)}]\cr
 #   Number of dimensions. Default is 2.
 # @param lower [\code{numeric(1)}]\cr
-#   Lower bound for cube.
+#   Lower box constaint for cube.
 # @param upper [\code{numeric(1)}]\cr
-#   Upper bound for cube.
+#   Upper box constaint for cube.
 # @return [\code{matrix}]
 #   Cluster center matrix. Each row contains the coordinates of one cluster center.
 generateClusterCenters = function(

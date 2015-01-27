@@ -20,10 +20,10 @@ means no depots at all.}
 Vector of memberships.}
 
 \item{lower}{[\code{numeric(1)}]\cr
-Lower bound of bounding box.}
+Lower box constraint of cube.}
 
 \item{upper}{[\code{numeric(1)}]\cr
-Upper bound of bounding box.}
+Upper box constraint of cube.}
 }
 \value{
 [\code{ClusteredNetwork}]

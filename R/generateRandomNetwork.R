@@ -12,9 +12,9 @@
 #'   By convention the depots are placed as the first nodes in the coordinates
 #'   matrix.
 #' @param lower [\code{numeric(1)}]\cr
-#'   Lower bound of cube.
+#'   Lower box constraint of cube.
 #' @param upper [\code{numeric(1)}]\cr
-#'   Upper bound of cube.
+#'   Upper box constraint of cube.
 #' @return [\code{Network}]
 #' @examples
 #'   x = generateRandomNetwork(n.points = 100L, n.depots = 2L, upper = 50)
