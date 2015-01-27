@@ -27,8 +27,8 @@ Default is \code{0}.}
 Draw the points and lines between the matched points for visualization.
 }
 \examples{
-x = generateRandomInstance(n.points = 20L, upper = 100)
-  y = generateClusteredInstance(n.points = 20L, n.cluster = 2L, upper = 100)
+x = generateRandomNetwork(n.points = 20L, upper = 100)
+  y = generateClusteredNetwork(n.points = 20L, n.cluster = 2L, upper = 100)
   \dontrun{
   pm = getOptimalPointMatching(x$coordinates, y$coordinates)
   print(visualizePointMatching(x, y, pm, highlight.longest = 2L))

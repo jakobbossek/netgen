@@ -8,14 +8,14 @@ test_that("dynamize works as expected", {
     arrival.limit = 20
 
     # check n.dynamic
-    x = generateRandomInstance(n.points = 100L)
+    x = generateRandomNetwork(n.points = 100L)
     x = dynamise(x, n.dynamic = n.dynamic, arrival.limit = arrival.limit)
     expect_false(is.null(x$arrival.times))
     expect_equal(sum(x$arrival.times > 0), n.dynamic)
 
     # check dyn.customers.ratio
     for (dyn.customers.ratio in dyn.customers.ratios) {
-        x = generateRandomInstance(n.points = n.points, n.depots = 2L)
+        x = generateRandomNetwork(n.points = n.points, n.depots = 2L)
         x = dynamise(x, dyn.customers.ratio = dyn.customers.ratio, arrival.limit = arrival.limit)
         expect_false(is.null(x$arrival.times))
         expected.n.dynamic = dyn.customers.ratio * n.points

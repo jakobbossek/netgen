@@ -13,8 +13,8 @@
 #'   Default is \code{0}.
 #' @return [\code{\link[ggplot2]{ggplot}}]
 #' @examples
-#'   x = generateRandomInstance(n.points = 20L, upper = 100)
-#'   y = generateClusteredInstance(n.points = 20L, n.cluster = 2L, upper = 100)
+#'   x = generateRandomNetwork(n.points = 20L, upper = 100)
+#'   y = generateClusteredNetwork(n.points = 20L, n.cluster = 2L, upper = 100)
 #'   \dontrun{
 #'   pm = getOptimalPointMatching(x$coordinates, y$coordinates)
 #'   print(visualizePointMatching(x, y, pm, highlight.longest = 2L))

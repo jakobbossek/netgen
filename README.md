@@ -24,19 +24,19 @@ install_github("jakobbossek/netgen")
 ## Quickstart
 
 To generate a random network in the euclidean plane [0,1] x [0,1] we simply
-load the package and call the `generateRandomInstance` function, providing the
+load the package and call the `generateRandomNetwork` function, providing the
 desired number of nodes.
 
 ```splus
 library(netgen)
 set.seed(123)
-x = generateRandomInstance(n.points = 50L)
+x = generateRandomNetwork(n.points = 50L)
 print(x)
 autoplot(x)
 ```
 
 To generate a network with points distributed around several clusters in the
-[0,100] x [0, 100] space make use of the more powerful `generateClusteredInstance`
+[0,100] x [0, 100] space make use of the more powerful `generateClusteredNetwork`
 function. It is mandatory to provide the number of points `n.points` and the number of clusters `n.cluster`.
 
 **Note:** See the documentation of the function to read about how it works internally.
@@ -44,7 +44,7 @@ function. It is mandatory to provide the number of points `n.points` and the num
 ```splus
 library(netgen)
 set.seed(1)
-y = generateClusteredInstance(n.cluster = 5L, n.points = 150, upper = 100)
+y = generateClusteredNetwork(n.cluster = 5L, n.points = 150, upper = 100)
 print(x)
 autoplot(x)
 ```

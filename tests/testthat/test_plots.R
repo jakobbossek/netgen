@@ -9,24 +9,24 @@ test_that("all of our plots produce nice gglot2 objects", {
     }
 
     # no cluster, no depots
-    x = generateRandomInstance(n.points = 20L)
+    x = generateRandomNetwork(n.points = 20L)
     expect_is_ggplot(autoplot(x))
 
     # no cluster, with depots
-    x = generateRandomInstance(n.points = 20L, n.depots = 2L, upper = 100)
+    x = generateRandomNetwork(n.points = 20L, n.depots = 2L, upper = 100)
     expect_is_ggplot(autoplot(x))
 
     # some clusters, no depots
-    x = generateClusteredInstance(n.points = 20L, n.cluster = 2L)
+    x = generateClusteredNetwork(n.points = 20L, n.cluster = 2L)
     expect_is_ggplot(autoplot(x))
 
     # some clusters, with depots
-    x = generateClusteredInstance(n.points = 20L, n.cluster = 2L, n.depots = 2L)
+    x = generateClusteredNetwork(n.points = 20L, n.cluster = 2L, n.depots = 2L)
     expect_is_ggplot(autoplot(x))
 
     # autoplot morphed instance
-    x = generateRandomInstance(n.points = 10L, upper = 20)
-    y = generateClusteredInstance(n.points = 10L, n.cluster = 2L, upper = 20)
+    x = generateRandomNetwork(n.points = 10L, upper = 20)
+    y = generateClusteredNetwork(n.points = 10L, n.cluster = 2L, upper = 20)
     z = morphInstances(x, y, alpha = 0.3)
     expect_is_ggplot(autoplot(z))
 
@@ -38,8 +38,8 @@ test_that("all of our plots produce nice gglot2 objects", {
     }
 
     # test visualization of point matchings
-    x = generateRandomInstance(n.points = 10L)
-    y = generateClusteredInstance(n.points = 10L, n.cluster = 2L)
+    x = generateRandomNetwork(n.points = 10L)
+    y = generateClusteredNetwork(n.points = 10L, n.cluster = 2L)
     pm = netgen::getOptimalPointMatching(x$coordinates, y$coordinates)
     pl = visualizePointMatching(x, y, pm)
     expect_is_ggplot(pl)

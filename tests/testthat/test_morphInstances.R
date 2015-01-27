@@ -6,8 +6,8 @@ test_that("morphing generates a network", {
     n.points = 30L
     n.depots = 2L
     for (i in seq(reps)) {
-        x = generateRandomInstance(n.points = n.points)
-        y = generateClusteredInstance(n.points = n.points, n.cluster = sample(2:3, 1))
+        x = generateRandomNetwork(n.points = n.points)
+        y = generateClusteredNetwork(n.points = n.points, n.cluster = sample(2:3, 1))
 
         z = morphInstances(x, y, alpha = 0.5)
         expect_is(z, "Network")
@@ -16,13 +16,13 @@ test_that("morphing generates a network", {
     }
 
     # check that fails if we have different number of nodes
-    x = generateRandomInstance(n.points = n.points)
-    y = generateRandomInstance(n.points = 2 * n.points)
+    x = generateRandomNetwork(n.points = n.points)
+    y = generateRandomNetwork(n.points = 2 * n.points)
     expect_error(morphInstances(x, y, alpha = 0.5))
 
     # check that depots are preserved
-    x = generateRandomInstance(n.points = n.points, n.depots = n.depots)
-    y = generateClusteredInstance(n.points = n.points, n.cluster = 2L, n.depots = n.depots)
+    x = generateRandomNetwork(n.points = n.points, n.depots = n.depots)
+    y = generateClusteredNetwork(n.points = n.points, n.cluster = 2L, n.depots = n.depots)
     z = morphInstances(x, y, alpha = 0.5)
 
     expect_is(z, "Network")

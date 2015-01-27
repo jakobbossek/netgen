@@ -17,9 +17,9 @@
 #'   Upper bound of cube.
 #' @return [\code{Network}]
 #' @examples
-#'   x = generateRandomInstance(n.points = 100L, n.depots = 2L, upper = 50)
+#'   x = generateRandomNetwork(n.points = 100L, n.depots = 2L, upper = 50)
 #' @export
-generateRandomInstance = function(n.points, n.dim = 2L, n.depots = NULL, lower = 0, upper = 1) {
+generateRandomNetwork = function(n.points, n.dim = 2L, n.depots = NULL, lower = 0, upper = 1) {
     assertCount(n.points, na.ok = FALSE)
     assertInteger(n.dim, len = 1L, any.missing = FALSE, lower = 2L)
 

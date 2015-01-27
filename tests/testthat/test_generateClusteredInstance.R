@@ -16,16 +16,16 @@ test_that("generate clustered instance works as expected", {
     }
 
     # WITHOUT DEPOTS
-    x = generateClusteredInstance(n.cluster, n.points, upper = upper)
+    x = generateClusteredNetwork(n.cluster, n.points, upper = upper)
     checkClusteredInstance(x, n.cluster, n.points, upper = upper)
 
     # check mirroring strategy
-    x = generateClusteredInstance(n.cluster, n.points, upper = upper, out.of.bounds.handling = "mirror")
+    x = generateClusteredNetwork(n.cluster, n.points, upper = upper, out.of.bounds.handling = "mirror")
     checkClusteredInstance(x, n.cluster, n.points, upper = upper)
 
 
     #FIXME: reenable when "random.partition" is finished
-    # x = generateClusteredInstance(n.cluster, n.points, distribution.strategy = "random.partition")
+    # x = generateClusteredNetwork(n.cluster, n.points, distribution.strategy = "random.partition")
     # checkClusteredInstance(x, n.cluster, n.points)
 
     # check if as.data.frame works as expected
@@ -40,7 +40,7 @@ test_that("generate clustered instance works as expected", {
 
 
     # WITH DEPOTS
-    x = generateClusteredInstance(n.cluster, n.points, n.depots = n.depots)
+    x = generateClusteredNetwork(n.cluster, n.points, n.depots = n.depots)
     # in this case we have to nodes (the depots) more!
     checkClusteredInstance(x, n.cluster, n.points)
 

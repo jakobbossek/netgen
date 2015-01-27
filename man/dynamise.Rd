@@ -33,11 +33,11 @@ dynamises it, i. e., it adds dynamic arrival times to the customers via a
 Poisson process.
 }
 \examples{
-x = generateClusteredInstance(n.points = 100L, n.cluster = 4L, upper = 100, n.depots = 2L)
+x = generateClusteredNetwork(n.points = 100L, n.cluster = 4L, upper = 100, n.depots = 2L)
   x = dynamise(x, dyn.customers.ratio = 0.3, arrival.limit = 400)
   print(x)
 }
 \seealso{
-\code{\link{generateRandomInstance}}, \code{\link{generateClusteredInstance}}
+\code{\link{generateRandomNetwork}}, \code{\link{generateClusteredNetwork}}
 }
 

@@ -53,11 +53,11 @@
 #' @return [\code{ClusteredNetwork}]
 #'   Object of type \code{ClusteredNetwork}.
 #' @examples
-#'   x = generateClusteredInstance(n.points = 20L, n.cluster = 2L)
-#'   y = generateClusteredInstance(n.points = 40L, n.cluster = 3L, n.depots = 2L)
-#' @seealso \code{\link{generateRandomInstance}}
+#'   x = generateClusteredNetwork(n.points = 20L, n.cluster = 2L)
+#'   y = generateClusteredNetwork(n.points = 40L, n.cluster = 3L, n.depots = 2L)
+#' @seealso \code{\link{generateRandomNetwork}}
 #' @export
-generateClusteredInstance = function(n.cluster,
+generateClusteredNetwork = function(n.cluster,
     n.points,
     n.dim = 2L,
     generator = lhs::maximinLHS,
@@ -130,9 +130,9 @@ generateClusteredInstance = function(n.cluster,
     )
 }
 
-# Performs all the sanity checks for generateClusteredInstance.
+# Performs all the sanity checks for generateClusteredNetwork.
 #
-# @params See params of generateClusteredInstance.
+# @params See params of generateClusteredNetwork.
 # @return Nothing
 doSanityChecks = function(n.cluster,
     n.points,

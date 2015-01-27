@@ -19,10 +19,10 @@
 #'   Modified network (now has an additional list element 'arrival.times') and the
 #'   ratio of dynamic customers as an attribute.
 #' @examples
-#'   x = generateClusteredInstance(n.points = 100L, n.cluster = 4L, upper = 100, n.depots = 2L)
+#'   x = generateClusteredNetwork(n.points = 100L, n.cluster = 4L, upper = 100, n.depots = 2L)
 #'   x = dynamise(x, dyn.customers.ratio = 0.3, arrival.limit = 400)
 #'   print(x)
-#' @seealso \code{\link{generateRandomInstance}}, \code{\link{generateClusteredInstance}}
+#' @seealso \code{\link{generateRandomNetwork}}, \code{\link{generateClusteredNetwork}}
 #' @export
 dynamise = function(x, n.dynamic = NULL, dyn.customers.ratio = NULL, arrival.limit) {
     assertClass(x, "Network")
