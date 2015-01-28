@@ -5,11 +5,28 @@
 #'
 #' @param object [\code{Network}]\cr
 #'   Instance to visualize.
+#' @param path [\code{integer}]\cr
+#'   An integer vector containing the order of cities of a path. Keep in mind,
+#'   that instances with \eqn{n} nodes and \eqn{m} depots have \eqn{n + m}
+#'   coordinates, with the \eqn{1,\\ldots,m} first coordinates belonging to
+#'   the depots.
+#' @param close.path [\code{logical(1)}]\cr
+#'   Logical indicating whether the path passed by \code{path} should be
+#'   closed to a cycle. Default is \code{FALSE}.
 #' @param ... [any]\cr
 #'   Currently not used.
 #' @return [\code{\link[ggplot2]{ggplot}}]
+#' @examples
+#'   # here we have no depots ...
+#'   x = generateClusteredNetwork(n.points = 30L, n.cluster = 2L)
+#'   pl = autoplot(x, path = 1:3)
+#'   # ... and here we have two depots: the path visits the depots in this case
+#'   x = generateRandomNetwork(n.points = 30L, n.depots = 2L)
+#'   pl = autoplot(x, path = 1:3)
 #' @export
-autoplot.Network = function(object, ...) {
+autoplot.Network = function(object,
+    path = NULL, close.path = FALSE,
+    ...) {
     if (ncol(object$coordinates) > 2L) {
         stopf("Only 2-dimensional networks can be plotted.")
     }
@@ -24,7 +41,7 @@ autoplot.Network = function(object, ...) {
     if (hasDepots(object)) {
         depot.idx = which(df$types == "depot")
         df.depots = df[depot.idx, ]
-        df = df[-depot.idx, ]
+        #df = df[-depot.idx, ] # can be deleted
     }
 
     pl = ggplot(data = df, mapping = aes_string(x = "x1", y = "x2"))
@@ -33,6 +50,17 @@ autoplot.Network = function(object, ...) {
     } else {
         pl = pl + geom_point(colour = "tomato")
     }
+
+    if (!is.null(path)) {
+        assertInteger(path, min.len = 2L, any.missing = FALSE)
+        assertFlag(close.path)
+        if (close.path) {
+            path = c(path, path[1])
+        }
+        path.coords = df[path, ]
+        pl = pl + geom_path(data = path.coords, colour = "tomato")
+    }
+
     if (hasDepots(object)) {
         pl = pl + geom_point(data = df.depots, colour = "black", size = 4)
         pl = pl + geom_point(data = df.depots, colour = "white", size = 3)

@@ -4,11 +4,21 @@
 \alias{autoplot.Network}
 \title{Autoplot function.}
 \usage{
-\method{autoplot}{Network}(object, ...)
+\method{autoplot}{Network}(object, path = NULL, close.path = FALSE, ...)
 }
 \arguments{
 \item{object}{[\code{Network}]\cr
 Instance to visualize.}
+
+\item{path}{[\code{integer}]\cr
+An integer vector containing the order of cities of a path. Keep in mind,
+that instances with \eqn{n} nodes and \eqn{m} depots have \eqn{n + m}
+coordinates, with the \eqn{1,\\ldots,m} first coordinates belonging to
+the depots.}
+
+\item{close.path}{[\code{logical(1)}]\cr
+Logical indicating whether the path passed by \code{path} should be
+closed to a cycle. Default is \code{FALSE}.}
 
 \item{...}{[any]\cr
 Currently not used.}
@@ -19,5 +29,13 @@ Currently not used.}
 \description{
 Generates a \code{\link[ggplot2]{ggplot}} object. Nice possibility to
 visualize 2-dimensional (clustered) networks in the euclidean plane.
+}
+\examples{
+# here we have no depots ...
+  x = generateClusteredNetwork(n.points = 30L, n.cluster = 2L)
+  pl = autoplot(x, path = 1:3)
+  # ... and here we have two depots: the path visits the depots in this case
+  x = generateRandomNetwork(n.points = 30L, n.depots = 2L)
+  pl = autoplot(x, path = 1:3)
 }
 
