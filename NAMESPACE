@@ -2,6 +2,7 @@
 
 S3method(as.character,Network)
 S3method(as.data.frame,Network)
+S3method(as.matrix,Network)
 S3method(autoplot,Network)
 S3method(print,Network)
 export(dynamise)

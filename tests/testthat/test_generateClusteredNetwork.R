@@ -29,17 +29,6 @@ test_that("generate clustered network works as expected", {
     # x = generateClusteredNetwork(n.cluster, n.points, lower = lower, distribution.strategy = "random.partition")
     # checkClusteredInstance(x, n.cluster, lower = lower, n.points)
 
-    # check if as.data.frame works as expected
-    df = as.data.frame(x)
-    expect_equal(nrow(df), n.points)
-    expect_equal(ncol(df), 4L) # two dimensions plus membership column
-
-    df = as.data.frame(x, include.extras = FALSE)
-
-    expect_equal(nrow(df), n.points)
-    expect_equal(ncol(df), 2L) # no membership column
-
-
     # WITH DEPOTS
     x = generateClusteredNetwork(n.cluster, n.points, lower = lower, upper = upper, n.depots = n.depots)
     # in this case we have to nodes (the depots) more!
