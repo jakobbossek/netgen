@@ -12,7 +12,7 @@ test_that("morphing generates a network", {
         z = morphInstances(x, y, alpha = 0.5)
         expect_is(z, "Network")
         expect_equal(getNumberOfNodes(z), n.points)
-        expect_true(all(z$coordinates >= 0) && all(z$coordinates <= 1))
+        expect_true(all(z$coordinates >= 0) && all(z$coordinates <= 100))
     }
 
     # check that fails if we have different number of nodes
