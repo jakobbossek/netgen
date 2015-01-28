@@ -30,4 +30,8 @@ Currently not used.}
 \description{
 Convert (clustered) instance to data frame.
 }
+\note{
+If the instance contains of \eqn{n} depots, the depot coordinates fill the
+  \eqn{n} rows of the data frame.
+}
 
