@@ -1,6 +1,8 @@
-# .travis.yml
-
 language: c
+
+env:
+  - global:
+    - WARNINGS_ARE_ERRORS=1
 
 before_install:
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
@@ -10,8 +12,12 @@ install:
   - ./travis-tool.sh github_package hadley/testthat
   - ./travis-tool.sh github_package hadley/assertthat
   - ./travis-tool.sh github_package berndbischl/BBmisc
+  - ./travis-tool.sh github_package jimhester/covr
   - ./travis-tool.sh install_deps
 script: ./travis-tool.sh run_tests
+
+after_success:
+  - Rscript -e 'library(covr);coveralls()'
 
 after_failure:
   - ./travis-tool.sh dump_logs
