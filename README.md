@@ -1,6 +1,7 @@
 # netgen: Generating random (clustered) networks in R
 
-Travis CI build status: [![Build Status](https://travis-ci.org/jakobbossek/netgen.svg?branch=master)](https://travis-ci.org/jakobbossek/netgen)
+[![Build Status](https://travis-ci.org/jakobbossek/netgen.svg?branch=master)](https://travis-ci.org/jakobbossek/netgen)
+[![Coverage Status](https://coveralls.io/repos/jakobbossek/netgen/badge.svg)](https://coveralls.io/r/jakobbossek/netgen)
 
 ## Descritption
 
