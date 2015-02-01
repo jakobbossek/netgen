@@ -4,7 +4,8 @@
 \alias{autoplot.Network}
 \title{Autoplot function.}
 \usage{
-\method{autoplot}{Network}(object, path = NULL, close.path = FALSE, ...)
+\method{autoplot}{Network}(object, path = NULL, close.path = FALSE,
+  path.colour = "gray", ...)
 }
 \arguments{
 \item{object}{[\code{Network}]\cr
@@ -19,6 +20,9 @@ the depots.}
 \item{close.path}{[\code{logical(1)}]\cr
 Logical indicating whether the path passed by \code{path} should be
 closed to a cycle. Default is \code{FALSE}.}
+
+\item{path.colour}{[\code{character(1)}]\cr
+Colour of the lines linking nodes on a path. Default is \dQuote{gray}.}
 
 \item{...}{[any]\cr
 Currently not used.}

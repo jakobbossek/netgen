@@ -13,6 +13,8 @@
 #' @param close.path [\code{logical(1)}]\cr
 #'   Logical indicating whether the path passed by \code{path} should be
 #'   closed to a cycle. Default is \code{FALSE}.
+#' @param path.colour [\code{character(1)}]\cr
+#'   Colour of the lines linking nodes on a path. Default is \dQuote{gray}.
 #' @param ... [any]\cr
 #'   Currently not used.
 #' @return [\code{\link[ggplot2]{ggplot}}]
@@ -25,7 +27,7 @@
 #'   pl = autoplot(x, path = 1:3)
 #' @export
 autoplot.Network = function(object,
-    path = NULL, close.path = FALSE,
+    path = NULL, close.path = FALSE, path.colour = "gray",
     ...) {
     if (ncol(object$coordinates) > 2L) {
         stopf("Only 2-dimensional networks can be plotted.")
@@ -45,20 +47,22 @@ autoplot.Network = function(object,
     }
 
     pl = ggplot(data = df, mapping = aes_string(x = "x1", y = "x2"))
-    if (!is.null(df$membership)) {
-        pl = pl + geom_point(aes_string(colour = "membership"))
-    } else {
-        pl = pl + geom_point(colour = "tomato")
-    }
 
     if (!is.null(path)) {
         assertInteger(path, min.len = 2L, any.missing = FALSE)
+        assertCharacter(path.colour, len = 1L, any.missing = FALSE)
         assertFlag(close.path)
         if (close.path) {
             path = c(path, path[1])
         }
         path.coords = df[path, ]
-        pl = pl + geom_path(data = path.coords, colour = "tomato")
+        pl = pl + geom_path(data = path.coords, colour = path.colour)
+    }
+
+    if (!is.null(df$membership)) {
+        pl = pl + geom_point(aes_string(colour = "membership"))
+    } else {
+        pl = pl + geom_point(colour = "tomato")
     }
 
     if (hasDepots(object)) {
