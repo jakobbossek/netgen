@@ -7,12 +7,16 @@ test_that("generate clustered network works as expected", {
     upper = 100
     n.depots = 2L
 
-    checkClusteredInstance = function(x, n.cluster, n.points, lower = 0, upper = 1) {
+    checkClusteredInstance = function(x, n.cluster, n.points, n.depots = 0L, lower = 0, upper = 100) {
         expect_is(x, "Network")
         expect_is(x, "ClusteredNetwork")
         expect_equal(n.cluster, getNumberOfClusters(x))
         expect_true(length(setdiff(n.cluster, unique(x$membership))) == 0)
         expect_equal(n.points, getNumberOfNodes(x))
+        expect_equal(n.depots, getNumberOfDepots(x))
+        if (n.depots == 0L) {
+            expect_error(getDepotCoordinates(x))
+        }
         expect_true(all(x$coordinates <= upper))
         expect_true(all(x$coordinates >= lower))
     }
@@ -32,8 +36,17 @@ test_that("generate clustered network works as expected", {
     # WITH DEPOTS
     x = generateClusteredNetwork(n.cluster, n.points, lower = lower, upper = upper, n.depots = n.depots)
     # in this case we have to nodes (the depots) more!
-    checkClusteredInstance(x, n.cluster, n.points, lower = lower, upper = upper)
+    checkClusteredInstance(x, n.cluster, n.points, n.depots = 2L, lower = lower, upper = upper)
 
+    # WITH CUSTOM CLUSTER CENTERS
+    x = generateClusteredNetwork(n.cluster = 10L, n.points, cluster.centers = matrix(c(10, 10, 40, 40), ncol = 2, byrow = TRUE))
+    checkClusteredInstance(x, n.cluster = 2L, n.points)
+
+    # WITH CUSTOM COVARIANCE MATRIZES
+    sigma1 = 5 * diag(2)
+    sigma2 = matrix(c(5, 1, 1, 5), ncol = 2, byrow = TRUE)
+    sigmas = list(sigma1, sigma2)
+    x = generateClusteredNetwork(n.cluster = 2L, n.points = 40L, sigmas = sigmas)
     # check plotting
     library(ggplot2)
     pl = autoplot(x)

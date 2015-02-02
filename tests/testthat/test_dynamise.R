@@ -9,6 +9,7 @@ test_that("dynamize works as expected", {
 
     # check n.dynamic
     x = generateRandomNetwork(n.points = 100L)
+    expect_error(dynamise(x))
     x = dynamise(x, n.dynamic = n.dynamic, arrival.limit = arrival.limit)
     expect_false(is.null(x$arrival.times))
     expect_equal(sum(x$arrival.times > 0), n.dynamic)

@@ -10,6 +10,8 @@ test_that("generate random instance works as expected", {
         expect_equal(n.dim, ncol(x$coordinates), info = paste("Number of columns does not match for n.dim", n.dim))
     }
 
+    expect_error(generateRandomNetwork(n.points = 10, lower = 10, upper = 10))
+
     # check if points are within bounds
     lower = 0
     upper = 0.5

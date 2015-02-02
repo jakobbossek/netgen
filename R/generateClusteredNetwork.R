@@ -7,7 +7,8 @@
 #' the distance to the nearest neighbor cluster as the variance.
 #'
 #' @param n.cluster [\code{integer(1)}]\cr
-#'   Desired number of clusters.
+#'   Desired number of clusters. This is ignored if \code{cluster.centers} is
+#'   provided.
 #' @param n.points [\code{integer(1)}]\cr
 #'   Number of points for the instance.
 #' @param n.dim [\code{integer(1)}]\cr
@@ -82,6 +83,7 @@ generateClusteredNetwork = function(n.cluster,
             lower, upper
         )
     }
+    n.cluster = nrow(cluster.centers)
 
     coordinates = list()
     depot.coordinates = NULL
@@ -169,9 +171,9 @@ doSanityChecks = function(n.cluster,
     }
 
     if (!is.null(cluster.centers)) {
-        assertMatrix(cluster.centers, nrows = n.cluster, ncols = n.dim)
+        assertMatrix(cluster.centers, ncols = n.dim)
         # check if the coordinates are all in bounds
-        for (i in seq(n.cluster)) {
+        for (i in seq(nrow(cluster.centers))) {
             for (j in seq(n.dim)) {
                 assertNumber(cluster.centers[i, j], lower = lower, upper = upper)
             }

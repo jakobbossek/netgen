@@ -20,6 +20,8 @@ test_that("generate grid network works as expected", {
     }
 
     expect_error(generateGridNetwork(n.points = n.points + 1L))
+    expect_error(generateGridNetwork(n.points = n.points, lower = 10, upper = 8))
+    expect_error(generateGridNetwork())
     x = generateGridNetwork(n.points = n.points)
     checkNetwork(x, n.points, n.dim = 2L)
 })

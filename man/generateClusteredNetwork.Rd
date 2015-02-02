@@ -11,7 +11,8 @@ generateClusteredNetwork(n.cluster, n.points, n.dim = 2L,
 }
 \arguments{
 \item{n.cluster}{[\code{integer(1)}]\cr
-Desired number of clusters.}
+Desired number of clusters. This is ignored if \code{cluster.centers} is
+provided.}
 
 \item{n.points}{[\code{integer(1)}]\cr
 Number of points for the instance.}
