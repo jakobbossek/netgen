@@ -2,18 +2,12 @@
 % Please edit documentation in R/generateGridNetwork.R
 \name{generateGridNetwork}
 \alias{generateGridNetwork}
-\title{Generates a grid network in a hypercube.}
+\title{Generates a grid network.}
 \usage{
-generateGridNetwork(n.points = NULL, n.points.per.dim = NULL, n.dim = 2L,
-  lower = 0, upper = 100)
+generateGridNetwork(n.points.per.dim = NULL, n.dim = 2L, lower = 0,
+  upper = 100)
 }
 \arguments{
-\item{n.points}{[\code{integer(1)}]\cr
-Number of points. Ignored if \code{n.points.per.dim} is not \code{NULL}.
-Since the method generates only full grids, the root to base \code{n.dim}
-must be an integer \code{integer}. We recommend to use the parameter
-\code{n.points.per.dim} instead.}
-
 \item{n.points.per.dim}{[\code{integer(1)}]\cr
 Number of points in each dimension.}
 
@@ -30,7 +24,10 @@ Upper box constraint of cube. Default is \code{100}.}
 [\code{Network}]
 }
 \description{
-Generates a grid network in a hypercube.
+Generates a grid network.
+}
+\note{
+Grid networks with depots are not supported at the moment.
 }
 \examples{
 x = generateGridNetwork(n.points.per.dim = 10L, upper = 50)
