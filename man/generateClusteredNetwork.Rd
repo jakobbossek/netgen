@@ -7,7 +7,7 @@
 generateClusteredNetwork(n.cluster, n.points, n.dim = 2L,
   generator = lhs::maximinLHS, lower = 0, upper = 100, sigmas = NULL,
   n.depots = NULL, distribution.strategy = "equally.distributed",
-  cluster.centers = NULL, out.of.bounds.handling = "reset", ...)
+  cluster.centers = NULL, out.of.bounds.handling = "mirror", ...)
 }
 \arguments{
 \item{n.cluster}{[\code{integer(1)}]\cr
@@ -56,13 +56,13 @@ Default is \code{NULL}.}
 \item{out.of.bounds.handling}{[\code{character(1)}]\cr
 Clusters are generated on base of a multivariate gaussian distribution with
 the cluster center as the mean vector. Possibly some of the points might fall
-out of bounds, i. e., get coordinates larger than \code{upper} or lower than
+out of bounds, i.e., get coordinates larger than \code{upper} or lower than
 \code{lower}. There are two strategies to force them to stick to the bounds:
 \describe{
   \item{\dQuote{reset}}{Set the violating coordinates to the bounds.}
   \item{\dQuote{mirror}}{Mirror the coordinates at the violated axis.}
 }
-Default is \dQuote{reset}.}
+Default is \dQuote{mirror}.}
 
 \item{...}{[\code{any}]\cr
 Currently not used.}

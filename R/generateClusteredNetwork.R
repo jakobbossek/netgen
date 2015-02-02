@@ -42,13 +42,13 @@
 #' @param out.of.bounds.handling [\code{character(1)}]\cr
 #'   Clusters are generated on base of a multivariate gaussian distribution with
 #'   the cluster center as the mean vector. Possibly some of the points might fall
-#'   out of bounds, i. e., get coordinates larger than \code{upper} or lower than
+#'   out of bounds, i.e., get coordinates larger than \code{upper} or lower than
 #'   \code{lower}. There are two strategies to force them to stick to the bounds:
 #'   \describe{
 #'     \item{\dQuote{reset}}{Set the violating coordinates to the bounds.}
 #'     \item{\dQuote{mirror}}{Mirror the coordinates at the violated axis.}
 #'   }
-#'   Default is \dQuote{reset}.
+#'   Default is \dQuote{mirror}.
 #' @param ... [\code{any}]\cr
 #'   Currently not used.
 #' @return [\code{ClusteredNetwork}]
@@ -68,7 +68,7 @@ generateClusteredNetwork = function(n.cluster,
     n.depots = NULL,
     distribution.strategy = "equally.distributed",
     cluster.centers = NULL,
-    out.of.bounds.handling = "reset",
+    out.of.bounds.handling = "mirror",
     ...) {
 
     # do a load of sanity checks
@@ -146,7 +146,7 @@ doSanityChecks = function(n.cluster,
     n.depots = NULL,
     distribution.strategy = "equally.distributed",
     cluster.centers = NULL,
-    out.of.bounds.handling = "reset") {
+    out.of.bounds.handling = "mirror") {
     assertInteger(n.cluster, lower = 2L, len = 1L, any.missing = FALSE)
     assertInteger(n.dim, lower = 2L, len = 1L, any.missing = FALSE)
     assertFunction(generator)
