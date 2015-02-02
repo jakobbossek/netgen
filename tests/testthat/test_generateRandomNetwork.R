@@ -16,6 +16,10 @@ test_that("generate random instance works as expected", {
     lower = 0
     upper = 0.5
 
-    x = generateRandomNetwork(n.points = 1000L, lower = lower, upper = upper)
+    x = generateRandomNetwork(n.points = 10L, lower = lower, upper = upper)
     expect_true(all((x$coordinates >= lower) & (x$coordinates <= upper)))
+
+    x = generateRandomNetwork(n.points = 10L, n.depots = 1L, lower = lower, upper = upper)
+    expect_true(all((x$coordinates >= lower) & (x$coordinates <= upper)))
+    expect_equal(1, getNumberOfDepots(x))
 })

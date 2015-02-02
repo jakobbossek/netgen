@@ -8,6 +8,10 @@ test_that("all of our plots produce nice gglot2 objects", {
         expect_is(pl, c("gg", "ggplot"))
     }
 
+    # more than three dimensions not "plotable"
+    x = generateRandomNetwork(n.points = 10L, n.dim = 3L)
+    expect_error(autoplot(x))
+
     # no cluster, no depots
     x = generateRandomNetwork(n.points = 20L)
     expect_is_ggplot(autoplot(x))
@@ -28,7 +32,7 @@ test_that("all of our plots produce nice gglot2 objects", {
 
     # autoplot morphed instance
     x = generateRandomNetwork(n.points = 10L, upper = 20)
-    y = generateClusteredNetwork(n.points = 10L, n.cluster = 2L, upper = 20)
+    y = generateClusteredNetwork(n.points = 10L, n.cluster = 2L, upper = 60)
     z = morphInstances(x, y, alpha = 0.3)
     expect_is_ggplot(autoplot(z))
 

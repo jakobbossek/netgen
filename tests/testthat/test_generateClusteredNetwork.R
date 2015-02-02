@@ -14,6 +14,7 @@ test_that("generate clustered network works as expected", {
         expect_true(length(setdiff(n.cluster, unique(x$membership))) == 0)
         expect_equal(n.points, getNumberOfNodes(x))
         expect_equal(n.depots, getNumberOfDepots(x))
+        expect_output(print(x), "^Clustered 2-dimensional network")
         if (n.depots == 0L) {
             expect_error(getDepotCoordinates(x))
         }
