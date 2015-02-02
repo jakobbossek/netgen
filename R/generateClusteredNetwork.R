@@ -5,6 +5,8 @@
 #' It then then distributes points to the clusters according to
 #' gaussian distributions using the cluster centers as the mean vector and
 #' the distance to the nearest neighbor cluster as the variance.
+#' This procedure works well if the box constraints of the hypercube are
+#' not too low (see the lower bound for the \code{upper} parameter).
 #'
 #' @param n.cluster [\code{integer(1)}]\cr
 #'   Desired number of clusters. This is ignored if \code{cluster.centers} is
@@ -151,7 +153,7 @@ doSanityChecks = function(n.cluster,
     assertInteger(n.dim, lower = 2L, len = 1L, any.missing = FALSE)
     assertFunction(generator)
     assertNumber(lower, lower = 0, finite = TRUE)
-    assertNumber(upper, finite = TRUE)
+    assertNumber(upper, lower = 50, finite = TRUE)
 
     if (!is.null(sigmas)) {
         assertList(sigmas, len = n.cluster, types = c("matrix"))
