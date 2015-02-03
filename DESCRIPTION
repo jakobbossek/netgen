@@ -13,7 +13,6 @@ License: BSD_3_clause + file LICENSE
 Depends:
     BBmisc (>= 1.6),
     mvtnorm (>= 1.0-2),
-    tspmeta (>= 1.1),
     lhs (>= 0.10)
 Imports:
     ggplot2,

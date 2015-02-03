@@ -35,11 +35,13 @@ Generates a \code{\link[ggplot2]{ggplot}} object. Nice possibility to
 visualize 2-dimensional (clustered) networks in the euclidean plane.
 }
 \examples{
-# here we have no depots ...
+\dontrun{
+  # here we have no depots ...
   x = generateClusteredNetwork(n.points = 30L, n.cluster = 2L)
   pl = autoplot(x, path = 1:3)
   # ... and here we have two depots: the path visits the depots in this case
   x = generateRandomNetwork(n.points = 30L, n.depots = 2L)
   pl = autoplot(x, path = 1:3, path.colour = "tomato")
+  }
 }
 

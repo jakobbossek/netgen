@@ -1,8 +1,6 @@
 context("plots")
 
 test_that("all of our plots produce nice gglot2 objects", {
-    library(ggplot2)
-
     # helper function
     expect_is_ggplot = function(pl) {
         expect_is(pl, c("gg", "ggplot"))

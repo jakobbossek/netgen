@@ -149,6 +149,7 @@ doSanityChecks = function(n.cluster,
     cluster.centers = NULL,
     out.of.bounds.handling = "mirror") {
     assertInteger(n.cluster, lower = 2L, len = 1L, any.missing = FALSE)
+    assertInteger(n.points, lower = 2L, len = 1L, any.missing = FALSE)
     assertInteger(n.dim, lower = 2L, len = 1L, any.missing = FALSE)
     assertFunction(generator)
     assertNumber(lower, lower = 0, finite = TRUE)

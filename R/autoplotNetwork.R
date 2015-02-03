@@ -19,12 +19,14 @@
 #'   Currently not used.
 #' @return [\code{\link[ggplot2]{ggplot}}]
 #' @examples
+#'   \dontrun{
 #'   # here we have no depots ...
 #'   x = generateClusteredNetwork(n.points = 30L, n.cluster = 2L)
 #'   pl = autoplot(x, path = 1:3)
 #'   # ... and here we have two depots: the path visits the depots in this case
 #'   x = generateRandomNetwork(n.points = 30L, n.depots = 2L)
 #'   pl = autoplot(x, path = 1:3, path.colour = "tomato")
+#'   }
 #' @export
 autoplot.Network = function(object,
     path = NULL, close.path = FALSE, path.colour = "gray",
