@@ -1,7 +1,7 @@
 Package: netgen
 Type: Package
-Title: Generating random (clustered) networks in R
-Description: The package provides methods to generate random (clustered) networks which may be used to benchmark optimization algorithms.
+Title: Network Generator for Combinatorial Graph Problems
+Description: Methods for the generation of a wide range of network geographies, e.g., grid networks or clustered networks. Useful for the generation of benchmarking instances for the investigation of, e.g., Vehicle-Routing-Problems or Travelling Salesperson Problems.
 Version: 1.0
 Date: 2015-01-20
 Authors@R: c(person("Jakob", "Bossek", email = "j.bossek@gmail.com", role =
