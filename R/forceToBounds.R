@@ -21,4 +21,5 @@ forceToBounds = function(coordinates, out.of.bounds.handling, lower = 0, upper =
         }
         return(coordinates)
     }
+    stop("Unknown out.of.bounds.handling!")
 }

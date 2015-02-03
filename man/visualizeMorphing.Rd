@@ -9,10 +9,10 @@ visualizeMorphing(x, y, point.matching = NULL, alphas = c(0.25, 0.5, 0.75),
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
-Network or ClusteredNetwork.}
+Network.}
 
 \item{y}{[\code{Network}]\cr
-Network or ClusteredNetwork.}
+Network.}
 
 \item{point.matching}{[\code{matrix}]\cr
 Point matching which shall be used for morphing. If \code{NULL}, an optimal
@@ -20,7 +20,7 @@ point matching is generated via function \code{\link{getOptimalPointMatching}}.
 Default is \code{NULL}.}
 
 \item{alphas}{[\code{numeric}]\cr
-Coeffiecients 'alpha' for different convex combinations.}
+Vector of coefficients 'alpha' for convex combinations.}
 
 \item{arrows}{[\code{logical(1)}]\cr
 Draw arrows originating in the points of \code{x} and ending in the
@@ -37,10 +37,10 @@ plot for each alpha value in \code{alphas}.}
 [\code{\link[ggplot2]{ggplot}}]
 }
 \description{
-Takes two instances of equal size and some alphas. Computes the point matching
-and morphings and visualizes the points of the first instance gradually move
-towards their matched counterparts of the second instance with two different
-methods.
+Takes two instances of equal size and some alpha values. Computes the point matching
+and morphings for the alpha values and visualizes the transition of points
+of the first instance towards their matched counterparts of the second instance
+with two different methods.
 }
 \seealso{
 \code{\link{morphInstances}}

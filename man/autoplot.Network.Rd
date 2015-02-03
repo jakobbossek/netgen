@@ -9,7 +9,7 @@
 }
 \arguments{
 \item{object}{[\code{Network}]\cr
-Instance to visualize.}
+Network.}
 
 \item{path}{[\code{integer}]\cr
 An integer vector containing the order of cities of a path. Keep in mind,
@@ -40,6 +40,6 @@ visualize 2-dimensional (clustered) networks in the euclidean plane.
   pl = autoplot(x, path = 1:3)
   # ... and here we have two depots: the path visits the depots in this case
   x = generateRandomNetwork(n.points = 30L, n.depots = 2L)
-  pl = autoplot(x, path = 1:3)
+  pl = autoplot(x, path = 1:3, path.colour = "tomato")
 }
 

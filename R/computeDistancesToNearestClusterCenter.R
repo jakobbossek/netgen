@@ -1,5 +1,5 @@
 # Helper function for the computation of the distances to the nearest/farthest
-# neighbor cluster center.
+# neighbour cluster center.
 #
 # @param cluster.centers [matrix]
 #   Numeric matrix. Each row corresponds to the coordinates of a cluster center.

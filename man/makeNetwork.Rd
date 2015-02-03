@@ -2,9 +2,9 @@
 % Please edit documentation in R/makeNetwork.R
 \name{makeNetwork}
 \alias{makeNetwork}
-\title{Generate Network instance based on coordinates.}
+\title{Generate network based on coordinates.}
 \usage{
-makeNetwork(coordinates, depot.coordinates = NULL, lower = 0, upper = 1)
+makeNetwork(coordinates, depot.coordinates = NULL, lower = 0, upper = 100)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
@@ -24,6 +24,6 @@ Upper box constraint of cube.}
 [\code{Network}]
 }
 \description{
-Generate Network instance based on coordinates.
+Generate network based on coordinates.
 }
 

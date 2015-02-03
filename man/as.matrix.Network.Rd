@@ -8,7 +8,7 @@
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
-Cluster instance.}
+Network}
 
 \item{...}{[any]\cr
 Currently not used.}
@@ -21,6 +21,6 @@ Convert (clustered) instance to matrix.
 }
 \note{
 If the instance contains of \eqn{n} depots, the depot coordinates fill the
-  \eqn{n} rows of the matrix.
+  first \eqn{n} rows of the matrix.
 }
 

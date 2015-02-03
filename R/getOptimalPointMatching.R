@@ -1,7 +1,7 @@
 #' Computes optimal point assignment for two sets of points of equal size.
 #'
 #' Internally it handles the points and the possible matchings as a bi-partite
-#' graphs and finds an  optimal matching due to euclidean distance by an
+#' graphs and finds an optimal matching due to euclidean distance by an
 #' efficient linear programming solver.
 #'
 #' @param coords1 [\code{matrix}]\cr

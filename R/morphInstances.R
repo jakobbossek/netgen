@@ -5,17 +5,17 @@
 #' a convex combination to the coordinates of node pairs. The node pairs are
 #' determined by a point matching algorithm, which solves this assignement problem
 #' via a integer programming procedure.
-#' If both instances contain depots, point matching is done seperately on depots
+#' If both instances contain depots, point matching is done separately on depots
 #' and the remaining nodes.
 #'
 #' @param x [\code{Network}]\cr
-#'   Network or ClusteredNetwork.
+#'   Network.
 #' @param y [\code{Network}]\cr
-#'   Network or ClusteredNetwork.
+#'   Network.
 #' @param alpha [\code{numeric(1)}]\cr
 #'   Coeffiecient alpha for convex combination.
 #' @return [\code{Network}]
-#'   Morphed Network instance.
+#'   Morphed network
 #' @examples
 #'   x = generateRandomNetwork(n.points = 40L, n.depots = 2L)
 #'   y = generateClusteredNetwork(n.points = 40L, n.cluster = 2L, n.depots = 2L)

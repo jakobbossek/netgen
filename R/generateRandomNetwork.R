@@ -14,12 +14,13 @@
 #' @param lower [\code{numeric(1)}]\cr
 #'   Lower box constraint of cube.
 #' @param upper [\code{numeric(1)}]\cr
-#'   Upper box constraint of cube.
+#'   Upper box constraint of cube. Default is 100.
 #' @return [\code{Network}]
 #' @examples
 #'   x = generateRandomNetwork(n.points = 100L, n.depots = 2L, upper = 50)
 #' @export
-generateRandomNetwork = function(n.points, n.dim = 2L, n.depots = NULL, lower = 0, upper = 1) {
+generateRandomNetwork = function(n.points, n.dim = 2L, n.depots = NULL,
+    lower = 0, upper = 100) {
     assertCount(n.points, na.ok = FALSE)
     assertInteger(n.dim, len = 1L, any.missing = FALSE, lower = 2L)
 

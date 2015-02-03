@@ -8,10 +8,10 @@ visualizePointMatching(x, y, point.matching, highlight.longest = 0L)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
-First \code{Network} object.}
+Network.}
 
 \item{y}{[\code{Network}]\cr
-Second \code{Network} object.}
+Network.}
 
 \item{point.matching}{[\code{matrix}]\cr
 Point matching received via \code{getOptimalPointMatching} for example.}

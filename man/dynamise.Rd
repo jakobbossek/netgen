@@ -27,9 +27,9 @@ Maximal arrival time.}
   ratio of dynamic customers as an attribute.
 }
 \description{
-Some variante of the Vehicle Routing Problem (VRP) consider static as well
+Some variants of the Vehicle Routing Problem (VRP) consider static as well
 as dynamic customers (nodes). This function takes a \code{Network} and
-dynamises it, i. e., it adds dynamic arrival times to the customers via a
+dynamises it, i.e., it adds dynamic arrival times to the customers via a
 Poisson process.
 }
 \examples{

@@ -1,7 +1,7 @@
-#' Convert (clustered) instance to data frame.
+#' Convert network to data frame.
 #'
 #' @note If the instance contains of \eqn{n} depots, the depot coordinates fill the
-#'   \eqn{n} rows of the data frame.
+#'   first \eqn{n} rows of the data frame.
 #' @param x [\code{Network}]\cr
 #'   Cluster instance.
 #' @param row.names [\code{character}]\cr
@@ -9,7 +9,7 @@
 #' @param optional [any]\cr
 #'   Currently not used.
 #' @param include.extras [\code{logical(1)}]\cr
-#'   Include additional information like membership and types as specific columns?
+#'   Include additional information like membership and node type as specific columns?
 #'   Default is \code{TRUE}.
 #' @param ... [any]\cr
 #'   Currently not used.

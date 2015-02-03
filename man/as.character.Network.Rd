@@ -2,7 +2,7 @@
 % Please edit documentation in R/asCharacterNetwork.R
 \name{as.character.Network}
 \alias{as.character.Network}
-\title{Get network information as a character string.}
+\title{Get basic network information as a string.}
 \usage{
 \method{as.character}{Network}(x, ...)
 }
@@ -17,6 +17,6 @@ Not used at the moment.}
 [\code{character(1)}]
 }
 \description{
-Get network information as a character string.
+Get basic network information as a string.
 }
 

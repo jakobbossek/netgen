@@ -1,10 +1,10 @@
-#' Return the number of clusters of a network.
+#' Get the number of clusters of a network.
 #'
 #' @param x [\code{Network}]\cr
 #'   Network.
 #' @return [\code{integer(1)}]
 #'   Number of clusters.
-#' @note For simple random instances this function always returns 1.
+#' @note For simple random or grid networks this function always returns 1.
 #' @export
 getNumberOfClusters = function(x) {
     assertClass(x, "Network")

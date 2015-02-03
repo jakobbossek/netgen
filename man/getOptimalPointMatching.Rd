@@ -19,7 +19,7 @@ Matrix of coordinates of the second point set.}
 }
 \description{
 Internally it handles the points and the possible matchings as a bi-partite
-graphs and finds an  optimal matching due to euclidean distance by an
+graphs and finds an optimal matching due to euclidean distance by an
 efficient linear programming solver.
 }
 \seealso{

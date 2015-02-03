@@ -8,17 +8,17 @@ morphInstances(x, y, alpha)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
-Network or ClusteredNetwork.}
+Network.}
 
 \item{y}{[\code{Network}]\cr
-Network or ClusteredNetwork.}
+Network.}
 
 \item{alpha}{[\code{numeric(1)}]\cr
 Coeffiecient alpha for convex combination.}
 }
 \value{
 [\code{Network}]
-  Morphed Network instance.
+  Morphed network
 }
 \description{
 This function takes two (clustered) networks with equal number of nodes and,
@@ -26,7 +26,7 @@ if present, equal number of depots, and generates another instance by applying
 a convex combination to the coordinates of node pairs. The node pairs are
 determined by a point matching algorithm, which solves this assignement problem
 via a integer programming procedure.
-If both instances contain depots, point matching is done seperately on depots
+If both instances contain depots, point matching is done separately on depots
 and the remaining nodes.
 }
 \examples{

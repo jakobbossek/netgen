@@ -2,7 +2,7 @@
 % Please edit documentation in R/asDataFrameNetwork.R
 \name{as.data.frame.Network}
 \alias{as.data.frame.Network}
-\title{Convert (clustered) instance to data frame.}
+\title{Convert network to data frame.}
 \usage{
 \method{as.data.frame}{Network}(x, row.names = NULL, optional = FALSE,
   include.extras = TRUE, ...)
@@ -18,7 +18,7 @@ Row names for the result. Default is \code{NULL}.}
 Currently not used.}
 
 \item{include.extras}{[\code{logical(1)}]\cr
-Include additional information like membership and types as specific columns?
+Include additional information like membership and node type as specific columns?
 Default is \code{TRUE}.}
 
 \item{...}{[any]\cr
@@ -28,10 +28,10 @@ Currently not used.}
 [\code{data.frame}]
 }
 \description{
-Convert (clustered) instance to data frame.
+Convert network to data frame.
 }
 \note{
 If the instance contains of \eqn{n} depots, the depot coordinates fill the
-  \eqn{n} rows of the data frame.
+  first \eqn{n} rows of the data frame.
 }
 

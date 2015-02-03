@@ -1,6 +1,6 @@
-# Helper function for generation of cluster centres.
+# Helper function to generate cluster centres.
 #
-# The function generates n cluster centeres by generating a LHS design of size
+# The function generates n cluster centers by generating a LHS design of size
 # n in the unit-cube.
 #
 # @param n.cluster [\code{integer(1)}]\cr

@@ -1,20 +1,20 @@
 #' Fancy visualization of morphing.
 #'
-#' Takes two instances of equal size and some alphas. Computes the point matching
-#' and morphings and visualizes the points of the first instance gradually move
-#' towards their matched counterparts of the second instance with two different
-#' methods.
+#' Takes two instances of equal size and some alpha values. Computes the point matching
+#' and morphings for the alpha values and visualizes the transition of points
+#' of the first instance towards their matched counterparts of the second instance
+#' with two different methods.
 #'
 #' @param x [\code{Network}]\cr
-#'   Network or ClusteredNetwork.
+#'   Network.
 #' @param y [\code{Network}]\cr
-#'   Network or ClusteredNetwork.
+#'   Network.
 #' @param point.matching [\code{matrix}]\cr
 #'   Point matching which shall be used for morphing. If \code{NULL}, an optimal
 #'   point matching is generated via function \code{\link{getOptimalPointMatching}}.
 #'   Default is \code{NULL}.
 #' @param alphas [\code{numeric}]\cr
-#'   Coeffiecients 'alpha' for different convex combinations.
+#'   Vector of coefficients 'alpha' for convex combinations.
 #' @param arrows [\code{logical(1)}]\cr
 #'   Draw arrows originating in the points of \code{x} and ending in the
 #'   points matched in \code{y}. Default is \code{TRUE}.

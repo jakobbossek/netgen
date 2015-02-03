@@ -1,4 +1,4 @@
-#' Generate Network instance based on coordinates.
+#' Generate network based on coordinates.
 #'
 #' @param coordinates [\code{matrix}]\cr
 #'   Numeric matrix of 2D coordinates.
@@ -11,7 +11,7 @@
 #'   Upper box constraint of cube.
 #' @return [\code{Network}]
 #' @export
-makeNetwork = function(coordinates, depot.coordinates = NULL, lower = 0, upper = 1) {
+makeNetwork = function(coordinates, depot.coordinates = NULL, lower = 0, upper = 100) {
     assertMatrix(coordinates)
     if (!is.null(depot.coordinates))
         assertMatrix(depot.coordinates)
@@ -24,8 +24,7 @@ makeNetwork = function(coordinates, depot.coordinates = NULL, lower = 0, upper =
     )
 }
 
-#' Generates clustered network instances based in coordinates
-#' and membership vector.
+#' Generates clustered network.
 #'
 #' @param coordinates [\code{matrix}]\cr
 #'   Numeric matrix of 2D coordinates.
@@ -35,12 +34,13 @@ makeNetwork = function(coordinates, depot.coordinates = NULL, lower = 0, upper =
 #' @param membership [\code{numeric}]\cr
 #'   Vector of memberships.
 #' @param lower [\code{numeric(1)}]\cr
-#'   Lower box constraint of cube.
+#'   Lower box constraint of cube. Default is 0.
 #' @param upper [\code{numeric(1)}]\cr
-#'   Upper box constraint of cube.
+#'   Upper box constraint of cube. Default is 100.
 #' @return [\code{ClusteredNetwork}]
 #' @export
-makeClusteredNetwork = function(coordinates, depot.coordinates = NULL, membership, lower = 0, upper = 1) {
+makeClusteredNetwork = function(coordinates, depot.coordinates = NULL, membership,
+    lower = 0, upper = 100) {
     network = makeNetwork(
         coordinates = coordinates,
         depot.coordinates = depot.coordinates,

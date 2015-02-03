@@ -1,4 +1,4 @@
-#' Get network information as a character string.
+#' Get basic network information as a string.
 #'
 #' @param x [\code{Network}]\cr
 #'   Network.

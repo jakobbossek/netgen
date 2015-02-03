@@ -5,7 +5,7 @@
 \title{Generates a random graph in a hypercube.}
 \usage{
 generateRandomNetwork(n.points, n.dim = 2L, n.depots = NULL, lower = 0,
-  upper = 1)
+  upper = 100)
 }
 \arguments{
 \item{n.points}{[\code{integer(1)}]\cr
@@ -26,7 +26,7 @@ matrix.}
 Lower box constraint of cube.}
 
 \item{upper}{[\code{numeric(1)}]\cr
-Upper box constraint of cube.}
+Upper box constraint of cube. Default is 100.}
 }
 \value{
 [\code{Network}]

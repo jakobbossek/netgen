@@ -2,11 +2,10 @@
 % Please edit documentation in R/makeNetwork.R
 \name{makeClusteredNetwork}
 \alias{makeClusteredNetwork}
-\title{Generates clustered network instances based in coordinates
-and membership vector.}
+\title{Generates clustered network.}
 \usage{
 makeClusteredNetwork(coordinates, depot.coordinates = NULL, membership,
-  lower = 0, upper = 1)
+  lower = 0, upper = 100)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
@@ -20,16 +19,15 @@ means no depots at all.}
 Vector of memberships.}
 
 \item{lower}{[\code{numeric(1)}]\cr
-Lower box constraint of cube.}
+Lower box constraint of cube. Default is 0.}
 
 \item{upper}{[\code{numeric(1)}]\cr
-Upper box constraint of cube.}
+Upper box constraint of cube. Default is 100.}
 }
 \value{
 [\code{ClusteredNetwork}]
 }
 \description{
-Generates clustered network instances based in coordinates
-and membership vector.
+Generates clustered network.
 }
 

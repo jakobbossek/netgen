@@ -2,7 +2,7 @@
 % Please edit documentation in R/generateClusteredNetwork.R
 \name{generateClusteredNetwork}
 \alias{generateClusteredNetwork}
-\title{Function for generation of clustered instances.}
+\title{Function for generation of clustered networks}
 \usage{
 generateClusteredNetwork(n.cluster, n.points, n.dim = 2L,
   generator = lhs::maximinLHS, lower = 0, upper = 100, sigmas = NULL,
@@ -15,7 +15,7 @@ Desired number of clusters. This is ignored if \code{cluster.centers} is
 provided.}
 
 \item{n.points}{[\code{integer(1)}]\cr
-Number of points for the instance.}
+Number of points for the network.}
 
 \item{n.dim}{[\code{integer(1)}]\cr
 Number of dimensions. Most often you want to generate 2-dimensional instances
@@ -33,23 +33,22 @@ Upper box constaint for cube. Default is \code{100}.}
 \item{sigmas}{[\code{list} | \code{NULL}]\cr
 Unnamed list of length \code{n.cluster} containing a covariance matrix
 for each cluster. Default is \code{NULL}. In this case the covariance
-matrix is a diagonal matrix containing the distance to the nearest
+matrix is a diagonal matrix containing the distance to the nearest neighbour
 cluster center as diagonal elements.}
 
 \item{n.depots}{[\code{integer(1)}]\cr
 Number of depots in instances for the Vehicle Routing Problem (VRP).
-Default is \code{NULL}, i. e., no depots. The proceeding is as follows:
+Default is \code{NULL}, i.e., no depots. The proceeding is as follows:
 If \code{n.depots} is \code{1L}, a random cluster center is defined to be the depot.
 If \code{n.depots} is \code{2L}, the second depot has maximal distance to the first.
-By convention the depots are placed as the first nodes in the coordinates
-matrix. At the moment at most two depots are possible.}
+At the moment at most two depots are possible.}
 
 \item{distribution.strategy}{[\code{character(1)}]\cr
 Define the strategy to distribute \code{n.points} on the \code{n.cluster} clusters.
 Default is \dQuote{equally.distributed}, which is the only option at the moment.}
 
 \item{cluster.centers}{[\code{matrix}]\cr
-Data frame of cluster centres of dimension \code{n.cluster} x \code{n.dim}. If
+Matrix of cluster centres of dimension \code{n.cluster} x \code{n.dim}. If
 this is set, cluster centres are not generated automatically.
 Default is \code{NULL}.}
 
@@ -72,11 +71,11 @@ Currently not used.}
   Object of type \code{ClusteredNetwork}.
 }
 \description{
-This function generates clustered instances. It first generates n cluster
+This function generates clustered networks It first generates \eqn{n} cluster
 centeres via a latin hypercube design to ensure space-filling property.
-It then then distributes points to the clusters according to
+It then distributes points to the clusters according to
 gaussian distributions using the cluster centers as the mean vector and
-the distance to the nearest neighbor cluster as the variance.
+the distance to the nearest neighbour cluster center as the variance.
 This procedure works well if the box constraints of the hypercube are
 not too low (see the lower bound for the \code{upper} parameter).
 }

@@ -3,9 +3,9 @@
 #' Draw the points and lines between the matched points for visualization.
 #'
 #' @param x [\code{Network}]\cr
-#'   First \code{Network} object.
+#'   Network.
 #' @param y [\code{Network}]\cr
-#'   Second \code{Network} object.
+#'   Network.
 #' @param point.matching [\code{matrix}]\cr
 #'   Point matching received via \code{getOptimalPointMatching} for example.
 #' @param highlight.longest [\code{integer(1)}]\cr

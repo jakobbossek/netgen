@@ -2,7 +2,7 @@
 % Please edit documentation in R/getNumberOfClusters.R
 \name{getNumberOfClusters}
 \alias{getNumberOfClusters}
-\title{Return the number of clusters of a network.}
+\title{Get the number of clusters of a network.}
 \usage{
 getNumberOfClusters(x)
 }
@@ -15,9 +15,9 @@ Network.}
   Number of clusters.
 }
 \description{
-Return the number of clusters of a network.
+Get the number of clusters of a network.
 }
 \note{
-For simple random instances this function always returns 1.
+For simple random or grid networks this function always returns 1.
 }
 

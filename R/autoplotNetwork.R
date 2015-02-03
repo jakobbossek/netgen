@@ -4,7 +4,7 @@
 #' visualize 2-dimensional (clustered) networks in the euclidean plane.
 #'
 #' @param object [\code{Network}]\cr
-#'   Instance to visualize.
+#'   Network.
 #' @param path [\code{integer}]\cr
 #'   An integer vector containing the order of cities of a path. Keep in mind,
 #'   that instances with \eqn{n} nodes and \eqn{m} depots have \eqn{n + m}
@@ -24,7 +24,7 @@
 #'   pl = autoplot(x, path = 1:3)
 #'   # ... and here we have two depots: the path visits the depots in this case
 #'   x = generateRandomNetwork(n.points = 30L, n.depots = 2L)
-#'   pl = autoplot(x, path = 1:3)
+#'   pl = autoplot(x, path = 1:3, path.colour = "tomato")
 #' @export
 autoplot.Network = function(object,
     path = NULL, close.path = FALSE, path.colour = "gray",
@@ -39,11 +39,9 @@ autoplot.Network = function(object,
         df$membership = as.factor(df$membership)
     }
 
-    #FIXME: can be done easier now! depot.idx = 1:getNumberOfDepots(object)?
     if (hasDepots(object)) {
         depot.idx = which(df$types == "depot")
         df.depots = df[depot.idx, ]
-        #df = df[-depot.idx, ] # can be deleted
     }
 
     pl = ggplot(data = df, mapping = aes_string(x = "x1", y = "x2"))
