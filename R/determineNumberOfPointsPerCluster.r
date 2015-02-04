@@ -3,7 +3,7 @@
 #
 # @param n.cluster [\code{integer(1)}]\cr
 #   Desired number of clusters.
-# @param n.customers [\code{integer(1)}]\cr
+# @param n.points [\code{integer(1)}]\cr
 #   Number of points for the instance.
 # @param strategy [\code{character(1)}]\cr
 #   Strategy used to determine number of points per cluster.
@@ -11,11 +11,11 @@
 # @return [\code{integer}]
 #   Vector of length \code{length(n.cluster)} containing the number of
 #   points assigned to this cluster.
-determineNumberOfPointsPerCluster = function(n.cluster, n.customers, strategy = "equally.distributed") {
+determineNumberOfPointsPerCluster = function(n.cluster, n.points, strategy = "equally.distributed") {
     if (strategy == "equally.distributed") {
-        getEquallyDistributedIntegerPartition(n.customers, n.cluster)
+        getEquallyDistributedIntegerPartition(n.points, n.cluster)
     } else if (strategy == "random.partition") {
-        getRandomIntegerPartition(n.customers, n.cluster)
+        getRandomIntegerPartition(n.points, n.cluster)
     }
 }
 
@@ -33,7 +33,7 @@ getEquallyDistributedIntegerPartition = function(n, k) {
     # distribute equally over the clusters
     m = floor(n / k)
     partition = rep(m, k)
-    # n * n.cluster might be lower than n.customers. Add the remaining points to
+    # n * n.cluster might be lower than n.points. Add the remaining points to
     # a randomly chosen cluster
     # FIXME: we might want to implement different strategies here
     m.diff = n - m * k

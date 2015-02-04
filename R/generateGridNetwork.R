@@ -2,15 +2,12 @@
 #'
 #' @param n.points.per.dim [\code{integer(1)}]\cr
 #'   Number of points in each dimension.
-#' @param n.dim [\code{integer(1)}]\cr
-#'   Number of dimensions. Default ist 2.
-#' @param lower [\code{numeric(1)}]\cr
-#'   Lower box constraint of cube. Default is \code{0}.
-#' @param upper [\code{numeric(1)}]\cr
-#'   Upper box constraint of cube. Default is \code{100}.
+#' @template arg_n_dim
+#' @template arg_lower
+#' @template arg_upper
 #' @return [\code{Network}]
 #' @examples
-#'   x = generateGridNetwork(n.points.per.dim = 10L, upper = 50)
+#' x = generateGridNetwork(n.points.per.dim = 10L, upper = 50)
 #' @note Grid networks with depots are not supported at the moment.
 #' @export
 generateGridNetwork = function(n.points.per.dim = NULL, n.dim = 2L, lower = 0, upper = 100) {

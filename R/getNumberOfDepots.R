@@ -1,7 +1,6 @@
 #' Returns the number of depots of a network.
 #'
-#' @param x [\code{Network}]\cr
-#'   Network.
+#' @template arg_network
 #' @return [\code{integer(1)}]
 #' @export
 getNumberOfDepots = function(x) {

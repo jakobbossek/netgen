@@ -34,8 +34,8 @@ Poisson process.
 }
 \examples{
 x = generateClusteredNetwork(n.points = 100L, n.cluster = 4L, upper = 100, n.depots = 2L)
-  x = dynamise(x, dyn.customers.ratio = 0.3, arrival.limit = 400)
-  print(x)
+x = dynamise(x, dyn.customers.ratio = 0.3, arrival.limit = 400)
+print(x)
 }
 \seealso{
 \code{\link{generateRandomNetwork}}, \code{\link{generateClusteredNetwork}}

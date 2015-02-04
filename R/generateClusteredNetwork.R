@@ -13,15 +13,11 @@
 #'   provided.
 #' @param n.points [\code{integer(1)}]\cr
 #'   Number of points for the network.
-#' @param n.dim [\code{integer(1)}]\cr
-#'   Number of dimensions. Most often you want to generate 2-dimensional instances
-#'   in the euclidean plane. Thus \code{2L} is the default setting.
+#' @template arg_n_dim
 #' @param generator [\code{function}]\cr
 #'   Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.
-#' @param lower [\code{numeric(1)}]\cr
-#'   Lower box constaint for cube. Default is \code{0}.
-#' @param upper [\code{numeric(1)}]\cr
-#'   Upper box constaint for cube. Default is \code{100}.
+#' @template arg_lower
+#' @template arg_upper
 #' @param sigmas [\code{list} | \code{NULL}]\cr
 #'   Unnamed list of length \code{n.cluster} containing a covariance matrix
 #'   for each cluster. Default is \code{NULL}. In this case the covariance
@@ -55,8 +51,8 @@
 #' @return [\code{ClusteredNetwork}]
 #'   Object of type \code{ClusteredNetwork}.
 #' @examples
-#'   x = generateClusteredNetwork(n.points = 20L, n.cluster = 2L)
-#'   y = generateClusteredNetwork(n.points = 40L, n.cluster = 3L, n.depots = 2L)
+#' x = generateClusteredNetwork(n.points = 20L, n.cluster = 2L)
+#' y = generateClusteredNetwork(n.points = 40L, n.cluster = 3L, n.depots = 2L)
 #' @seealso \code{\link{generateRandomNetwork}}
 #' @export
 generateClusteredNetwork = function(n.cluster,

@@ -17,15 +17,15 @@
 #' @return [\code{Network}]
 #'   Morphed network
 #' @examples
-#'   x = generateRandomNetwork(n.points = 40L, n.depots = 2L)
-#'   y = generateClusteredNetwork(n.points = 40L, n.cluster = 2L, n.depots = 2L)
-#'   z = morphInstances(x, y, alpha = 0.2)
-#'   \dontrun{
-#'   library(gridExtra)
-#'   plot.list = list(autoplot(x), autoplot(z), autoplot(y))
-#'   plot.list$nrow = 1
-#'   do.call(grid.arrange, plot.list)
-#'   }
+#' x = generateRandomNetwork(n.points = 40L, n.depots = 2L)
+#' y = generateClusteredNetwork(n.points = 40L, n.cluster = 2L, n.depots = 2L)
+#' z = morphInstances(x, y, alpha = 0.2)
+#' \dontrun{
+#' library(gridExtra)
+#' plot.list = list(autoplot(x), autoplot(z), autoplot(y))
+#' plot.list$nrow = 1
+#' do.call(grid.arrange, plot.list)
+#' }
 #' @seealso \code{\link{visualizeMorphing}}, \code{\link{visualizePointMatching}}
 #' @export
 morphInstances = function(x, y, alpha) {

@@ -5,10 +5,8 @@
 #' of the first instance towards their matched counterparts of the second instance
 #' with two different methods.
 #'
-#' @param x [\code{Network}]\cr
-#'   Network.
-#' @param y [\code{Network}]\cr
-#'   Network.
+#' @template arg_first_network
+#' @template arg_second_network
 #' @param point.matching [\code{matrix}]\cr
 #'   Point matching which shall be used for morphing. If \code{NULL}, an optimal
 #'   point matching is generated via function \code{\link{getOptimalPointMatching}}.

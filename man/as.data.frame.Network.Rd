@@ -9,7 +9,7 @@
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
-Cluster instance.}
+Network.}
 
 \item{row.names}{[\code{character}]\cr
 Row names for the result. Default is \code{NULL}.}

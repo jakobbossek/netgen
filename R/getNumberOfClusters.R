@@ -1,7 +1,6 @@
 #' Get the number of clusters of a network.
 #'
-#' @param x [\code{Network}]\cr
-#'   Network.
+#' @template arg_network
 #' @return [\code{integer(1)}]
 #'   Number of clusters.
 #' @note For simple random or grid networks this function always returns 1.

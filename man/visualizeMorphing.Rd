@@ -9,10 +9,10 @@ visualizeMorphing(x, y, point.matching = NULL, alphas = c(0.25, 0.5, 0.75),
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
-Network.}
+First network.}
 
 \item{y}{[\code{Network}]\cr
-Network.}
+Second network.}
 
 \item{point.matching}{[\code{matrix}]\cr
 Point matching which shall be used for morphing. If \code{NULL}, an optimal

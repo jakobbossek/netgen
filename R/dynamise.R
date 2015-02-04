@@ -5,8 +5,7 @@
 #' dynamises it, i.e., it adds dynamic arrival times to the customers via a
 #' Poisson process.
 #'
-#' @param x [\code{Network}]\cr
-#'   Network.
+#' @template arg_network
 #' @param n.dynamic [integer(1) | NULL]
 #'   Number of nodes, which should become dynamic. Ignored if \code{dyn.customers.ratio}
 #'   is not \code{NULL}.
@@ -19,9 +18,9 @@
 #'   Modified network (now has an additional list element 'arrival.times') and the
 #'   ratio of dynamic customers as an attribute.
 #' @examples
-#'   x = generateClusteredNetwork(n.points = 100L, n.cluster = 4L, upper = 100, n.depots = 2L)
-#'   x = dynamise(x, dyn.customers.ratio = 0.3, arrival.limit = 400)
-#'   print(x)
+#' x = generateClusteredNetwork(n.points = 100L, n.cluster = 4L, upper = 100, n.depots = 2L)
+#' x = dynamise(x, dyn.customers.ratio = 0.3, arrival.limit = 400)
+#' print(x)
 #' @seealso \code{\link{generateRandomNetwork}}, \code{\link{generateClusteredNetwork}}
 #' @export
 dynamise = function(x, n.dynamic = NULL, dyn.customers.ratio = NULL, arrival.limit) {

@@ -2,8 +2,7 @@
 #'
 #' @note If the instance contains of \eqn{n} depots, the depot coordinates fill the
 #'   first \eqn{n} rows of the data frame.
-#' @param x [\code{Network}]\cr
-#'   Cluster instance.
+#' @template arg_network
 #' @param row.names [\code{character}]\cr
 #'   Row names for the result. Default is \code{NULL}.
 #' @param optional [any]\cr

@@ -1,7 +1,6 @@
 #' Get basic network information as a string.
 #'
-#' @param x [\code{Network}]\cr
-#'   Network.
+#' @template arg_network
 #' @param ... [any]\cr
 #'   Not used at the moment.
 #' @return [\code{character(1)}]

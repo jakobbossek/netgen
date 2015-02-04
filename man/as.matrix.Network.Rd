@@ -8,7 +8,7 @@
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
-Network}
+Network.}
 
 \item{...}{[any]\cr
 Currently not used.}

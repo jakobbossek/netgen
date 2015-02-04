@@ -17,7 +17,7 @@
 #'   Upper box constraint of cube. Default is 100.
 #' @return [\code{Network}]
 #' @examples
-#'   x = generateRandomNetwork(n.points = 100L, n.depots = 2L, upper = 50)
+#' x = generateRandomNetwork(n.points = 100L, n.depots = 2L, upper = 50)
 #' @export
 generateRandomNetwork = function(n.points, n.dim = 2L, n.depots = NULL,
     lower = 0, upper = 100) {

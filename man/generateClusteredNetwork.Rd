@@ -18,8 +18,7 @@ provided.}
 Number of points for the network.}
 
 \item{n.dim}{[\code{integer(1)}]\cr
-Number of dimensions. Most often you want to generate 2-dimensional instances
-in the euclidean plane. Thus \code{2L} is the default setting.}
+Number of dimensions. Default ist 2.}
 
 \item{generator}{[\code{function}]\cr
 Function which generates cluster centers. Default is \code{\link[lhs]{maximinLHS}}.}
@@ -81,7 +80,7 @@ not too low (see the lower bound for the \code{upper} parameter).
 }
 \examples{
 x = generateClusteredNetwork(n.points = 20L, n.cluster = 2L)
-  y = generateClusteredNetwork(n.points = 40L, n.cluster = 3L, n.depots = 2L)
+y = generateClusteredNetwork(n.points = 40L, n.cluster = 3L, n.depots = 2L)
 }
 \seealso{
 \code{\link{generateRandomNetwork}}

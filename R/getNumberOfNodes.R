@@ -1,7 +1,6 @@
 #' Return number of nodes of a network.
 #'
-#' @param x [\code{Network}]\cr
-#'   Network.
+#' @template arg_network
 #' @return [\code{integer(1)}]
 #'   Number of nodes of the network.
 #' @export

@@ -15,10 +15,10 @@ Number of points in each dimension.}
 Number of dimensions. Default ist 2.}
 
 \item{lower}{[\code{numeric(1)}]\cr
-Lower box constraint of cube. Default is \code{0}.}
+Lower box constaint for cube. Default is \code{0}.}
 
 \item{upper}{[\code{numeric(1)}]\cr
-Upper box constraint of cube. Default is \code{100}.}
+Upper box constaint for cube. Default is \code{100}.}
 }
 \value{
 [\code{Network}]

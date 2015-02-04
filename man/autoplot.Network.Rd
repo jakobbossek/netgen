@@ -14,7 +14,7 @@ Network.}
 \item{path}{[\code{integer}]\cr
 An integer vector containing the order of cities of a path. Keep in mind,
 that instances with \eqn{n} nodes and \eqn{m} depots have \eqn{n + m}
-coordinates, with the \eqn{1,\\ldots,m} first coordinates belonging to
+coordinates, with the \eqn{1,\ldots,m} first coordinates belonging to
 the depots.}
 
 \item{close.path}{[\code{logical(1)}]\cr

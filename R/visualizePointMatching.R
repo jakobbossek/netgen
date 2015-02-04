@@ -2,10 +2,8 @@
 #'
 #' Draw the points and lines between the matched points for visualization.
 #'
-#' @param x [\code{Network}]\cr
-#'   Network.
-#' @param y [\code{Network}]\cr
-#'   Network.
+#' @template arg_first_network
+#' @template arg_second_network
 #' @param point.matching [\code{matrix}]\cr
 #'   Point matching received via \code{getOptimalPointMatching} for example.
 #' @param highlight.longest [\code{integer(1)}]\cr
@@ -13,12 +11,12 @@
 #'   Default is \code{0}.
 #' @return [\code{\link[ggplot2]{ggplot}}]
 #' @examples
-#'   x = generateRandomNetwork(n.points = 20L, upper = 100)
-#'   y = generateClusteredNetwork(n.points = 20L, n.cluster = 2L, upper = 100)
-#'   \dontrun{
-#'   pm = getOptimalPointMatching(x$coordinates, y$coordinates)
-#'   print(visualizePointMatching(x, y, pm, highlight.longest = 2L))
-#'   }
+#' x = generateRandomNetwork(n.points = 20L, upper = 100)
+#' y = generateClusteredNetwork(n.points = 20L, n.cluster = 2L, upper = 100)
+#' \dontrun{
+#' pm = getOptimalPointMatching(x$coordinates, y$coordinates)
+#' print(visualizePointMatching(x, y, pm, highlight.longest = 2L))
+#' }
 #' @seealso \code{\link{getOptimalPointMatching}}, \code{\link{morphInstances}},
 #'   \code{\link{visualizeMorphing}}
 #' @export

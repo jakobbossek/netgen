@@ -8,10 +8,10 @@ visualizePointMatching(x, y, point.matching, highlight.longest = 0L)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
-Network.}
+First network.}
 
 \item{y}{[\code{Network}]\cr
-Network.}
+Second network.}
 
 \item{point.matching}{[\code{matrix}]\cr
 Point matching received via \code{getOptimalPointMatching} for example.}
@@ -28,11 +28,11 @@ Draw the points and lines between the matched points for visualization.
 }
 \examples{
 x = generateRandomNetwork(n.points = 20L, upper = 100)
-  y = generateClusteredNetwork(n.points = 20L, n.cluster = 2L, upper = 100)
-  \dontrun{
-  pm = getOptimalPointMatching(x$coordinates, y$coordinates)
-  print(visualizePointMatching(x, y, pm, highlight.longest = 2L))
-  }
+y = generateClusteredNetwork(n.points = 20L, n.cluster = 2L, upper = 100)
+\dontrun{
+pm = getOptimalPointMatching(x$coordinates, y$coordinates)
+print(visualizePointMatching(x, y, pm, highlight.longest = 2L))
+}
 }
 \seealso{
 \code{\link{getOptimalPointMatching}}, \code{\link{morphInstances}},
