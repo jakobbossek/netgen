@@ -14,8 +14,7 @@ are depicted in the following figure.
 
 ## Installation
 
-Currently there is only this developement version of netgen. The package will
-be available on CRAN soon. 
+The package has recently been submitted to CRAN. Find additional information on the [official CRAN website](http://cran.r-project.org/web/packages/netgen/).
 To install the current developement version of the package, install the [devtools package](http://cran.r-project.org/web/packages/devtools/index.html) by Hadley Wickham, load it and type the following line to a R session:
 
 ```splus
