@@ -4,12 +4,18 @@
 \alias{makeNetwork}
 \title{Generate network based on coordinates.}
 \usage{
-makeNetwork(coordinates, depot.coordinates = NULL, lower = NULL,
-  upper = NULL)
+makeNetwork(coordinates, name = NULL, comment = NULL,
+  depot.coordinates = NULL, lower = NULL, upper = NULL)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
 Numeric matrix of 2D coordinates.}
+
+\item{name}{[\code{character(1)}]\cr
+Optional name of the network.}
+
+\item{comment}{[\code{character(1)}]\cr
+Optional additional comments on instance.}
 
 \item{depot.coordinates}{[\code{matrix} | NULL]\cr
 Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which

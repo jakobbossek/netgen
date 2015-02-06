@@ -2,6 +2,10 @@
 #'
 #' @param coordinates [\code{matrix}]\cr
 #'   Numeric matrix of 2D coordinates.
+#' @param name [\code{character(1)}]\cr
+#'   Optional name of the network.
+#' @param comment [\code{character(1)}]\cr
+#'   Optional additional comments on instance.
 #' @param depot.coordinates [\code{matrix} | NULL]\cr
 #'   Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
 #'   means no depots at all.
@@ -11,10 +15,14 @@
 #'   Upper box constraint of cube.
 #' @return [\code{Network}]
 #' @export
-makeNetwork = function(coordinates, depot.coordinates = NULL, lower = NULL, upper = NULL) {
+makeNetwork = function(coordinates,
+    name = NULL, comment = NULL,
+    depot.coordinates = NULL, lower = NULL, upper = NULL) {
     assertMatrix(coordinates)
-    if (!is.null(depot.coordinates))
-        assertMatrix(depot.coordinates)
+    !is.null(name) && assertCharacter(name, len = 1L, any.missing = FALSE)
+    !is.null(comment) && assertCharacter(comment, len = 1L, any.missing = FALSE)
+    !is.null(depot.coordinates) && assertMatrix(depot.coordinates)
+
     #FIXME: do we need this at all?
     if (is.null(lower) || is.null(upper)) {
         lower = min(coordinates)
@@ -23,6 +31,8 @@ makeNetwork = function(coordinates, depot.coordinates = NULL, lower = NULL, uppe
     makeS3Obj(
         coordinates = coordinates,
         depot.coordinates = depot.coordinates,
+        name = name,
+        comment = comment,
         lower = lower,
         upper = upper,
         classes = "Network"

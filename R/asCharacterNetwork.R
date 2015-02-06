@@ -9,7 +9,8 @@ as.character.Network = function(x, ...)   {
     n.points = getNumberOfNodes(x)
     n.clusters = getNumberOfClusters(x)
 
-    char = paste("#Nodes:", n.points)
+    char = if (!is.null(x$name)) paste(x$name, "\n", sep = "") else ""
+    char = paste(char, "#Nodes: ", n.points, sep = "")
     if (n.clusters > 1L)
         char = paste(char, ", #Clusters:", n.clusters)
     if (hasAttributes(x, "morphed"))
