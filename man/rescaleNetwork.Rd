@@ -4,7 +4,7 @@
 \alias{rescaleNetwork}
 \title{Normalize coordinates to unit cube maintaining its geography.}
 \usage{
-rescaleNetwork(x, method = "by.dimension")
+rescaleNetwork(x, method = "global2")
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
