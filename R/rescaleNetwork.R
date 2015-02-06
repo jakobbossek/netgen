@@ -33,10 +33,12 @@ rescaleNetworkGlobal = function(x) {
 
 # Rescale by shifting dimension-wise and scaling with the maximal range
 rescaleNetworkGlobal2 = function(x) {
-    min = apply(x, 2, min)
-    x[, 1] = (x[, 1] - min[1])
-    x[, 2] = (x[, 2] - min[2])
-    scale = max(x)
+    rgs = apply(x, 2, range)
+    # JB: we could transpose x first and transpose another time after rescaling,
+    # but this is more efficient
+    x[, 1] = (x[, 1] - rgs[1, 1])
+    x[, 2] = (x[, 2] - rgs[1, 2])
+    scale = max(rgs[2,] - rgs[1,])
     x / scale
 }
 
