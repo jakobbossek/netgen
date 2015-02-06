@@ -4,7 +4,8 @@
 \alias{makeNetwork}
 \title{Generate network based on coordinates.}
 \usage{
-makeNetwork(coordinates, depot.coordinates = NULL, lower = 0, upper = 100)
+makeNetwork(coordinates, depot.coordinates = NULL, lower = NULL,
+  upper = NULL)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr

@@ -11,10 +11,15 @@
 #'   Upper box constraint of cube.
 #' @return [\code{Network}]
 #' @export
-makeNetwork = function(coordinates, depot.coordinates = NULL, lower = 0, upper = 100) {
+makeNetwork = function(coordinates, depot.coordinates = NULL, lower = NULL, upper = NULL) {
     assertMatrix(coordinates)
     if (!is.null(depot.coordinates))
         assertMatrix(depot.coordinates)
+    #FIXME: do we need this at all?
+    if (is.null(lower) || is.null(upper)) {
+        lower = min(coordinates)
+        upper = max(coordinates)
+    }
     makeS3Obj(
         coordinates = coordinates,
         depot.coordinates = depot.coordinates,
@@ -40,7 +45,7 @@ makeNetwork = function(coordinates, depot.coordinates = NULL, lower = 0, upper =
 #' @return [\code{ClusteredNetwork}]
 #' @export
 makeClusteredNetwork = function(coordinates, depot.coordinates = NULL, membership,
-    lower = 0, upper = 100) {
+    lower = NULL, upper = NULL) {
     network = makeNetwork(
         coordinates = coordinates,
         depot.coordinates = depot.coordinates,

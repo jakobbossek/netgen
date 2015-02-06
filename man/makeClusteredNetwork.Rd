@@ -5,7 +5,7 @@
 \title{Generates clustered network.}
 \usage{
 makeClusteredNetwork(coordinates, depot.coordinates = NULL, membership,
-  lower = 0, upper = 100)
+  lower = NULL, upper = NULL)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
