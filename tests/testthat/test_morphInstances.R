@@ -30,4 +30,17 @@ test_that("morphing generates a network", {
     expect_equal(ncol(getDepotCoordinates(z)), n.depots)
     expect_equal(nrow(getDepotCoordinates(z)), n.depots)
     expect_equal(getNumberOfDepots(z), n.depots)
+
+    # check user-defined point matching ...
+    # ... does not work with depots
+    x = generateRandomNetwork(n.points = 3L, n.depots = n.depots)
+    y = generateClusteredNetwork(n.points = 3L, n.cluster = 2L, n.depots = n.depots)
+    expect_error(morphInstances(x, y, alpha = 0.5, point.matching = matrix(c(1:3, 1:3), ncol = 2)))
+
+    # ... does (not) work with faulty/correct point matching
+    x = generateRandomNetwork(n.points = 5L)
+    y = generateClusteredNetwork(n.points = 5L, n.cluster = 2L)
+    expect_error(morphInstances(x, y, alpha = 0.5, point.matching = matrix(c(1:5, 2:6), ncol = 2)))
+    z = morphInstances(x, y, alpha = 0.3, point.matching = matrix(c(1:5, sample(1:5)), ncol = 2))
+    expect_is(z, "Network")
 })

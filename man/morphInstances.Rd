@@ -4,17 +4,27 @@
 \alias{morphInstances}
 \title{Morphing of two networks with a convex combination of the coordinates.}
 \usage{
-morphInstances(x, y, alpha)
+morphInstances(x, y, alpha, point.matching = NULL,
+  point.matching.algorithm = getOptimalPointMatching)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
-Network.}
+First network.}
 
 \item{y}{[\code{Network}]\cr
-Network.}
+Second network.}
 
 \item{alpha}{[\code{numeric(1)}]\cr
 Coeffiecient alpha for convex combination.}
+
+\item{point.matching}{[\code{matrix} | NULL]\cr
+Point matching which shall be used for morphing. If \code{NULL}, an optimal
+point matching is generated via function \code{\link{getOptimalPointMatching}}.
+Default is \code{NULL}. Currently it is just possible to pass a point matching
+for instances without depots.}
+
+\item{point.matching.algorithm}{[\code{function}]\cr
+Algorithm used to find a point matching. Default is \code{\link{getOptimalPointMatching}}.}
 }
 \value{
 [\code{Network}]
