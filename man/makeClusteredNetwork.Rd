@@ -9,7 +9,7 @@ makeClusteredNetwork(coordinates, depot.coordinates = NULL, membership,
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
-Numeric matrix of 2D coordinates.}
+  Numeric matrix of 2D coordinates.}
 
 \item{depot.coordinates}{[\code{matrix} | NULL]\cr
 Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which

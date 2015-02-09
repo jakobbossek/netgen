@@ -2,6 +2,8 @@
 #'
 #' @param coordinates [\code{matrix}]\cr
 #'   Numeric matrix of 2D coordinates.
+#' @param distance.matrix [\code{matrix}]\cr
+#'   Optional distance matrix.
 #' @param name [\code{character(1)}]\cr
 #'   Optional name of the network.
 #' @param comment [\code{character(1)}]\cr
@@ -16,20 +18,28 @@
 #' @return [\code{Network}]
 #' @export
 makeNetwork = function(coordinates,
+    distance.matrix = NULL,
     name = NULL, comment = NULL,
     depot.coordinates = NULL, lower = NULL, upper = NULL) {
     assertMatrix(coordinates)
     !is.null(name) && assertCharacter(name, len = 1L, any.missing = FALSE)
     !is.null(comment) && assertCharacter(comment, len = 1L, any.missing = FALSE)
     !is.null(depot.coordinates) && assertMatrix(depot.coordinates)
+    !is.null(distance.matrix) && assertMatrix(distance.matrix)
 
     #FIXME: do we need this at all?
     if (is.null(lower) || is.null(upper)) {
         lower = min(coordinates)
         upper = max(coordinates)
     }
+
+    if (is.null(distance.matrix)) {
+        distance.matrix = dist(coordinates)
+    }
+
     makeS3Obj(
         coordinates = coordinates,
+        distance.matrix = distance.matrix,
         depot.coordinates = depot.coordinates,
         name = name,
         comment = comment,

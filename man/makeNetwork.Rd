@@ -4,12 +4,15 @@
 \alias{makeNetwork}
 \title{Generate network based on coordinates.}
 \usage{
-makeNetwork(coordinates, name = NULL, comment = NULL,
-  depot.coordinates = NULL, lower = NULL, upper = NULL)
+makeNetwork(coordinates, distance.matrix = NULL, name = NULL,
+  comment = NULL, depot.coordinates = NULL, lower = NULL, upper = NULL)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
 Numeric matrix of 2D coordinates.}
+
+\item{distance.matrix}{[\code{matrix}]\cr
+Optional distance matrix.}
 
 \item{name}{[\code{character(1)}]\cr
 Optional name of the network.}
