@@ -34,7 +34,7 @@ makeNetwork = function(coordinates,
     }
 
     if (is.null(distance.matrix)) {
-        distance.matrix = dist(coordinates)
+        distance.matrix = as.matrix(dist(coordinates))
     }
 
     makeS3Obj(
