@@ -17,6 +17,7 @@ Depends:
 Imports:
     ggplot2,
     lpSolve,
+    igraph (>= 0.7.1),
     checkmate (>= 1.5.1)
 Suggests:
     testthat

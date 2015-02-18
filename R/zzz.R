@@ -4,4 +4,5 @@
 #' @import ggplot2
 #' @import checkmate
 #' @import lpSolve
+#' @import igraph
 NULL

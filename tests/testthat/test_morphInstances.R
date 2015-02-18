@@ -37,6 +37,18 @@ test_that("morphing generates a network", {
     y = generateClusteredNetwork(n.points = 3L, n.cluster = 2L, n.depots = n.depots)
     expect_error(morphInstances(x, y, alpha = 0.5, point.matching = matrix(c(1:3, 1:3), ncol = 2)))
 
+    # ... does work with different point matching algorithms
+    x = generateRandomNetwork(n.points = 5L)
+    y = generateRandomNetwork(n.points = 5L)
+
+    matching.lp = getOptimalPointMatching(x$coordinates, y$coordinates, method = "lp")
+    matching.pr = getOptimalPointMatching(x$coordinates, y$coordinates, method = "push_relabel")
+    expect_true(all(matching.lp == matching.pr))
+    z = morphInstances(x, y, alpha = 0.5, point.matching = matching.lp)
+    expect_is(z, "Network")
+    z = morphInstances(x, y, alpha = 0.5, point.matching = matching.pr)
+    expect_is(z, "Network")
+
     # ... does (not) work with faulty/correct point matching
     x = generateRandomNetwork(n.points = 5L)
     y = generateClusteredNetwork(n.points = 5L, n.cluster = 2L)

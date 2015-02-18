@@ -4,7 +4,7 @@
 \alias{getOptimalPointMatching}
 \title{Computes optimal point assignment for two sets of points of equal size.}
 \usage{
-getOptimalPointMatching(coords1, coords2)
+getOptimalPointMatching(coords1, coords2, method = "lp")
 }
 \arguments{
 \item{coords1}{[\code{matrix}]\cr
@@ -12,6 +12,17 @@ Matrix of coordinates of the first point set.}
 
 \item{coords2}{[\code{matrix}]\cr
 Matrix of coordinates of the second point set.}
+
+\item{method}{[\code{character(1)}]\cr
+Method used to solve the assignment problem. There are currently two methods
+available:
+\describe{
+  \item{lp}{Solves the problem be means of linear programming with the
+  \pkg{lpSolve} package. This is the default.}
+  \item{push_relabel}{The assignment problem can be formulated as a
+  matching problem on bipartite graphs. This method makes use of the
+  push-relabel algorithm from the \pkg{igraph}.}
+}}
 }
 \value{
 [\code{matrix}]
