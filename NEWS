@@ -1,0 +1,9 @@
+netgen_1.1:
+- added rescaleNetwork
+- network objects now store the distance matrix internally
+- network objects now have name and comment field
+- lower and upper bound are now optional for makeNetwork/makeClusteredNetwork
+- added possibility to pass point matching or point matching algorithm to morphInstances
+
+netgen_1.0:
+- First submission to CRAN.
