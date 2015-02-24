@@ -4,12 +4,21 @@
 \alias{makeClusteredNetwork}
 \title{Generates clustered network.}
 \usage{
-makeClusteredNetwork(coordinates, depot.coordinates = NULL, membership,
-  lower = NULL, upper = NULL)
+makeClusteredNetwork(coordinates, distance.matrix = NULL, name, comment,
+  depot.coordinates = NULL, membership, lower = NULL, upper = NULL)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
 Numeric matrix of 2D coordinates.}
+
+\item{distance.matrix}{[\code{matrix}]\cr
+Optional distance matrix.}
+
+\item{name}{[\code{character(1)}]\cr
+Optional name of the network.}
+
+\item{comment}{[\code{character(1)}]\cr
+Optional additional comments on instance.}
 
 \item{depot.coordinates}{[\code{matrix} | NULL]\cr
 Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which

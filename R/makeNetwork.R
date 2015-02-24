@@ -53,6 +53,12 @@ makeNetwork = function(coordinates,
 #'
 #' @param coordinates [\code{matrix}]\cr
 #'   Numeric matrix of 2D coordinates.
+#' @param distance.matrix [\code{matrix}]\cr
+#'   Optional distance matrix.
+#' @param name [\code{character(1)}]\cr
+#'   Optional name of the network.
+#' @param comment [\code{character(1)}]\cr
+#'   Optional additional comments on instance.
 #' @param depot.coordinates [\code{matrix} | NULL]\cr
 #'   Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
 #'   means no depots at all.
@@ -64,7 +70,8 @@ makeNetwork = function(coordinates,
 #'   Upper box constraint of cube. Default is 100.
 #' @return [\code{ClusteredNetwork}]
 #' @export
-makeClusteredNetwork = function(coordinates, depot.coordinates = NULL, membership,
+makeClusteredNetwork = function(coordinates, distance.matrix = NULL,
+    name, comment, depot.coordinates = NULL, membership,
     lower = NULL, upper = NULL) {
     network = makeNetwork(
         coordinates = coordinates,
