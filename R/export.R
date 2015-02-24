@@ -46,3 +46,47 @@ import = function(file.name) {
         membership = membership
     )
 }
+
+# Exports a network to the TSPlib format.
+#
+# @note: Currently we only support euclidean instances.
+#
+# @param x [Network]
+#   Network to export.
+# @param filename [character(1)]
+#   File name.
+# @param name [character(1) | NULL]
+#   Character string describing the instance. Used for the NAME field in the
+#   TSPlib file format. Otherwise, the name of the instance is used.
+# @param comment [character(1) | NULL]
+#   Optional string with additional information about the instance. Used for
+#   the COMMENT field. If not provided the comment field of the instance is
+#   used. If the latter is \code{NULL}, no comment at all is saved.
+# @param digits [integer(1)]
+#   Round coordinates to this number of digits.
+# @return Nothing
+exportNetworkToTSPlibFormat = function(x, filename, name = NULL, comment = NULL, digits = 2L) {
+    name = if (is.null(name)) x$name else name
+    name = if (is.null(name)) filename else name
+    #FIXME: we should encode all the additional stuff to the comment section
+    comment = if (is.null(comment)) x$comment else comment
+    comment = sprintf("cl=%i;", getNumberOfClusters(x))
+    coordinates = x$coordinates
+    n = nrow(coordinates)
+    n.cluster = getNumberOfClusters(x)
+    out = paste("NAME : ", name, "\n", sep = "")
+    if (!is.null(comment)) {
+        out = paste(out, "COMMENT : ", comment, "\n", sep = "")
+    }
+    #FIXME: VRP
+    out = paste(out, "TYPE : TSP\n", sep = "")
+    out = paste(out, "DIMENSION : ", n, "\n", sep = "")
+    out = paste(out, "EDGE_WEIGHT_TYPE : EUC_2D\n", sep = "")
+    out = paste(out, "NODE_COORD_SECTION\n", sep = "")
+    #FIXME: this works only for the 2d case
+    for (i in seq(n)) {
+        out = paste(out, i, " ", round(coordinates[i, 1], digits = digits), " ", round(coordinates[i, 2], digits = digits),
+            if (i < n) "\n" else "", sep = "")
+    }
+    write(x = out, file = filename)
+}
