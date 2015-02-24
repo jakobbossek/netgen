@@ -35,9 +35,9 @@ as.data.frame.Network = function(x,
 
     if (include.extras) {
         if (!hasDepots(x)) {
-            res$types = "customers"
+            res$types = "node"
         } else {
-            res$types = c(rep("depot", getNumberOfDepots(x)), rep("customers", n))
+            res$types = c(rep("depot", getNumberOfDepots(x)), rep("node", n))
         }
         if (!is.null(x$membership)) {
             if (!hasDepots(x)) {
