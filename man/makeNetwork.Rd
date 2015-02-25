@@ -14,13 +14,13 @@ Numeric matrix of 2D coordinates.}
 \item{distance.matrix}{[\code{matrix}]\cr
 Optional distance matrix.}
 
-\item{name}{[\code{character(1)}]\cr
+\item{name}{[\code{character(1)} | \code{NULL}]\cr
 Optional name of the network.}
 
-\item{comment}{[\code{character(1)}]\cr
+\item{comment}{[\code{character(1)} | \code{NULL}]\cr
 Optional additional comments on instance.}
 
-\item{depot.coordinates}{[\code{matrix} | NULL]\cr
+\item{depot.coordinates}{[\code{matrix} | \code{NULL}]\cr
 Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
 means no depots at all.}
 

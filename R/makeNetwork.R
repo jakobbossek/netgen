@@ -4,11 +4,11 @@
 #'   Numeric matrix of 2D coordinates.
 #' @param distance.matrix [\code{matrix}]\cr
 #'   Optional distance matrix.
-#' @param name [\code{character(1)}]\cr
+#' @param name [\code{character(1)} | \code{NULL}]\cr
 #'   Optional name of the network.
-#' @param comment [\code{character(1)}]\cr
+#' @param comment [\code{character(1)} | \code{NULL}]\cr
 #'   Optional additional comments on instance.
-#' @param depot.coordinates [\code{matrix} | NULL]\cr
+#' @param depot.coordinates [\code{matrix} | \code{NULL}]\cr
 #'   Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
 #'   means no depots at all.
 #' @param lower [\code{numeric(1)}]\cr
@@ -55,9 +55,9 @@ makeNetwork = function(coordinates,
 #'   Numeric matrix of 2D coordinates.
 #' @param distance.matrix [\code{matrix}]\cr
 #'   Optional distance matrix.
-#' @param name [\code{character(1)}]\cr
+#' @param name [\code{character(1)} | \code{NULL}]\cr
 #'   Optional name of the network.
-#' @param comment [\code{character(1)}]\cr
+#' @param comment [\code{character(1)} | \code{NULL}]\cr
 #'   Optional additional comments on instance.
 #' @param depot.coordinates [\code{matrix} | NULL]\cr
 #'   Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
@@ -71,9 +71,11 @@ makeNetwork = function(coordinates,
 #' @return [\code{ClusteredNetwork}]
 #' @export
 makeClusteredNetwork = function(coordinates, distance.matrix = NULL,
-    name, comment, depot.coordinates = NULL, membership,
+    name = NULL, comment = NULL, depot.coordinates = NULL, membership,
     lower = NULL, upper = NULL) {
     network = makeNetwork(
+        name = name,
+        comment = comment,
         coordinates = coordinates,
         depot.coordinates = depot.coordinates,
         lower = lower,
