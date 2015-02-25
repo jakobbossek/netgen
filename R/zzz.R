@@ -5,4 +5,5 @@
 #' @import checkmate
 #' @import lpSolve
 #' @import igraph
+#' @import stringr
 NULL

@@ -8,6 +8,7 @@
 #'   Network object.
 #' @export
 importFromTSPlibFormat = function(filename) {
+    requirePackages("stringr", why = "netgen::importFromTSPlibFormat")
     assertFile(filename, access = "r")
 
     fh = file(filename, open = "r")
@@ -17,47 +18,91 @@ importFromTSPlibFormat = function(filename) {
     i = 1L
     network = list()
 
-    readSpecificationPart = function(lines, envir = parent.frame()) {
-        i = envir$i
+    readSpecificationPart = function(lines, i, envir = parent.frame()) {
         repeat {
             line = lines[i]
             #FIXME: this is not tolerant enough
-            line.parts = strsplit(line, split = " : ", fixed = TRUE)[[1]]
+            line.parts = strsplit(line, split = "[ ]*:[ ]*")[[1]]
 
             # we reached NODE_COORD_SECTION for example
             if (length(line.parts) != 2L) {
                 break
+                stop()
             }
-            envir$network[[tolower(line.parts[1])]] = line.parts[2]
+            envir$network[[tolower(line.parts[1])]] = str_trim(line.parts[2])
             i = i + 1L
         }
         envir$i = i
     }
 
-    readNodeCoordinates = function(lines, n, envir = parent.frame()) {
-        i = envir$i
+    readNodeCoordinates = function(lines, i, n) {
         coordinates = matrix(NA, ncol = 2, nrow = n)
         for (j in (i + 1):(i + n)) {
             line = lines[j]
-            coords = strsplit(line, split = " ", fixed = TRUE)[[1]]
+            #FIXME: ugly as sin!
+            coords = strsplit(line, split = "[ ][ ]*")[[1]]
+            coords = coords[which(coords != "")]
             coords = coords[-1]
             coordinates[j - i, ] = as.numeric(coords)
         }
-        envir$i = i + n + 1L
         return(coordinates)
     }
 
-    readEdgeWeightsSection = function(lines, n, envir = parent.frame()) {
+    readEdgeWeightsSection = function(network, lines, i, n) {
+        ewt = network$edge_weight_type
+        ewf = network$edge_weight_format
+        if (is.null(ewt)) {
+            stopf("Edge weight section found, but not edge weight type specified.")
+        }
+        if (ewt != "EXPLICIT") {
+            stopf("Currently only explicit edge weight types are supported.")
+        }
+        if (is.null(ewf)) {
+            stopf("Edge weight section is found, but no edge weight format given.")
+        } else if (ewf == "FULL_MATRIX") {
+            edge.weights = readExplicitEdgeWeights(lines, i, n)
+        } else if (ewf == "UPPER_ROW") {
+            edge.weights = readUpperRowWeights(lines, i, n)
+        } else {
+            stopf("Unsupported EDGE_WEIGHT_FORMAT.")
+        }
 
+        network$edge_weights = edge.weights
+        return(network)
     }
 
-    readClusterSection = function(lines, n, envir = parent.frame()) {
-        i = envir$i
-        envir$i = i + n + 1L
+    getCleanNumerics = function(line, delete.first = FALSE) {
+        x = strsplit(line, "[ ][ ]*")[[1]]
+        x = x[which(x != "")]
+        if (delete.first) {
+            x = x[-1L]
+        }
+        return(as.numeric(x))
+    }
+
+    readUpperRowWeights = function(lines, i, n) {
+        distance.matrix = matrix(0, ncol = n, nrow = n)
+        j = 1
+        for (j in (i+1):(i + n - 1)) {
+            distance.matrix[j - i, (j - i + 1):n] = getCleanNumerics(lines[j])
+        }
+        return(distance.matrix)
+    }
+
+    readExplicitEdgeWeights = function(lines, i, n) {
+        distance.matrix = matrix(NA, ncol = n, nrow = n)
+        for (j in (i + 1):(i + n)) {
+            #FIXME: see above. Very ugly.
+            distance.matrix[j - i, ] = getCleanNumerics(lines[j])
+        }
+        return(distance.matrix)
+    }
+
+    readClusterSection = function(lines, i, n) {
         return(as.integer(lines[(i + 1):(i + n)]))
     }
 
-    readSpecificationPart(lines)
+    readSpecificationPart(lines, i)
     #FIXME: we need to check the specification here
     n.points = as.integer(network$dimension)
     if (is.null(n.points)) {
@@ -66,16 +111,21 @@ importFromTSPlibFormat = function(filename) {
     while (lines[i] != "EOF" && lines[i] != "" && !is.na(lines[i])) {
         line = lines[i]
         if (line == "NODE_COORD_SECTION") {
-            network[["coordinates"]] = readNodeCoordinates(lines, n.points)
+            network[["coordinates"]] = readNodeCoordinates(lines, i, n.points)
+            i = i + n.points + 1L
         }
         if (line == "DISPLAY_DATA_SECTION") {
-            network[["display_data"]] = readNodeCoordinates(lines, n.points)
+            catf("DISPLAY_DATA_SECTION")
+            network[["display_data"]] = readNodeCoordinates(lines, i, n.points)
+            i = i + n.points + 1L
         }
         if (line == "CLUSTER_MEMBERSHIP_SECTION") {
-            network[["membership"]] = readClusterSection(lines, n.points)
+            network[["membership"]] = readClusterSection(lines, i, n.points)
+            i = i + n.points + 1L
         }
         if (line == "EDGE_WEIGHT_SECTION") {
-            network[["edge_weights"]] = readEdgeWeightsSection(lines, n.points)
+            network = readEdgeWeightsSection(network, lines, i, n.points)
+            i = i + n.points + 1L
         }
     }
 
@@ -110,8 +160,8 @@ importFromTSPlibFormat = function(filename) {
             name = network$name,
             comment = network$comment,
             coordinates = network$coordinates,
-            lower = network$lower,
-            upper = network$upper,
+            lower = if (!is.null(network$lower)) as.numeric(network$lower) else NULL,
+            upper = if (!is.null(network$upper)) as.numeric(network$upper) else NULL,
             membership = network$membership
         )
     } else {
@@ -119,8 +169,8 @@ importFromTSPlibFormat = function(filename) {
             name = network$name,
             comment = network$comment,
             coordinates = network$coordinates,
-            lower = network$lower,
-            upper = network$upper
+            lower = if (!is.null(network$lower)) as.numeric(network$lower) else NULL,
+            upper = if (!is.null(network$upper)) as.numeric(network$upper) else NULL
         )
     }
     return(network)

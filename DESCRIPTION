@@ -18,6 +18,7 @@ Imports:
     ggplot2,
     lpSolve,
     igraph (>= 0.7.1),
-    checkmate (>= 1.5.1)
+    checkmate (>= 1.5.1),
+    stringr (>= 0.6.2)
 Suggests:
     testthat
