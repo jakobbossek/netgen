@@ -29,13 +29,13 @@ importFromTSPlibFormat = function(filename) {
             }
             network[[tolower(line.parts[1])]] = str_trim(line.parts[2])
         }
-        network
+        return(network)
     }
 
     readNodeCoordinates = function(fh, n) {
         # <integer> <real> <real>
-        raw.coordinates = scan(fh, nmax = 3 * n)
-        # get rid of number
+        raw.coordinates = scan(fh, nmax = 3 * n, quiet = TRUE)
+        # get rid of node number (every third element)
         raw.coordinates = raw.coordinates[-seq(1, 3 * n, by = 3)]
         coordinates = matrix(raw.coordinates, ncol = 2L, byrow = TRUE)
         return(coordinates)
@@ -160,12 +160,11 @@ importFromTSPlibFormat = function(filename) {
     }
     line = str_trim(readLines(fh, 1L))
     while (length(line) > 0 && line != "EOF" && line != "" && !is.na(line)) {
-        print(line)
+        #print(line)
         if (line == "NODE_COORD_SECTION") {
             network[["coordinates"]] = readNodeCoordinates(fh, n.points)
         }
         if (line == "DISPLAY_DATA_SECTION") {
-            catf("DISPLAY_DATA_SECTION")
             network[["display_data"]] = readNodeCoordinates(fh, n.points)
         }
         if (line == "CLUSTER_MEMBERSHIP_SECTION") {
@@ -207,6 +206,8 @@ importFromTSPlibFormat = function(filename) {
     #print(network)
 
     if (!is.null(network$membership)) {
+        print(network)
+        catf("Name %s, Comment %s", network$name, network$comment)
         network = makeClusteredNetwork(
             name = network$name,
             comment = network$comment,
@@ -216,6 +217,7 @@ importFromTSPlibFormat = function(filename) {
             upper = if (!is.null(network$upper)) as.numeric(network$upper) else NULL,
             membership = network$membership
         )
+        print(str(network))
     } else {
         network = makeNetwork(
             name = network$name,
@@ -226,6 +228,5 @@ importFromTSPlibFormat = function(filename) {
             upper = if (!is.null(network$upper)) as.numeric(network$upper) else NULL
         )
     }
-
     return(network)
 }
