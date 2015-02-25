@@ -8,6 +8,7 @@ netgen v1.1 (Release date: coming soon):
 * added possibility to pass point matching or point matching algorithm to morphInstances
 * getOptimalPointAssignment now has another parameter method (new method to
   solve the assigment to optimality)
+* importFromTSPlibFormat and exportToTSPlibFormat
 
 netgen v1.0 (Release date: 2015-02-03):
 ===========
