@@ -1,9 +1,5 @@
 context("import and export to data formats")
 
-test_that("import and export to proprietary format is running fine", {
-    #FIXME: implement this.
-})
-
 test_that("import and export to TSPlib format is running fine", {
     expect_equal_networks = function(x, y) {
         expect_equal(getNumberOfNodes(x), getNumberOfNodes(y))
@@ -12,7 +8,6 @@ test_that("import and export to TSPlib format is running fine", {
         expect_equal(x$name, y$name)
         expect_equal(x$comment, y$comment)
     }
-
     x = generateRandomNetwork(n.points = 10L)
     x$name = "test"
     fn = tempfile(fileext = ".tsp")
