@@ -196,8 +196,77 @@ importFromTSPlibFormat = function(filename) {
         stopf("No coordinates available for the given instance '%s'.", network$name)
     }
 
+    getNetworkEdgeWeights = function(network) {
+        edge_weights = network$edge_weights
+        if (!is.null(edge_weights)) {
+            return(edge_weights)
+        }
+        ewt = network$edge_weight_type
+        coordinates = network$coordinates
+        n.points = as.integer(network$dimension)
+        mapping = list("EUC_2D" = "euclidean", "CEIL_2D" = "euclidean", "MAX_2D" = "maximum", "MAN_2D" = "manhattan")
+        if (ewt %in% names(mapping)) {
+            distance.matrix = as.matrix(dist(coordinates, method = mapping[[ewt]]))
+            if (ewt == "CEIL_2D") {
+                # round up to the next integer
+                distance.matrix = ceiling(distance.matrix)
+            }
+            return(distance.matrix)
+        } else if (ewt == "ATT") {
+            # special "pseudo-Euclidean" distance (as it is called in Reinelt 95)
+            #FIXME: this is ineffient, not R like
+            distance.matrix = matrix(0, ncol = n.points, nrow = n.points)
+            for (i in 1:n.points) {
+                for (j in 1:n.points) {
+                    if (i == j) {
+                        next
+                    }
+                    # See Reinelt 95
+                    distance.matrix[i, j] = sqrt(sum((coordinates[i, ] - coordinates[j, ])^2) / 10.0)
+                    tmp = floor(distance.matrix[i, j])
+                    if (tmp < distance.matrix[i, j]) {
+                        distance.matrix[i, j] = tmp + 1L
+                    } else {
+                        distance.matrix[i, j] = tmp
+                    }
+                }
+            }
+            return(distance.matrix)
+        } else if (ewt == "GEO") {
+            # geographical distance
+            #FIXME: this is not very efficient
+            coordinates = network$coordinates
+            x = coordinates[, 1]
+            degrees = floor(x)
+            min = degrees - x
+            latitude = pi * (degrees + 5.0 * min / 3.0) / 180
+            y = coordinates[, 2]
+            degrees = floor(y)
+            min = degrees - y
+            longitude = pi * (degrees + 5.0 * min / 3.0) / 180
+            earth.radius = 6378.388
+            distance.matrix = matrix(0, ncol = n.points, nrow = n.points)
+            for (i in 1:n.points) {
+                for (j in 1:n.points) {
+                    if (i == j) {
+                        next
+                    }
+                    q1 = cos(longitude[i] - longitude[j])
+                    q2 = cos(latitude[i] - latitude[j])
+                    q3 = cos(latitude[i] + latitude[j])
+                    distance.matrix[i, j] = as.integer(earth.radius * acos(0.5 * ((1 + q1) * q2 - (1 - q1) * q3)) + 1)
+                }
+            }
+            return(distance.matrix)
+        }
+        stopf("Unsupported EDGE_WEIGHT_TYPE: '%s'", ewt)
+    }
+
     # postprocessing
     network$coordinates = getNetworkCoordinates(network)
+    network$edge_weights = getNetworkEdgeWeights(network)
+
+
 
     #FIXME: this is ugly as sin! Why do we have makeClusteredNetwork?
     # It is simply makeNetwork with additional membership stuff.
