@@ -13,7 +13,7 @@ test_that("generate grid network works as expected", {
         expect_true(all((x$coordinates >= lower) & (x$coordinates <= upper)))
     }
 
-    n.points.per.dim = 10L
+    n.points.per.dim = 3L
     for (n.dim in n.dims) {
         x = generateGridNetwork(n.points.per.dim = n.points.per.dim, n.dim = n.dim, lower = lower, upper = upper)
         checkNetwork(x, n.points.per.dim^n.dim, n.dim, lower, upper)
