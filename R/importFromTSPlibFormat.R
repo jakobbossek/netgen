@@ -29,6 +29,8 @@ importFromTSPlibFormat = function(filename) {
             }
             key = tolower(line.parts[1])
             value = str_trim(line.parts[2])
+            # multiple comments are allowed. We store all of them and not just
+            # the last one
             if (key == "comment" && !is.null(network[[key]])) {
                 network[[key]] = c(network[[key]], value)
             } else {
@@ -64,7 +66,9 @@ importFromTSPlibFormat = function(filename) {
             # function to make the code nicer
             edge.weights = readExplicitEdgeWeights(fh, n)
         } else if (ewf == "UPPER_ROW") {
+            catf("UPPER ROW for %s", network$name)
             edge.weights = readUpperRowWeights(fh, n)
+            print(head(as.numeric(edge.weights)))
         } else if (ewf == "LOWER_ROW") {
             edge.weights = readLowerRowWeights(fh, n)
         } else if (ewf == "UPPER_DIAG_ROW") {
@@ -74,7 +78,7 @@ importFromTSPlibFormat = function(filename) {
         } else {
             #FIXME: add support for the remaining types
             # UPPER_COL, LOWER_COL, UPPER_DIAG_COL and LOWER_DIAG_COL
-            stopf("Unsupported EDGE_WEIGHT_FORMAT.")
+            stopf("Unsupported EDGE_WEIGHT_FORMAT: '%s'.", ewf)
         }
         network$edge_weights = edge.weights
         return(network)
@@ -166,7 +170,6 @@ importFromTSPlibFormat = function(filename) {
     }
     line = str_trim(readLines(fh, 1L))
     while (length(line) > 0 && line != "EOF" && line != "" && !is.na(line)) {
-        #print(line)
         if (line == "NODE_COORD_SECTION") {
             network[["coordinates"]] = readNodeCoordinates(fh, n.points)
         }
@@ -177,10 +180,10 @@ importFromTSPlibFormat = function(filename) {
             network[["membership"]] = readClusterSection(fh, n.points)
         }
         if (line == "EDGE_WEIGHT_SECTION") {
+            catf("Working on EDGE_WEIGHT_SECTION for %s", network$name)
             network = readEdgeWeightsSection(fh, network, n.points)
         }
         line = str_trim(readLines(fh, 1L))
-        #print(line)
     }
 
     getNetworkCoordinates = function(network) {
@@ -195,11 +198,12 @@ importFromTSPlibFormat = function(filename) {
         if (!is.null(network$display_data)) {
             return(network$display_data)
         }
-        if (!is.null(network$edge_weights)) {
-            #FIXME: implement this
-            stopf("Guessing coordinates since no explicit information is given.")
+
+        edge_weights = network$edge_weights
+        if (!is.null(edge_weights)) {
+            return(cmdscale(edge_weights, k = 2))
         }
-        stopf("No coordinates available for the given instance '%s'.", network$name)
+        stopf("No coordinates available and no possibility to guess them for the given instance '%s'.", network$name)
     }
 
     getNetworkEdgeWeights = function(network) {
@@ -220,7 +224,7 @@ importFromTSPlibFormat = function(filename) {
             return(distance.matrix)
         } else if (ewt == "ATT") {
             # special "pseudo-Euclidean" distance (as it is called in Reinelt 95)
-            #FIXME: this is ineffient, not R like
+            #FIXME: this is ineffient, not R like, but it works!
             distance.matrix = matrix(0, ncol = n.points, nrow = n.points)
             for (i in 1:n.points) {
                 for (j in 1:n.points) {
@@ -246,15 +250,12 @@ importFromTSPlibFormat = function(filename) {
             x = coordinates[, 1]
             degrees = floor(x)
             min = x - degrees
-            latitude = pi * (degrees + 5 * min / 30) / 180
-            y = coordinates[, 1]
+            latitude = pi * (degrees + 5 * min / 3) / 180
+            y = coordinates[, 2]
             degrees = floor(y)
             min = y - degrees
-            longitude = pi * (degrees + 5 * min / 30) / 180
+            longitude = pi * (degrees + 5 * min / 3) / 180
             earth.radius = 6378.3888
-            print("NETGEN")
-            print(head(latitude))
-            print(head(longitude))
             distance.matrix = matrix(0, ncol = n.points, nrow = n.points)
             for (i in 1:n.points) {
                 for (j in 1:n.points) {
@@ -267,24 +268,14 @@ importFromTSPlibFormat = function(filename) {
                     distance.matrix[i, j] = round(earth.radius * acos(0.5 * ((1 + q1) * q2 - (1 - q1) * q3)) + 1)
                 }
             }
-            symm = TRUE
-            for (i in 1:n.points) {
-                for (j in 1:n.points) {
-                    symm = symm & (distance.matrix[i, j] == distance.matrix[j, i])
-                }
-            }
-            catf("Symmetric: %i", as.integer(symm))
-            print(head(as.numeric(distance.matrix)))
             return(distance.matrix)
         }
-        stopf("Unsupported EDGE_WEIGHT_TYPE: '%s'", ewt)
+        stopf("Unsupported EDGE_WEIGHT_TYPE: '%s'.", ewt)
     }
 
     # postprocessing
-    network$coordinates = getNetworkCoordinates(network)
     network$edge_weights = getNetworkEdgeWeights(network)
-
-
+    network$coordinates = getNetworkCoordinates(network)
 
     #FIXME: this is ugly as sin! Why do we have makeClusteredNetwork?
     # It is simply makeNetwork with additional membership stuff.
