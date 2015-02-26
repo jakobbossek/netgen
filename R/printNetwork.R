@@ -3,6 +3,8 @@ print.Network = function(x, ...) {
     clustered = testClass(x, "ClusteredNetwork")
     type = if (clustered) "Clustered" else "Simple"
     catf("%s %i-dimensional network.", type, ncol(x$coordinates))
+    catf("Name:               %s", x$name)
+    catf("Comment(s):         %s", collapse(x$comment, "\n                    "))
     catf("Number of nodes:    %i", getNumberOfNodes(x))
     if (clustered) {
         catf("Number of clusters: %i", getNumberOfClusters(x))
