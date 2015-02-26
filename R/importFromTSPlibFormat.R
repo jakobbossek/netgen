@@ -113,7 +113,7 @@ getNetworkCoordinates = function(network) {
     # otherwise try to reconstruct cooridnates based on distance matrix
     edge_weights = network$edge_weights
     if (!is.null(edge_weights)) {
-        return(cmdscale(edge_weights, k = 2))
+        return(cmdscale(dist(edge_weights), k = 2))
     }
     stopf("No coordinates available and no possibility to guess them for the given instance '%s'.", network$name)
 }
