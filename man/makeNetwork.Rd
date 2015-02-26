@@ -17,7 +17,7 @@ Optional distance matrix.}
 \item{name}{[\code{character(1)} | \code{NULL}]\cr
 Optional name of the network.}
 
-\item{comment}{[\code{character(1)} | \code{NULL}]\cr
+\item{comment}{[\code{character} | \code{NULL}]\cr
 Optional additional comments on instance.}
 
 \item{depot.coordinates}{[\code{matrix} | \code{NULL}]\cr

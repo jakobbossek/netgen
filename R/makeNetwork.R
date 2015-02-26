@@ -6,7 +6,7 @@
 #'   Optional distance matrix.
 #' @param name [\code{character(1)} | \code{NULL}]\cr
 #'   Optional name of the network.
-#' @param comment [\code{character(1)} | \code{NULL}]\cr
+#' @param comment [\code{character} | \code{NULL}]\cr
 #'   Optional additional comments on instance.
 #' @param depot.coordinates [\code{matrix} | \code{NULL}]\cr
 #'   Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
@@ -23,7 +23,7 @@ makeNetwork = function(coordinates,
     depot.coordinates = NULL, lower = NULL, upper = NULL) {
     assertMatrix(coordinates)
     !is.null(name) && assertCharacter(name, len = 1L, any.missing = FALSE)
-    !is.null(comment) && assertCharacter(comment, len = 1L, any.missing = FALSE)
+    !is.null(comment) && assertCharacter(comment, min.len = 1L, any.missing = FALSE)
     !is.null(depot.coordinates) && assertMatrix(depot.coordinates)
     !is.null(distance.matrix) && assertMatrix(distance.matrix)
 
@@ -57,7 +57,7 @@ makeNetwork = function(coordinates,
 #'   Optional distance matrix.
 #' @param name [\code{character(1)} | \code{NULL}]\cr
 #'   Optional name of the network.
-#' @param comment [\code{character(1)} | \code{NULL}]\cr
+#' @param comment [\code{character} | \code{NULL}]\cr
 #'   Optional additional comments on instance.
 #' @param depot.coordinates [\code{matrix} | NULL]\cr
 #'   Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
