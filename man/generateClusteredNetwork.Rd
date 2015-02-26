@@ -7,7 +7,8 @@
 generateClusteredNetwork(n.cluster, n.points, n.dim = 2L,
   generator = lhs::maximinLHS, lower = 0, upper = 100, sigmas = NULL,
   n.depots = NULL, distribution.strategy = "equally.distributed",
-  cluster.centers = NULL, out.of.bounds.handling = "mirror", ...)
+  cluster.centers = NULL, out.of.bounds.handling = "mirror", name = NULL,
+  ...)
 }
 \arguments{
 \item{n.cluster}{[\code{integer(1)}]\cr
@@ -61,6 +62,10 @@ out of bounds, i.e., get coordinates larger than \code{upper} or lower than
   \item{\dQuote{mirror}}{Mirror the coordinates at the violated axis.}
 }
 Default is \dQuote{mirror}.}
+
+\item{name}{[\code{character(1)} | \code{NULL}]\cr
+Optional name for the generated network. Default is \code{NULL}. In this case
+a random name is generated.}
 
 \item{...}{[\code{any}]\cr
 Currently not used.}

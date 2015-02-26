@@ -15,12 +15,13 @@
 #'   Lower box constraint of cube.
 #' @param upper [\code{numeric(1)}]\cr
 #'   Upper box constraint of cube. Default is 100.
+#' @template arg_name
 #' @return [\code{Network}]
 #' @examples
 #' x = generateRandomNetwork(n.points = 100L, n.depots = 2L, upper = 50)
 #' @export
 generateRandomNetwork = function(n.points, n.dim = 2L, n.depots = NULL,
-    lower = 0, upper = 100) {
+    lower = 0, upper = 100, name = NULL) {
     assertCount(n.points, na.ok = FALSE)
     assertInteger(n.dim, len = 1L, any.missing = FALSE, lower = 2L)
 
@@ -30,6 +31,7 @@ generateRandomNetwork = function(n.points, n.dim = 2L, n.depots = NULL,
 
     assertNumber(lower, lower = 0, finite = TRUE)
     assertNumber(upper, finite = TRUE)
+    !is.null(name) && assertCharacter(name, len = 1L, any.missing = FALSE)
 
     if (upper <= lower) {
         stopf("Argument 'upper' must be greater than argument 'lower'.")
@@ -48,6 +50,7 @@ generateRandomNetwork = function(n.points, n.dim = 2L, n.depots = NULL,
     }
 
     makeNetwork(
+        name = coalesce(name, paste("RANDOM_", generateName(n.points, n.dim), sep = "")),
         coordinates = coordinates,
         depot.coordinates = depot.coordinates,
         lower = lower,

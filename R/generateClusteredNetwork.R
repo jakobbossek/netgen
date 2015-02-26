@@ -46,6 +46,7 @@
 #'     \item{\dQuote{mirror}}{Mirror the coordinates at the violated axis.}
 #'   }
 #'   Default is \dQuote{mirror}.
+#' @template arg_name
 #' @param ... [\code{any}]\cr
 #'   Currently not used.
 #' @return [\code{ClusteredNetwork}]
@@ -66,13 +67,14 @@ generateClusteredNetwork = function(n.cluster,
     distribution.strategy = "equally.distributed",
     cluster.centers = NULL,
     out.of.bounds.handling = "mirror",
+    name = NULL,
     ...) {
 
     # do a load of sanity checks
     doSanityChecks(n.cluster, n.points, n.dim,
         generator, lower, upper, sigmas,
         n.depots, distribution.strategy,
-        cluster.centers, out.of.bounds.handling)
+        cluster.centers, out.of.bounds.handling, name)
 
     if (is.null(cluster.centers)) {
         cluster.centers = generateClusterCenters(
@@ -121,6 +123,8 @@ generateClusteredNetwork = function(n.cluster,
     coordinates = forceToBounds(coordinates, out.of.bounds.handling, lower, upper)
 
     makeClusteredNetwork(
+        name = coalesce(name, paste("CLUSTERED_", generateName(n.points, n.dim, n.cluster), sep = "")),
+        comment = paste("cl", n.cluster, sep = "="),
         coordinates = coordinates,
         depot.coordinates = depot.coordinates,
         membership = membership,
@@ -143,7 +147,8 @@ doSanityChecks = function(n.cluster,
     n.depots = NULL,
     distribution.strategy = "equally.distributed",
     cluster.centers = NULL,
-    out.of.bounds.handling = "mirror") {
+    out.of.bounds.handling = "mirror",
+    name = NULL) {
     assertInteger(n.cluster, lower = 2L, len = 1L, any.missing = FALSE)
     assertInteger(n.points, lower = 2L, len = 1L, any.missing = FALSE)
     assertInteger(n.dim, lower = 2L, len = 1L, any.missing = FALSE)
@@ -160,6 +165,10 @@ doSanityChecks = function(n.cluster,
 
     if (!is.null(n.depots)) {
         assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
+    }
+
+    if (!is.null(name)) {
+        assertCharacter(name, len = 1L, any.missing = FALSE)
     }
 
     assertChoice(distribution.strategy, choices = getPointDistributionStrategies())

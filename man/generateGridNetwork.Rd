@@ -5,7 +5,7 @@
 \title{Generates a grid network.}
 \usage{
 generateGridNetwork(n.points.per.dim = NULL, n.dim = 2L, lower = 0,
-  upper = 100)
+  upper = 100, name = NULL)
 }
 \arguments{
 \item{n.points.per.dim}{[\code{integer(1)}]\cr
@@ -19,6 +19,10 @@ Lower box constaint for cube. Default is \code{0}.}
 
 \item{upper}{[\code{numeric(1)}]\cr
 Upper box constaint for cube. Default is \code{100}.}
+
+\item{name}{[\code{character(1)} | \code{NULL}]\cr
+Optional name for the generated network. Default is \code{NULL}. In this case
+a random name is generated.}
 }
 \value{
 [\code{Network}]

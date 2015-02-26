@@ -5,7 +5,7 @@
 \title{Generates a random graph in a hypercube.}
 \usage{
 generateRandomNetwork(n.points, n.dim = 2L, n.depots = NULL, lower = 0,
-  upper = 100)
+  upper = 100, name = NULL)
 }
 \arguments{
 \item{n.points}{[\code{integer(1)}]\cr
@@ -27,6 +27,10 @@ Lower box constraint of cube.}
 
 \item{upper}{[\code{numeric(1)}]\cr
 Upper box constraint of cube. Default is 100.}
+
+\item{name}{[\code{character(1)} | \code{NULL}]\cr
+Optional name for the generated network. Default is \code{NULL}. In this case
+a random name is generated.}
 }
 \value{
 [\code{Network}]
