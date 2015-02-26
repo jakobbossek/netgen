@@ -66,9 +66,7 @@ importFromTSPlibFormat = function(filename) {
             # function to make the code nicer
             edge.weights = readExplicitEdgeWeights(fh, n)
         } else if (ewf == "UPPER_ROW") {
-            catf("UPPER ROW for %s", network$name)
             edge.weights = readUpperRowWeights(fh, n)
-            print(head(as.numeric(edge.weights)))
         } else if (ewf == "LOWER_ROW") {
             edge.weights = readLowerRowWeights(fh, n)
         } else if (ewf == "UPPER_DIAG_ROW") {
@@ -180,7 +178,6 @@ importFromTSPlibFormat = function(filename) {
             network[["membership"]] = readClusterSection(fh, n.points)
         }
         if (line == "EDGE_WEIGHT_SECTION") {
-            catf("Working on EDGE_WEIGHT_SECTION for %s", network$name)
             network = readEdgeWeightsSection(fh, network, n.points)
         }
         line = str_trim(readLines(fh, 1L))
@@ -246,7 +243,6 @@ importFromTSPlibFormat = function(filename) {
             # geographical distance
             #FIXME: this is not very efficient
             coordinates = network$coordinates
-            #print(head(coordinates))
             x = coordinates[, 1]
             degrees = floor(x)
             min = x - degrees
@@ -281,10 +277,7 @@ importFromTSPlibFormat = function(filename) {
     # It is simply makeNetwork with additional membership stuff.
     # Refactor this! Make membership an optional field of makeNetwork
     # and mark makeClusteredNetwork as deprecated.
-    #print(network)
-
     if (!is.null(network$membership)) {
-        #print(network)
         network = makeClusteredNetwork(
             name = network$name,
             comment = network$comment,
@@ -294,7 +287,6 @@ importFromTSPlibFormat = function(filename) {
             upper = if (!is.null(network$upper)) as.numeric(network$upper) else NULL,
             membership = network$membership
         )
-        #print(str(network))
     } else {
         network = makeNetwork(
             name = network$name,
