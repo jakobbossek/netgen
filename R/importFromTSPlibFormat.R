@@ -42,31 +42,16 @@ importFromTSPlibFormat = function(filename) {
     network$edge_weights = getNetworkEdgeWeights(network)
     network$coordinates = getNetworkCoordinates(network)
 
-    #FIXME: this is ugly as sin! Why do we have makeClusteredNetwork?
-    # It is simply makeNetwork with additional membership stuff.
-    # Refactor this! Make membership an optional field of makeNetwork
-    # and mark makeClusteredNetwork as deprecated.
-    if (!is.null(network$membership)) {
-        network = makeClusteredNetwork(
-            name = network$name,
-            comment = network$comment,
-            coordinates = network$coordinates,
-            distance.matrix = network$edge_weights,
-            lower = if (!is.null(network$lower)) as.numeric(network$lower) else NULL,
-            upper = if (!is.null(network$upper)) as.numeric(network$upper) else NULL,
-            membership = network$membership
-        )
-    } else {
-        network = makeNetwork(
-            name = network$name,
-            comment = network$comment,
-            coordinates = network$coordinates,
-            distance.matrix = network$edge_weights,
-            lower = if (!is.null(network$lower)) as.numeric(network$lower) else NULL,
-            upper = if (!is.null(network$upper)) as.numeric(network$upper) else NULL
-        )
-    }
-    return(network)
+    # finally generate netgen {Clustered}Network object
+    makeNetwork(
+        name = network$name,
+        comment = network$comment,
+        coordinates = network$coordinates,
+        distance.matrix = network$edge_weights,
+        lower = if (!is.null(network$lower)) as.numeric(network$lower) else NULL,
+        upper = if (!is.null(network$upper)) as.numeric(network$upper) else NULL,
+        membership = network$membership
+    )
 }
 
 # Extract specifications.

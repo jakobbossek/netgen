@@ -122,7 +122,7 @@ generateClusteredNetwork = function(n.cluster,
     membership = do.call(c, membership)
     coordinates = forceToBounds(coordinates, out.of.bounds.handling, lower, upper)
 
-    makeClusteredNetwork(
+    makeNetwork(
         name = coalesce(name, paste("CLUSTERED_", generateName(n.points, n.dim, n.cluster), sep = "")),
         comment = paste("cl", n.cluster, sep = "="),
         coordinates = coordinates,

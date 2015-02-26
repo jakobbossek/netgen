@@ -5,7 +5,8 @@
 \title{Generate network based on coordinates.}
 \usage{
 makeNetwork(coordinates, distance.matrix = NULL, name = NULL,
-  comment = NULL, depot.coordinates = NULL, lower = NULL, upper = NULL)
+  comment = NULL, membership = NULL, depot.coordinates = NULL,
+  lower = NULL, upper = NULL)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
@@ -19,6 +20,9 @@ Optional name of the network.}
 
 \item{comment}{[\code{character} | \code{NULL}]\cr
 Optional additional comments on instance.}
+
+\item{membership}{[\code{numeric} | \code{NULL}]\cr
+Optional vector of memberships for clustered networks.}
 
 \item{depot.coordinates}{[\code{matrix} | \code{NULL}]\cr
 Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
