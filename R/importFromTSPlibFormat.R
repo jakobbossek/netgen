@@ -27,7 +27,13 @@ importFromTSPlibFormat = function(filename) {
                 pushBack(line, fh)
                 break
             }
-            network[[tolower(line.parts[1])]] = str_trim(line.parts[2])
+            key = tolower(line.parts[1])
+            value = str_trim(line.parts[2])
+            if (key == "comment" && !is.null(network[[key]])) {
+                network[[key]] = c(network[[key]], value)
+            } else {
+                network[[key]] = value
+            }
         }
         return(network)
     }
@@ -148,7 +154,7 @@ importFromTSPlibFormat = function(filename) {
     }
 
     readClusterSection = function(fh, n) {
-        membership = as.integer(scan(fh, nmax = n), quiet = TRUE)
+        membership = as.integer(scan(fh, nmax = n, quiet = TRUE))
         return(membership)
     }
 
@@ -223,7 +229,7 @@ importFromTSPlibFormat = function(filename) {
                     }
                     # See Reinelt 95
                     distance.matrix[i, j] = sqrt(sum((coordinates[i, ] - coordinates[j, ])^2) / 10.0)
-                    tmp = floor(distance.matrix[i, j])
+                    tmp = getNextInteger(distance.matrix[i, j])
                     if (tmp < distance.matrix[i, j]) {
                         distance.matrix[i, j] = tmp + 1L
                     } else {
@@ -236,15 +242,19 @@ importFromTSPlibFormat = function(filename) {
             # geographical distance
             #FIXME: this is not very efficient
             coordinates = network$coordinates
+            #print(head(coordinates))
             x = coordinates[, 1]
             degrees = floor(x)
-            min = degrees - x
-            latitude = pi * (degrees + 5.0 * min / 3.0) / 180
-            y = coordinates[, 2]
+            min = x - degrees
+            latitude = pi * (degrees + 5 * min / 30) / 180
+            y = coordinates[, 1]
             degrees = floor(y)
-            min = degrees - y
-            longitude = pi * (degrees + 5.0 * min / 3.0) / 180
-            earth.radius = 6378.388
+            min = y - degrees
+            longitude = pi * (degrees + 5 * min / 30) / 180
+            earth.radius = 6378.3888
+            print("NETGEN")
+            print(head(latitude))
+            print(head(longitude))
             distance.matrix = matrix(0, ncol = n.points, nrow = n.points)
             for (i in 1:n.points) {
                 for (j in 1:n.points) {
@@ -254,9 +264,17 @@ importFromTSPlibFormat = function(filename) {
                     q1 = cos(longitude[i] - longitude[j])
                     q2 = cos(latitude[i] - latitude[j])
                     q3 = cos(latitude[i] + latitude[j])
-                    distance.matrix[i, j] = as.integer(earth.radius * acos(0.5 * ((1 + q1) * q2 - (1 - q1) * q3)) + 1)
+                    distance.matrix[i, j] = round(earth.radius * acos(0.5 * ((1 + q1) * q2 - (1 - q1) * q3)) + 1)
                 }
             }
+            symm = TRUE
+            for (i in 1:n.points) {
+                for (j in 1:n.points) {
+                    symm = symm & (distance.matrix[i, j] == distance.matrix[j, i])
+                }
+            }
+            catf("Symmetric: %i", as.integer(symm))
+            print(head(as.numeric(distance.matrix)))
             return(distance.matrix)
         }
         stopf("Unsupported EDGE_WEIGHT_TYPE: '%s'", ewt)
@@ -275,8 +293,7 @@ importFromTSPlibFormat = function(filename) {
     #print(network)
 
     if (!is.null(network$membership)) {
-        print(network)
-        catf("Name %s, Comment %s", network$name, network$comment)
+        #print(network)
         network = makeClusteredNetwork(
             name = network$name,
             comment = network$comment,
@@ -286,7 +303,7 @@ importFromTSPlibFormat = function(filename) {
             upper = if (!is.null(network$upper)) as.numeric(network$upper) else NULL,
             membership = network$membership
         )
-        print(str(network))
+        #print(str(network))
     } else {
         network = makeNetwork(
             name = network$name,
@@ -298,4 +315,15 @@ importFromTSPlibFormat = function(filename) {
         )
     }
     return(network)
+}
+
+# "Round" an numeric value to its next integer value.
+# E.g. getNextInteger(1.4) == 1 but getNextInteger(1.6) == 2.
+#
+# @param x [numeric]
+#   Numeric vector.
+# @return [integer]
+#   Integer vector.
+getNextInteger = function(x) {
+    as.integer(floor(x + 0.5))
 }
