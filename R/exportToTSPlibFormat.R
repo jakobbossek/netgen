@@ -38,7 +38,9 @@ exportToTSPlibFormat = function(x, filename,
     n.cluster = getNumberOfClusters(x)
     out = paste("NAME : ", name, "\n", sep = "")
     if (!is.null(comment)) {
-        out = paste(out, "COMMENT : ", comment, "\n", sep = "")
+        for (com in comment) {
+            out = paste(out, "COMMENT : ", com, "\n", sep = "")
+        }
     }
     out = paste(out, "TYPE : TSP\n", sep = "")
     out = paste(out, "DIMENSION : ", n, "\n", sep = "")
@@ -60,5 +62,6 @@ exportToTSPlibFormat = function(x, filename,
             out = paste(out, membership[i], if (i < n) "\n" else "", sep = "")
         }
     }
+    #out = paste(out, "\nEOF", sep = "")
     write(x = out, file = filename)
 }

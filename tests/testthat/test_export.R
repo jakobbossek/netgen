@@ -10,6 +10,7 @@ test_that("import and export to TSPlib format is running fine", {
     }
     x = generateRandomNetwork(n.points = 10L)
     x$name = "test"
+    x$comment = c("n.points=10", "this is a nice")
     fn = tempfile(fileext = ".tsp")
     exportToTSPlibFormat(x, fn, use.extended.format = FALSE)
     unlink(fn)
