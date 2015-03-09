@@ -13,12 +13,12 @@ License: BSD_3_clause + file LICENSE
 Depends:
     BBmisc (>= 1.6),
     mvtnorm (>= 1.0-2),
-    lhs (>= 0.10)
+    lhs (>= 0.10),
+    checkmate (>= 1.5.1)
 Imports:
     ggplot2,
     lpSolve,
     igraph (>= 0.7.1),
-    checkmate (>= 1.5.1),
     stringr (>= 0.6.2)
 Suggests:
     testthat
