@@ -8,13 +8,29 @@ test_that("import and export to TSPlib format is running fine", {
         expect_equal(x$name, y$name)
         expect_equal(x$comment, y$comment)
     }
+
+    # @param x Network
+    testExportAndImport = function(x, name, comment) {
+      x$name = name
+      x$comment = comment
+      fn = tempfile(fileext = ".tsp")
+      exportToTSPlibFormat(x, fn, use.extended.format = FALSE)
+      unlink(fn)
+      exportToTSPlibFormat(x, fn, use.extended.format = TRUE)
+      y = importFromTSPlibFormat(fn)
+      expect_equal_networks(x, y)
+    }
+
     x = generateRandomNetwork(n.points = 10L)
-    x$name = "test"
-    x$comment = c("n.points=10", "this is a nice")
-    fn = tempfile(fileext = ".tsp")
-    exportToTSPlibFormat(x, fn, use.extended.format = FALSE)
-    unlink(fn)
-    exportToTSPlibFormat(x, fn, use.extended.format = TRUE)
-    y = importFromTSPlibFormat(fn)
-    expect_equal_networks(x, y)
+    testExportAndImport(x, name = "test", comment = "n.points=10")
+    x = generateClusteredNetwork(n.points = 10L, n.cluster = 2L)
+    testExportAndImport(x, name = "test2", comment = "n.points=10;n.cluster=2")
+
+    # no name, thus we should throw an error
+    x$name = NULL
+    expect_error(exportToTSPlibFormat(x, "test.tsp"))
+
+    # depots not exported at the moment
+    x = generateRandomNetwork(n.points = 10L, n.depots = 2L)
+    expect_error(exportToTSPlibFormat(x, "test.tsp"))
 })
