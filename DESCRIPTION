@@ -22,3 +22,5 @@ Imports:
     stringr (>= 0.6.2)
 Suggests:
     testthat
+LazyData: yes
+ByteCompile: yes
