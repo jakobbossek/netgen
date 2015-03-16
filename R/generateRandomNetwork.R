@@ -21,39 +21,39 @@
 #' x = generateRandomNetwork(n.points = 100L, n.depots = 2L, upper = 50)
 #' @export
 generateRandomNetwork = function(n.points, n.dim = 2L, n.depots = NULL,
-    lower = 0, upper = 100, name = NULL) {
-    assertCount(n.points, na.ok = FALSE)
-    assertInteger(n.dim, len = 1L, any.missing = FALSE, lower = 2L)
+  lower = 0, upper = 100, name = NULL) {
+  assertCount(n.points, na.ok = FALSE)
+  assertInteger(n.dim, len = 1L, any.missing = FALSE, lower = 2L)
 
-    if (!is.null(n.depots)) {
-        assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
+  if (!is.null(n.depots)) {
+    assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
+  }
+
+  assertNumber(lower, lower = 0, finite = TRUE)
+  assertNumber(upper, finite = TRUE)
+  !is.null(name) && assertCharacter(name, len = 1L, any.missing = FALSE)
+
+  if (upper <= lower) {
+    stopf("Argument 'upper' must be greater than argument 'lower'.")
+  }
+
+  coordinates = runif(n.points * n.dim, min = lower, max = upper)
+  coordinates = matrix(coordinates, ncol = n.dim)
+
+  depot.coordinates = NULL
+
+  if (!is.null(n.depots)) {
+    depot.coordinates = generateClusterCenters(n.cluster = 2L, lower = lower, upper = upper)
+    if (n.depots == 1L) {
+      depot.coordinates = depot.coordinates[1, , drop = FALSE]
     }
+  }
 
-    assertNumber(lower, lower = 0, finite = TRUE)
-    assertNumber(upper, finite = TRUE)
-    !is.null(name) && assertCharacter(name, len = 1L, any.missing = FALSE)
-
-    if (upper <= lower) {
-        stopf("Argument 'upper' must be greater than argument 'lower'.")
-    }
-
-    coordinates = runif(n.points * n.dim, min = lower, max = upper)
-    coordinates = matrix(coordinates, ncol = n.dim)
-
-    depot.coordinates = NULL
-
-    if (!is.null(n.depots)) {
-        depot.coordinates = generateClusterCenters(n.cluster = 2L, lower = lower, upper = upper)
-        if (n.depots == 1L) {
-            depot.coordinates = depot.coordinates[1, , drop = FALSE]
-        }
-    }
-
-    makeNetwork(
-        name = coalesce(name, paste("RANDOM_", generateName(n.points, n.dim), sep = "")),
-        coordinates = coordinates,
-        depot.coordinates = depot.coordinates,
-        lower = lower,
-        upper = upper
-    )
+  makeNetwork(
+    name = coalesce(name, paste("RANDOM_", generateName(n.points, n.dim), sep = "")),
+    coordinates = coordinates,
+    depot.coordinates = depot.coordinates,
+    lower = lower,
+    upper = upper
+  )
 }

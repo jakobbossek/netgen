@@ -2,7 +2,7 @@
 % Please edit documentation in R/asMatrixNetwork.R
 \name{as.matrix.Network}
 \alias{as.matrix.Network}
-\title{Convert (clustered) instance to matrix.}
+\title{Convert network to matrix.}
 \usage{
 \method{as.matrix}{Network}(x, ...)
 }
@@ -17,7 +17,7 @@ Currently not used.}
 [\code{matrix}]
 }
 \description{
-Convert (clustered) instance to matrix.
+Convert network to matrix.
 }
 \note{
 If the instance contains of \eqn{n} depots, the depot coordinates fill the

@@ -1,4 +1,4 @@
-#' Convert (clustered) instance to matrix.
+#' Convert network to matrix.
 #'
 #' @note If the instance contains of \eqn{n} depots, the depot coordinates fill the
 #'   first \eqn{n} rows of the matrix.
@@ -8,8 +8,8 @@
 #' @return [\code{matrix}]
 #' @export
 as.matrix.Network = function(x, ...) {
-    if (!hasDepots(x)) {
-        return(x$coordinates)
-    }
-    return(rbind(x$depot.coordinates, x$coordinates))
+  if (!hasDepots(x)) {
+    return(x$coordinates)
+  }
+  return(rbind(x$depot.coordinates, x$coordinates))
 }

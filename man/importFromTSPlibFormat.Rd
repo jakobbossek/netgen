@@ -18,6 +18,7 @@ Path to TSPlib file.}
 Import network from (extended) TSPlib format.
 }
 \note{
-Currently only the import of symmetric TSP instances is possible.
+The extended TSPlib contains additional specification parts and a cluster
+membership section. Currently only the import of symmetric TSP instances is possible.
 }
 

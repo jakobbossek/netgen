@@ -18,7 +18,7 @@ Row names for the result. Default is \code{NULL}.}
 Currently not used.}
 
 \item{include.extras}{[\code{logical(1)}]\cr
-Include additional information like membership and node type as specific columns?
+Include additional information like cluster membership and node type as specific columns?
 Default is \code{TRUE}.}
 
 \item{...}{[any]\cr

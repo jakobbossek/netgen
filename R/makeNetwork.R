@@ -20,40 +20,40 @@
 #' @return [\code{Network}]
 #' @export
 makeNetwork = function(coordinates,
-    distance.matrix = NULL,
-    name = NULL, comment = NULL,
-    membership = NULL,
-    depot.coordinates = NULL, lower = NULL, upper = NULL) {
-    assertMatrix(coordinates)
-    !is.null(name) && assertCharacter(name, len = 1L, any.missing = FALSE)
-    !is.null(comment) && assertCharacter(comment, min.len = 1L, any.missing = FALSE)
-    !is.null(membership) && assertNumeric(membership, any.missing = FALSE)
-    !is.null(depot.coordinates) && assertMatrix(depot.coordinates)
-    !is.null(distance.matrix) && assertMatrix(distance.matrix)
+  distance.matrix = NULL,
+  name = NULL, comment = NULL,
+  membership = NULL,
+  depot.coordinates = NULL, lower = NULL, upper = NULL) {
+  assertMatrix(coordinates)
+  !is.null(name) && assertCharacter(name, len = 1L, any.missing = FALSE)
+  !is.null(comment) && assertCharacter(comment, min.len = 1L, any.missing = FALSE)
+  !is.null(membership) && assertNumeric(membership, any.missing = FALSE)
+  !is.null(depot.coordinates) && assertMatrix(depot.coordinates)
+  !is.null(distance.matrix) && assertMatrix(distance.matrix)
 
-    #FIXME: do we need this at all?
-    if (is.null(lower) || is.null(upper)) {
-        lower = min(coordinates)
-        upper = max(coordinates)
-    }
+  #FIXME: do we need this at all?
+  if (is.null(lower) || is.null(upper)) {
+    lower = min(coordinates)
+    upper = max(coordinates)
+  }
 
-    if (is.null(distance.matrix)) {
-        distance.matrix = as.matrix(dist(coordinates))
-    }
+  if (is.null(distance.matrix)) {
+    distance.matrix = as.matrix(dist(coordinates))
+  }
 
-    network = makeS3Obj(
-        coordinates = coordinates,
-        distance.matrix = distance.matrix,
-        depot.coordinates = depot.coordinates,
-        membership = membership,
-        name = name,
-        comment = comment,
-        lower = lower,
-        upper = upper,
-        classes = "Network"
-    )
-    if (!is.null(membership)) {
-        network = addClasses(network, "ClusteredNetwork")
-    }
-    return(network)
+  network = makeS3Obj(
+    coordinates = coordinates,
+    distance.matrix = distance.matrix,
+    depot.coordinates = depot.coordinates,
+    membership = membership,
+    name = name,
+    comment = comment,
+    lower = lower,
+    upper = upper,
+    classes = "Network"
+  )
+  if (!is.null(membership)) {
+    network = addClasses(network, "ClusteredNetwork")
+  }
+  return(network)
 }

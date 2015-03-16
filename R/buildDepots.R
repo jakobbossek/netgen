@@ -9,13 +9,13 @@
 # @return [matrix]
 #   Coordinates of the depots.
 buildDepots = function(n.depots, cluster.centers, distances) {
-    n.cluster = nrow(cluster.centers)
-    # get first depot randomly
-    depot.1.idx = sample(seq(n.cluster), 1L)
-    depot.coordinates = matrix(cluster.centers[depot.1.idx, ], nrow = 1L)
-    if (n.depots == 2L) {
-        depot.2.idx = distances$max.distance.idx[depot.1.idx]
-        depot.coordinates = rbind(depot.coordinates, matrix(cluster.centers[depot.2.idx, ], nrow = 1L))
-    }
-    return(depot.coordinates)
+  n.cluster = nrow(cluster.centers)
+  # get first depot randomly
+  depot.1.idx = sample(seq(n.cluster), 1L)
+  depot.coordinates = matrix(cluster.centers[depot.1.idx, ], nrow = 1L)
+  if (n.depots == 2L) {
+    depot.2.idx = distances$max.distance.idx[depot.1.idx]
+    depot.coordinates = rbind(depot.coordinates, matrix(cluster.centers[depot.2.idx, ], nrow = 1L))
+  }
+  return(depot.coordinates)
 }

@@ -19,7 +19,7 @@ makeConvexCombination = function(coords1, coords2, alpha) {
 #   Second numeric vector.
 # @return [numeric(1)]
 euklideanDistance = function(x, y) {
-    sqrt(sum((x - y)^2))
+  sqrt(sum((x - y)^2))
 }
 
 # Generate random string.
@@ -28,7 +28,7 @@ euklideanDistance = function(x, y) {
 #   Desired length of the string.
 # @return [character(1)]
 generateRandomString = function(length = 10L) {
-    collapse(sample(c(0:9, letters, LETTERS), size = length, replace = TRUE), sep = "")
+  collapse(sample(c(0:9, letters, LETTERS), size = length, replace = TRUE), sep = "")
 }
 
 # Generate a (partially) random name.
@@ -41,11 +41,11 @@ generateRandomString = function(length = 10L) {
 #   Number of clusters. Default is 1.
 # @return [character(1)]
 generateName = function(n.points, n.dim, n.cluster = 1L) {
-    paste(
-        "n", n.points,
-        "cl", n.cluster,
-        "d", n.dim,
-        generateRandomString(),
-        sep = "_"
-    )
+  paste(
+    "n", n.points,
+    "cl", n.cluster,
+    "d", n.dim,
+    generateRandomString(),
+    sep = "_"
+  )
 }

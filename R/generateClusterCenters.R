@@ -14,13 +14,13 @@
 # @return [\code{matrix}]
 #   Cluster center matrix. Each row contains the coordinates of one cluster center.
 generateClusterCenters = function(
-    n.cluster = 5L, n.dims = 2L,
-    generator = lhs:::maximinLHS,
-    lower = 0, upper = 1) {
-    # FIXME: introduce use of min.dist.to.bounds
-    cc = generator(n.cluster, n.dims)
+  n.cluster = 5L, n.dims = 2L,
+  generator = lhs:::maximinLHS,
+  lower = 0, upper = 1) {
+  # FIXME: introduce use of min.dist.to.bounds
+  cc = generator(n.cluster, n.dims)
 
-    # "stretch design"
-    cc = lower + (upper - lower) * cc
-    return(cc)
+  # "stretch design"
+  cc = lower + (upper - lower) * cc
+  return(cc)
 }

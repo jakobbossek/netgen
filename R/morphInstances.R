@@ -34,64 +34,64 @@
 #' @seealso \code{\link{visualizeMorphing}}, \code{\link{visualizePointMatching}}
 #' @export
 morphInstances = function(x, y, alpha,
-    point.matching = NULL,
-    point.matching.algorithm = getOptimalPointMatching) {
-    assertClass(x, "Network")
-    assertClass(y, "Network")
-    assertNumber(alpha, lower = 0, upper = 1, na.ok = FALSE)
-    assertFunction(point.matching.algorithm)
+  point.matching = NULL,
+  point.matching.algorithm = getOptimalPointMatching) {
+  assertClass(x, "Network")
+  assertClass(y, "Network")
+  assertNumber(alpha, lower = 0, upper = 1, na.ok = FALSE)
+  assertFunction(point.matching.algorithm)
 
-    getPointMatchingAndMorphCoordinates = function(coords1, coords2) {
-        point.matching = point.matching.algorithm(coords1, coords2)
-        coordinates = makeConvexCombination(coords1, coords2[point.matching[, 2], ], alpha)
-        return(coordinates)
+  getPointMatchingAndMorphCoordinates = function(coords1, coords2) {
+    point.matching = point.matching.algorithm(coords1, coords2)
+    coordinates = makeConvexCombination(coords1, coords2[point.matching[, 2], ], alpha)
+    return(coordinates)
+  }
+
+  x.coordinates = x$coordinates
+  y.coordinates = y$coordinates
+
+  if ((hasDepots(x) && !hasDepots(y)) || (!hasDepots(x) && hasDepots(y))) {
+    stopf("Both or none of the instances must have depots")
+  }
+
+  if (hasDepots(x) && hasDepots(y) && !is.null(point.matching)) {
+    stopf("Point matching parameter only supported for instances without depots!")
+  }
+
+  if (!is.null(point.matching)) {
+    n = nrow(x.coordinates)
+    assertMatrix(point.matching, ncols = 2L, nrows = n, any.missing = FALSE)
+    if (any(point.matching[, 1] != seq(n))) {
+      stopf("First column of 'point.matching' must contain the node IDs 1, ..., %i in this order.", n)
     }
-
-    x.coordinates = x$coordinates
-    y.coordinates = y$coordinates
-
-    if ((hasDepots(x) && !hasDepots(y)) || (!hasDepots(x) && hasDepots(y))) {
-        stopf("Both or none of the instances must have depots")
+    if (any(sort(point.matching[, 2]) != seq(n))) {
+      stopf("Second column of 'point.matching' must contain a permutation of the node IDS 1, ..., %i.", n)
     }
+    coordinates = makeConvexCombination(x.coordinates, y.coordinates[point.matching[, 2], ], alpha)
+  } else {
+    coordinates = getPointMatchingAndMorphCoordinates(x.coordinates, y.coordinates)
+  }
+  depot.coordinates = NULL
 
-    if (hasDepots(x) && hasDepots(y) && !is.null(point.matching)) {
-        stopf("Point matching parameter only supported for instances without depots!")
+  if (all(hasDepots(x), hasDepots(y))) {
+    x.n.depots = getNumberOfDepots(x)
+    y.n.depots = getNumberOfDepots(y)
+    if (x.n.depots != y.n.depots) {
+      stopf("Number of depots must be equal, but x has %i and y has $i depots.",
+        x.n.depots, y.n.depots)
     }
-
-    if (!is.null(point.matching)) {
-        n = nrow(x.coordinates)
-        assertMatrix(point.matching, ncols = 2L, nrows = n, any.missing = FALSE)
-        if (any(point.matching[, 1] != seq(n))) {
-            stopf("First column of 'point.matching' must contain the node IDs 1, ..., %i in this order.", n)
-        }
-        if (any(sort(point.matching[, 2]) != seq(n))) {
-            stopf("Second column of 'point.matching' must contain a permutation of the node IDS 1, ..., %i.", n)
-        }
-        coordinates = makeConvexCombination(x.coordinates, y.coordinates[point.matching[, 2], ], alpha)
-    } else {
-        coordinates = getPointMatchingAndMorphCoordinates(x.coordinates, y.coordinates)
-    }
-    depot.coordinates = NULL
-
-    if (all(hasDepots(x), hasDepots(y))) {
-        x.n.depots = getNumberOfDepots(x)
-        y.n.depots = getNumberOfDepots(y)
-        if (x.n.depots != y.n.depots) {
-            stopf("Number of depots must be equal, but x has %i and y has $i depots.",
-                x.n.depots, y.n.depots)
-        }
-        x.depot.coordinates = getDepotCoordinates(x)
-        y.depot.coordinates = getDepotCoordinates(y)
-        depot.coordinates = getPointMatchingAndMorphCoordinates(x.depot.coordinates, y.depot.coordinates)
-    }
-    z = makeNetwork(
-        coordinates = coordinates,
-        depot.coordinates = depot.coordinates,
-        lower = x$lower,
-        upper = x$upper
-    )
-    # FIXME: ugly to do that here
-    attr(z, "morphed") = TRUE
-    attr(z, "morphing.grade") = alpha
-    return(z)
+    x.depot.coordinates = getDepotCoordinates(x)
+    y.depot.coordinates = getDepotCoordinates(y)
+    depot.coordinates = getPointMatchingAndMorphCoordinates(x.depot.coordinates, y.depot.coordinates)
+  }
+  z = makeNetwork(
+    coordinates = coordinates,
+    depot.coordinates = depot.coordinates,
+    lower = x$lower,
+    upper = x$upper
+  )
+  # FIXME: ugly to do that here
+  attr(z, "morphed") = TRUE
+  attr(z, "morphing.grade") = alpha
+  return(z)
 }

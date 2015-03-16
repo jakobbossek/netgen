@@ -2,7 +2,7 @@
 #'
 #' Some variants of the Vehicle Routing Problem (VRP) consider static as well
 #' as dynamic customers (nodes). This function takes a \code{Network} and
-#' dynamises it, i.e., it adds dynamic arrival times to the customers via a
+#' dynamises it, i. e., it adds dynamic arrival times to the customers via a
 #' Poisson process.
 #'
 #' @template arg_network
@@ -24,37 +24,37 @@
 #' @seealso \code{\link{generateRandomNetwork}}, \code{\link{generateClusteredNetwork}}
 #' @export
 dynamise = function(x, n.dynamic = NULL, dyn.customers.ratio = NULL, arrival.limit) {
-    assertClass(x, "Network")
-    assertNumber(arrival.limit, lower = 1, finite = TRUE)
+  assertClass(x, "Network")
+  assertNumber(arrival.limit, lower = 1, finite = TRUE)
 
-    if (is.null(n.dynamic) && is.null(dyn.customers.ratio)) {
-        stopf("Either n.dynamic or dyn.customers.ratio must be set.")
-    }
+  if (is.null(n.dynamic) && is.null(dyn.customers.ratio)) {
+    stopf("Either n.dynamic or dyn.customers.ratio must be set.")
+  }
 
-    if (!is.null(n.dynamic)) {
-        assertInteger(n.dynamic, lower = 1, upper = getNumberOfNodes(x))
-    }
+  if (!is.null(n.dynamic)) {
+    assertInteger(n.dynamic, lower = 1, upper = getNumberOfNodes(x))
+  }
 
-    n.customers = getNumberOfNodes(x)
-    # ignore n.dynamic if ratio is set
-    if (!is.null(dyn.customers.ratio)) {
-        assertNumber(dyn.customers.ratio, lower = 0, upper = 1)
-        n.dynamic = ceiling(n.customers * dyn.customers.ratio)
-    }
-    # determine rate of arrival times
-    rate = arrival.limit / n.dynamic
+  n.customers = getNumberOfNodes(x)
+  # ignore n.dynamic if ratio is set
+  if (!is.null(dyn.customers.ratio)) {
+    assertNumber(dyn.customers.ratio, lower = 0, upper = 1)
+    n.dynamic = ceiling(n.customers * dyn.customers.ratio)
+  }
+  # determine rate of arrival times
+  rate = arrival.limit / n.dynamic
 
-    # add preliminary request times
-    x$arrival.times = rep(0, n.customers)
+  # add preliminary request times
+  x$arrival.times = rep(0, n.customers)
 
-    # randomly select n.dynamic customers
-    idx.dyn = sample(1:n.customers, replace = FALSE, size = n.dynamic)
+  # randomly select n.dynamic customers
+  idx.dyn = sample(1:n.customers, replace = FALSE, size = n.dynamic)
 
-    # sample arrival times according to Poisson process
-    x$arrival.times[idx.dyn] = sampleArrivalTimes(n.dynamic, arrival.limit, 1 / rate)
+  # sample arrival times according to Poisson process
+  x$arrival.times[idx.dyn] = sampleArrivalTimes(n.dynamic, arrival.limit, 1 / rate)
 
-    attr(x, "dyn.customers.ratio") = dyn.customers.ratio
-    return(x)
+  attr(x, "dyn.customers.ratio") = dyn.customers.ratio
+  return(x)
 }
 
 # Helper function which sample the arrival times.
@@ -74,9 +74,9 @@ dynamise = function(x, n.dynamic = NULL, dyn.customers.ratio = NULL, arrival.lim
 # @return [numeric(n)]
 #   Arrival times.
 sampleArrivalTimes = function(n, arrival.limit, rate) {
+  arrival.times = cumsum(rexp(n, rate = rate))
+  while (any(arrival.times > arrival.limit)) {
     arrival.times = cumsum(rexp(n, rate = rate))
-    while (any(arrival.times > arrival.limit)) {
-        arrival.times = cumsum(rexp(n, rate = rate))
-    }
-    arrival.times
+  }
+  arrival.times
 }
