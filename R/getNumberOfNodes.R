@@ -1,4 +1,4 @@
-#' Return number of nodes of a network.
+#' Returns number of nodes of a network.
 #'
 #' @template arg_network
 #' @return [\code{integer(1)}]

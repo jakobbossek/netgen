@@ -14,14 +14,15 @@
 #'   parameter \code{n.dynamic} is ignored.
 #' @param arrival.limit [numeric(1)]\cr
 #'   Maximal arrival time.
-#' @return [Network]
+#' @return [\code{Network}]
 #'   Modified network (now has an additional list element 'arrival.times') and the
 #'   ratio of dynamic customers as an attribute.
 #' @examples
 #' x = generateClusteredNetwork(n.points = 100L, n.cluster = 4L, upper = 100, n.depots = 2L)
 #' x = dynamise(x, dyn.customers.ratio = 0.3, arrival.limit = 400)
 #' print(x)
-#' @seealso \code{\link{generateRandomNetwork}}, \code{\link{generateClusteredNetwork}}
+#' @seealso \code{\link{generateRandomNetwork}}, \code{\link{generateClusteredNetwork}},
+#' \code{\link{generateGridNetwork}}
 #' @export
 dynamise = function(x, n.dynamic = NULL, dyn.customers.ratio = NULL, arrival.limit) {
   assertClass(x, "Network")

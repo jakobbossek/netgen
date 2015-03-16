@@ -2,7 +2,7 @@
 % Please edit documentation in R/getNumberOfNodes.R
 \name{getNumberOfNodes}
 \alias{getNumberOfNodes}
-\title{Return number of nodes of a network.}
+\title{Returns number of nodes of a network.}
 \usage{
 getNumberOfNodes(x)
 }
@@ -15,6 +15,6 @@ Network.}
   Number of nodes of the network.
 }
 \description{
-Return number of nodes of a network.
+Returns number of nodes of a network.
 }
 

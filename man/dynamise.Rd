@@ -22,7 +22,7 @@ parameter \code{n.dynamic} is ignored.}
 Maximal arrival time.}
 }
 \value{
-[Network]
+[\code{Network}]
   Modified network (now has an additional list element 'arrival.times') and the
   ratio of dynamic customers as an attribute.
 }
@@ -38,6 +38,7 @@ x = dynamise(x, dyn.customers.ratio = 0.3, arrival.limit = 400)
 print(x)
 }
 \seealso{
-\code{\link{generateRandomNetwork}}, \code{\link{generateClusteredNetwork}}
+\code{\link{generateRandomNetwork}}, \code{\link{generateClusteredNetwork}},
+\code{\link{generateGridNetwork}}
 }
 

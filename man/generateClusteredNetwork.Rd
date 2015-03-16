@@ -33,12 +33,12 @@ Upper box constaint for cube. Default is \code{100}.}
 \item{sigmas}{[\code{list} | \code{NULL}]\cr
 Unnamed list of length \code{n.cluster} containing a covariance matrix
 for each cluster. Default is \code{NULL}. In this case the covariance
-matrix is a diagonal matrix containing the distance to the nearest neighbour
+matrix is a diagonal matrix containing the distances to the nearest neighbour
 cluster center as diagonal elements.}
 
 \item{n.depots}{[\code{integer(1)}]\cr
 Number of depots in instances for the Vehicle Routing Problem (VRP).
-Default is \code{NULL}, i.e., no depots. The proceeding is as follows:
+Default is \code{NULL}, i. e., no depots. The proceeding is as follows:
 If \code{n.depots} is \code{1L}, a random cluster center is defined to be the depot.
 If \code{n.depots} is \code{2L}, the second depot has maximal distance to the first.
 At the moment at most two depots are possible.}
@@ -55,7 +55,7 @@ Default is \code{NULL}.}
 \item{out.of.bounds.handling}{[\code{character(1)}]\cr
 Clusters are generated on base of a multivariate gaussian distribution with
 the cluster center as the mean vector. Possibly some of the points might fall
-out of bounds, i.e., get coordinates larger than \code{upper} or lower than
+out of bounds, i. e., get coordinates larger than \code{upper} or lower than
 \code{lower}. There are two strategies to force them to stick to the bounds:
 \describe{
   \item{\dQuote{reset}}{Set the violating coordinates to the bounds.}
@@ -75,8 +75,9 @@ Currently not used.}
   Object of type \code{ClusteredNetwork}.
 }
 \description{
-This function generates clustered networks It first generates \eqn{n} cluster
-centeres via a latin hypercube design to ensure space-filling property.
+This function generates clustered networks. It first generates \eqn{n} cluster
+centeres via a latin hypercube design to ensure space-filling property, i. e.,
+to ensure, that the clusters are placed far from each other.
 It then distributes points to the clusters according to
 gaussian distributions using the cluster centers as the mean vector and
 the distance to the nearest neighbour cluster center as the variance.
@@ -86,6 +87,7 @@ not too low (see the lower bound for the \code{upper} parameter).
 \examples{
 x = generateClusteredNetwork(n.points = 20L, n.cluster = 2L)
 y = generateClusteredNetwork(n.points = 40L, n.cluster = 3L, n.depots = 2L)
+z = generateClusteredNetwork(n.points = 200L, n.cluster = 10L, out.of.bounds.handling = "reset")
 }
 \seealso{
 \code{\link{generateRandomNetwork}}
