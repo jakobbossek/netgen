@@ -24,12 +24,13 @@ visualizePointMatching = function(x, y, point.matching, highlight.longest = 0L) 
     assertClass(x, "Network")
     assertClass(y, "Network")
     assertMatrix(point.matching, mode = "numeric")
-    if (highlight.longest > 0L) {
-        assertInteger(highlight.longest, len = 1L, lower = 1L, any.missing = FALSE)
-    }
 
     coords1 = x$coordinates
     coords2 = y$coordinates
+
+    if (highlight.longest > 0L) {
+        assertInteger(highlight.longest, len = 1L, lower = 1L, upper = nrow(coords1), any.missing = FALSE)
+    }
 
     df.points = as.data.frame(rbind(coords1, coords2), row.names = NULL)
     df.points = cbind(df.points, data.frame(type = rep(c("a", "b"), each = nrow(coords1))))
