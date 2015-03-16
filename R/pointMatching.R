@@ -17,6 +17,7 @@
 #'     \item{push_relabel}{The assignment problem can be formulated as a
 #'     matching problem on bipartite graphs. This method makes use of the
 #'     push-relabel algorithm from the \pkg{igraph}.}
+#'     \item{random}{Random point matching.}
 #'   }
 #' @return [\code{matrix}]
 #'   Each row consists of the indizes of the pairwise matchings.
@@ -26,19 +27,22 @@ getOptimalPointMatching = function(coords1, coords2, method = "lp") {
     assertMatrix(coords1, mode = "numeric")
     assertMatrix(coords2, mode = "numeric")
     if (ncol(coords1) > 2L || ncol(coords2) > 2L) {
-        stopf("At the moment only 2-dimensional point sets can be matched.")
+        stopf("Point matching: At the moment only 2-dimensional point sets can be matched.")
     }
 
-    if (!all(dim(coords1) == dim(coords2))) {
-        stopf("Both matrizes need to have the same dimensions.")
+    if (any(dim(coords1) != dim(coords2))) {
+        stopf("Point matching: Both coordinate matrizes need to have the same dimension.")
     }
 
-    assertChoice(method, choices = c("lp", "push_relabel"))
+    assertChoice(method, choices = c("lp", "push_relabel", "random"))
 
-    if (method == "lp") {
-        return (getPointMatchingBySolvingLP(coords1, coords2))
-    }
-    return (getPointMatchingByPushRelabelAlgorithm(coords1, coords2))
+    mapping = list(
+      "lp" = getPointMatchingBySolvingLP,
+      "push_relabel" = getPointMatchingByPushRelabelAlgorithm,
+      "random" = getRandomPointMatching
+    )
+    matching.algorithm = mapping[[method]]
+    return(matching.algorithm(coords1, coords2))
 }
 
 # Solve assignement problem by means of linear programming with the lpSolve
@@ -110,4 +114,11 @@ getPointMatchingByPushRelabelAlgorithm = function(coords1, coords2) {
     # revert "grid$y = grid$y + n"
     matching[, 2] = matching[, 2] - n
     return(matching)
+}
+
+# Simple random point assignment.
+getRandomPointMatching = function(coords1, coords2) {
+  ids = 1:nrow(coords1)
+  matching = matrix(c(ids, sample(ids)), ncol = 2L)
+  return(matching)
 }
