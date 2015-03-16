@@ -84,6 +84,8 @@ visualizeMorphing = function(x, y,
       )
     }
     pl = pl + geom_point()
+    pl = pl + geom_point(data = df.points[(df.points$types == "depot"), ], colour = "black", size = 4)
+    pl = pl + geom_point(data = df.points[(df.points$types == "depot"), ], colour = "white", size = 3)
   } else {
     # we want nice 'alpha = value' labels for the facets
     df.points$alpha = paste("alpha == ", df.points$alpha)
