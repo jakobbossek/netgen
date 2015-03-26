@@ -17,11 +17,10 @@ importFromTSPlibFormat = function(filename) {
 
   network = list()
   network = readSpecificationPart(fh, network)
-  #FIXME: we need to check the specification here
+  network = deepCheckSpecification(network)
+
   n.points = as.integer(network$dimension)
-  if (is.null(n.points)) {
-    stopf("TSPlib format error: Mandatory DIMENSION specification is missing.")
-  }
+
   line = str_trim(readLines(fh, 1L))
   while (length(line) > 0 && line != "EOF" && line != "" && !is.na(line)) {
     if (line == "NODE_COORD_SECTION") {
@@ -55,6 +54,27 @@ importFromTSPlibFormat = function(filename) {
   )
 }
 
+deepCheckSpecification = function(network) {
+  assertList(network)
+  network$dimension = as.integer(network$dimension)
+  if (is.null(network$dimension)) {
+    stopf("TSPlib format error: Mandatory DIMENSION specification is missing.")
+  }
+  if (!is.null(network$lower)) {
+    network$lower = as.numeric(network$lower)
+  }
+  if (!is.null(network$upper)) {
+    network$upper = as.numeric(network$upper)
+  }
+  if (!is.character(network$name) || network$name == "") {
+    stopf("NAME is mandatory and connot be empty.")
+  }
+  if (network$type != "TSP") {
+    stopf("At the moment only the symmetric TSP files are supported, but you provided TYPE '%s'", network$type)
+  }
+  return(network)
+}
+
 # Extract specifications.
 #
 # @note Multiple comments possible.
@@ -68,8 +88,7 @@ importFromTSPlibFormat = function(filename) {
 readSpecificationPart = function(fh, network) {
   repeat {
     line = readLines(fh, 1L)
-    #FIXME: this is not tolerant enough
-    line.parts = strsplit(line, split = "[ ]*:[ ]*")[[1]]
+    line.parts = strsplit(line, split = "[[:space:]]*:[[:space:]]*")[[1]]
 
     # we reached the SECTIONs part
     if (length(line.parts) != 2L) {
@@ -106,12 +125,12 @@ getNetworkCoordinates = function(network) {
       stopf("There are no coordinates available for the instance '%s'.", network$name)
     }
   }
-  # if DISPLAY_DATA section was provieded
+  # if DISPLAY_DATA section was provided
   if (!is.null(network$display_data)) {
     return(network$display_data)
   }
 
-  # otherwise try to reconstruct cooridnates based on distance matrix
+  # otherwise try to reconstruct cooridinates based on distance matrix
   edge_weights = network$edge_weights
   if (!is.null(edge_weights)) {
     return(cmdscale(dist(edge_weights), k = 2))

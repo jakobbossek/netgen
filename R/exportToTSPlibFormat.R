@@ -1,6 +1,8 @@
 #' Exports a network to the TSPlib format.
 #'
-#' @note Currently we only support euclidean 2D instances.
+#' @note Currently we only support euclidean 2D instances. Furthermore note, that
+#' if \code{use.extended.format} is \code{TRUE}, most alternative TSPlib parsers
+#' will most probably not be able to parse the generated file.
 #'
 #' @param x [\code{Network}]\cr
 #'   Network to export.
