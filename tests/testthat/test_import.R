@@ -1,7 +1,7 @@
 context("import of TSPlib files")
 
 test_that("import works well for all EDGE_WEIGHT_TYPES/EDGE_WEIGHT_FORMATS", {
-  testdata = system.file("inst/testdata", package = "netgen")
+  testdata = system.file("testdata", package = "netgen")
   test.files = list.files(testdata, full.names = TRUE)
   for (test.file in test.files) {
     x = importFromTSPlibFormat(test.file)
