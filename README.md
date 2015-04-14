@@ -1,5 +1,6 @@
 # netgen: Generating random (clustered) networks in R
 
+[![CRAN](https://img.shields.io/badge/cran-1.0-green.svg)](http://cran.r-project.org/web/packages/netgen/index.html)
 [![Build Status](https://travis-ci.org/jakobbossek/netgen.svg?branch=master)](https://travis-ci.org/jakobbossek/netgen)
 [![Coverage Status](https://coveralls.io/repos/jakobbossek/netgen/badge.svg)](https://coveralls.io/r/jakobbossek/netgen)
 
