@@ -43,7 +43,7 @@ autoplot.Network = function(object,
 
   if (hasDepots(object)) {
     depot.idx = which(df$types == "depot")
-    df.depots = df[depot.idx, ]
+    df.depots = df[depot.idx, , drop = FALSE]
   }
 
   pl = ggplot(data = df, mapping = aes_string(x = "x1", y = "x2"))
@@ -55,7 +55,7 @@ autoplot.Network = function(object,
     if (close.path) {
       path = c(path, path[1])
     }
-    path.coords = df[path, ]
+    path.coords = df[path, , drop = FALSE]
     pl = pl + geom_path(data = path.coords, colour = path.colour)
   }
 

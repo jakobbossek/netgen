@@ -26,7 +26,7 @@ as.data.frame.Network = function(x,
   if (hasDepots(x)) {
     res = rbind(as.data.frame(x$depot.coordinates), res)
   }
-  colnames(res) = paste("x", seq(ncol(res)), sep = "")
+  colnames(res) = paste0("x", seq(ncol(res)))
 
   assertFlag(include.extras)
   if (!is.null(row.names)) {

@@ -1,4 +1,8 @@
-t#' Exports a network to an proprietary format.
+#' Exports a network to an proprietary format.
+#'
+#' The format used is similar to the TSPlib format (see \code{\link{exportToTSPlibFormat}}),
+#' but it saves not only the point coordinates. It also saves the arrival times
+#' of dynamic customers.
 #'
 #' @param x [\code{Network}]\cr
 #'   Network to export.

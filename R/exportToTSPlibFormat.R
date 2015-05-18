@@ -34,34 +34,36 @@ exportToTSPlibFormat = function(x, filename,
     stopf("Currently only instances without depots can be exported to the tsplib format.")
   }
   name = BBmisc::coalesce(name, x$name)
-  comment = if (is.null(comment)) x$comment else comment
+  comment = BBmisc::coalesce(comment, x$comment)
   coordinates = x$coordinates
   n = nrow(coordinates)
   n.cluster = getNumberOfClusters(x)
-  out = paste("NAME : ", name, "\n", sep = "")
+  out = paste0("NAME : ", name, "\n")
   if (!is.null(comment)) {
     for (com in comment) {
-      out = paste(out, "COMMENT : ", com, "\n", sep = "")
+      out = paste0(out, "COMMENT : ", com, "\n")
     }
   }
-  out = paste(out, "TYPE : TSP\n", sep = "")
-  out = paste(out, "DIMENSION : ", n, "\n", sep = "")
-  out = paste(out, "EDGE_WEIGHT_TYPE : EUC_2D\n", sep = "")
+  out = paste0(out, "TYPE : TSP\n")
+  out = paste0(out, "DIMENSION : ", n, "\n")
+  out = paste0(out, "EDGE_WEIGHT_TYPE : EUC_2D\n")
   if (use.extended.format) {
-    out = paste(out, "LOWER : ", x$lower, "\n", sep = "")
-    out = paste(out, "UPPER : ", x$upper, "\n", sep = "")
+    out = paste0(out, "LOWER : ", x$lower, "\n")
+    out = paste0(out, "UPPER : ", x$upper, "\n")
   }
-  out = paste(out, "NODE_COORD_SECTION\n", sep = "")
+  out = paste0(out, "NODE_COORD_SECTION\n")
   #FIXME: this works only for the 2d case
   for (i in seq(n)) {
-    out = paste(out, i, " ", round(coordinates[i, 1], digits = digits), " ", round(coordinates[i, 2], digits = digits),
-      if (i < n || n.cluster > 1L) "\n" else "", sep = "")
+    out = paste0(out, i, " ",
+      round(coordinates[i, 1], digits = digits), " ",
+      round(coordinates[i, 2], digits = digits),
+      if (i < n || n.cluster > 1L) "\n" else "")
   }
   if (use.extended.format & n.cluster > 1L) {
-    out = paste(out, "CLUSTER_MEMBERSHIP_SECTION\n", sep = "")
+    out = paste0(out, "CLUSTER_MEMBERSHIP_SECTION\n")
     membership = x$membership
     for (i in seq(n)) {
-      out = paste(out, membership[i], if (i < n) "\n" else "", sep = "")
+      out = paste0(out, membership[i], if (i < n) "\n" else "")
     }
   }
   #out = paste(out, "\nEOF", sep = "")

@@ -25,7 +25,7 @@ importFromFile = function(filename) {
   # read the data block to a data frame
   df = read.table(file = filename, header = TRUE, skip = line.nr, sep = ",")
 
-  coord.ids = paste("x", 1:n.dim, sep = "")
+  coord.ids = paste0("x", 1:n.dim)
 
   depot.coordinates = NULL
   if (n.depots > 0L) {

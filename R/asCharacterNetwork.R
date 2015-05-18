@@ -6,14 +6,14 @@
 #' @return [\code{character(1)}]
 #' @export
 as.character.Network = function(x, ...)   {
-    n.points = getNumberOfNodes(x)
-    n.clusters = getNumberOfClusters(x)
+  n.points = getNumberOfNodes(x)
+  n.clusters = getNumberOfClusters(x)
 
-    char = if (!is.null(x$name)) paste(x$name, "\n", sep = "") else ""
-    char = paste(char, "#Nodes: ", n.points, sep = "")
-    if (n.clusters > 1L)
-        char = paste(char, ", #Clusters:", n.clusters)
-    if (hasAttributes(x, "morphed"))
-        char = paste(char, "\n(Morphing coefficient ", attr(x, "morphing.grade"), ")", sep = "")
-    char
+  char = if (!is.null(x$name)) paste0(x$name, "\n") else ""
+  char = paste0(char, "#Nodes: ", n.points, "\n")
+  if (n.clusters > 1L)
+    char = paste0(char, ", #Clusters: ", n.clusters, "\n")
+  if (hasAttributes(x, "morphed"))
+    char = paste0(char, "(Morphing coefficient ", attr(x, "morphing.grade"), ")")
+  char
 }

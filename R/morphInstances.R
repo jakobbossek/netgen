@@ -90,7 +90,7 @@ morphInstances = function(x, y, alpha,
     lower = x$lower,
     upper = x$upper
   )
-  # FIXME: ugly to do that here
+
   attr(z, "morphed") = TRUE
   attr(z, "morphing.grade") = alpha
   return(z)

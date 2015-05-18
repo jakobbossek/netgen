@@ -31,7 +31,6 @@ makeNetwork = function(coordinates,
   !is.null(depot.coordinates) && assertMatrix(depot.coordinates)
   !is.null(distance.matrix) && assertMatrix(distance.matrix)
 
-  #FIXME: do we need this at all?
   if (is.null(lower) || is.null(upper)) {
     lower = min(coordinates)
     upper = max(coordinates)
