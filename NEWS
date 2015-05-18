@@ -8,7 +8,8 @@ netgen v1.1 (Release date: coming soon):
 * added possibility to pass point matching or point matching algorithm to morphInstances
 * getOptimalPointAssignment now has another parameter method (new method to
   solve the assigment to optimality)
-* importFromTSPlibFormat and exportToTSPlibFormat
+* importFromTSPlibFormat and exportToTSPlibFormat for storing networks in the TSPlib format
+* importFromFile and exportToFile for storing networks in proprietary format (similar to TSPlib format, but with additional information like cluster membership or arrival/request times)
 * generate{Random,Clustered,Grid}Network now automatically generate a random name if none is provided
 * there is no makeClusteredNetwork function anymore. Instead makeNetwork has an optional paramter membership
 

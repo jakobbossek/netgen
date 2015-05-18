@@ -15,3 +15,4 @@ make_preview.R
 images
 todo-files
 appveyor.yml
+man-roxygen
