@@ -46,7 +46,7 @@ function. It is mandatory to provide the number of points `n.points` and the num
 ```splus
 library(netgen)
 set.seed(1)
-y = generateClusteredNetwork(n.cluster = 5L, n.points = 150, upper = 100)
+x = generateClusteredNetwork(n.cluster = 5L, n.points = 150L, upper = 100)
 print(x)
 autoplot(x)
 ```
