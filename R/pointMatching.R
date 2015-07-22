@@ -105,7 +105,7 @@ getPointMatchingByPushRelabelAlgorithm = function(coords1, coords2) {
   V(gr)$type = rep(c(TRUE, FALSE), each = n)
 
   # compute matching
-  matching = maximum.bipartite.matching(gr)
+  matching = igraph::maximum.bipartite.matching(gr)
 
   # only the first part is interesting for us.
   matching = matching$matching[1:n]
