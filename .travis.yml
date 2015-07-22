@@ -2,6 +2,8 @@
 
 language: r
 
+sudo: required
+
 r_github_packages:
   - jimhester/covr
 
@@ -10,5 +12,7 @@ after_success:
 
 notifications:
   email:
+    recipients:
+      - bossek@wi.uni-muenster.de
     on_success: change
-    on_failure: change
+    on_failure: always
