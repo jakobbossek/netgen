@@ -1,5 +1,6 @@
 netgen v1.1.9000 (Release data: ...):
 ===========
+* added functions filterInstancesBy, filterInstancesByDimension and filterInstancesByEdgeWeightType
 
 netgen v1.1 (Release data: 2015-05-19):
 ===========
