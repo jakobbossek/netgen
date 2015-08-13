@@ -66,6 +66,6 @@ exportToTSPlibFormat = function(x, filename,
       out = paste0(out, membership[i], if (i < n) "\n" else "")
     }
   }
-  #out = paste(out, "\nEOF", sep = "")
+  out = paste(out, "\nEOF", sep = "")
   write(x = out, file = filename)
 }
