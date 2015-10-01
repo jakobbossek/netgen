@@ -5,7 +5,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/gpbans0vvbfcwyty/branch/master?svg=true)](https://ci.appveyor.com/project/jakobbossek/netgen/branch/master)
 [![Coverage Status](https://coveralls.io/repos/jakobbossek/netgen/badge.svg)](https://coveralls.io/r/jakobbossek/netgen)
 
-## Descritption
+## Description
 
 The *netgen* package offers several methods to generate random graphs respectively
 networks for benchmarking purposes. You may want to generate some random graphs
