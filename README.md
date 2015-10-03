@@ -6,7 +6,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/gpbans0vvbfcwyty/branch/master?svg=true)](https://ci.appveyor.com/project/jakobbossek/netgen/branch/master)
 [![Coverage Status](https://coveralls.io/repos/jakobbossek/netgen/badge.svg)](https://coveralls.io/r/jakobbossek/netgen)
 
-## Descritption
+## Description
 
 The *netgen* package offers several methods to generate random graphs respectively
 networks for benchmarking purposes. You may want to generate some random graphs
@@ -47,7 +47,7 @@ function. It is mandatory to provide the number of points `n.points` and the num
 ```splus
 library(netgen)
 set.seed(1)
-y = generateClusteredNetwork(n.cluster = 5L, n.points = 150, upper = 100)
+x = generateClusteredNetwork(n.cluster = 5L, n.points = 150L, upper = 100)
 print(x)
 autoplot(x)
 ```
