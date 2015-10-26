@@ -2,6 +2,7 @@ netgen v1.1.9000 (Release data: ...):
 ===========
 * added functions filterInstancesBy, filterInstancesByDimension and filterInstancesByEdgeWeightType
 * last line of TSPlib export now containts EOF string
+* function importFromTSPlibFormat now has an additional argument round.distances with default value TRUE which decides whether distances of EUC_2D instances should be rounded to the nearest integer value
 
 netgen v1.1 (Release data: 2015-05-19):
 ===========

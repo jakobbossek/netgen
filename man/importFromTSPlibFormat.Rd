@@ -4,11 +4,15 @@
 \alias{importFromTSPlibFormat}
 \title{Import network from (extended) TSPlib format.}
 \usage{
-importFromTSPlibFormat(filename)
+importFromTSPlibFormat(filename, round.distances = TRUE)
 }
 \arguments{
 \item{filename}{[\code{character(1)}]\cr
 Path to TSPlib file.}
+
+\item{round.distances}{[\code{logical(1)}]\cr
+Should the distances of EUC_2D instances be rounded to the nearest integer value?
+Default is \code{TRUE}.}
 }
 \value{
 [\code{Network}]

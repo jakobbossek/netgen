@@ -5,12 +5,16 @@
 #'
 #' @param filename [\code{character(1)}]\cr
 #'   Path to TSPlib file.
+#' @param round.distances [\code{logical(1)}]\cr
+#'   Should the distances of EUC_2D instances be rounded to the nearest integer value?
+#'   Default is \code{TRUE}.
 #' @return [\code{Network}]
 #'   Network object.
 #' @export
-importFromTSPlibFormat = function(filename) {
+importFromTSPlibFormat = function(filename, round.distances = TRUE) {
   requirePackages("stringr", why = "netgen::importFromTSPlibFormat")
   assertFile(filename, access = "r")
+  assertFlag(round.distances)
 
   fh = file(filename, open = "r")
   on.exit(close(fh))
@@ -39,7 +43,7 @@ importFromTSPlibFormat = function(filename) {
   }
 
   # postprocessing
-  network$edge_weights = getNetworkEdgeWeights(network)
+  network$edge_weights = getNetworkEdgeWeights(network, round.distances)
   network$coordinates = getNetworkCoordinates(network)
 
   # finally generate netgen {Clustered}Network object
@@ -144,7 +148,7 @@ getNetworkCoordinates = function(network) {
 #   List of key-values pairs.
 # @return [list]
 #   Modified network.
-getNetworkEdgeWeights = function(network) {
+getNetworkEdgeWeights = function(network, round.distances) {
   edge_weights = network$edge_weights
   # if there is an EDGE_WEIGHT_SECTION
   if (!is.null(edge_weights)) {
@@ -157,6 +161,9 @@ getNetworkEdgeWeights = function(network) {
   # if there is a nice EDGE_WEIGHT_TYPE
   if (ewt %in% names(mapping)) {
     distance.matrix = as.matrix(dist(coordinates, method = mapping[[ewt]]))
+    if (ewt != "CEIL_2D" && round.distances) {
+      distance.matrix = round(distance.matrix)
+    }
     # occasionally we need to ceil
     if (ewt == "CEIL_2D") {
       # round up to the next integer
