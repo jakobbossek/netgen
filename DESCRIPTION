@@ -5,7 +5,7 @@ Description: Methods for the generation of a wide range of network geographies,
     e.g., grid networks or clustered networks. Useful for the generation of
     benchmarking instances for the investigation of, e.g., Vehicle-Routing-Problems
     or Travelling Salesperson Problems.
-Version: 1.2
+Version: 1.2.9000
 Date: 2015-11-24
 Authors@R: c(person("Jakob", "Bossek", email = "j.bossek@gmail.com", role =
     c("aut", "cre")))
