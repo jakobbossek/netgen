@@ -4,7 +4,7 @@
 \alias{autoplot.Network}
 \title{Autoplot function.}
 \usage{
-\method{autoplot}{Network}(object, path = NULL, close.path = FALSE,
+autoplot.Network(object, path = NULL, close.path = FALSE,
   path.colour = "gray", ...)
 }
 \arguments{
