@@ -19,6 +19,10 @@
 #' @param use.extended.format [\code{logical(1)}]\cr
 #'   Use the \dQuote{extended tsplib format} with additional information like cluster
 #'   membership and bounds? Default is \code{TRUE}.
+#' @param full.matrix [\code{logical(1)}]\cr
+#'   Make use of \dQuote{FULL\_MATRIX} \dQoute{EDGE\_WEIGHT\_FORMAT} instead of
+#'   node coordinates?
+#'   Default is \code{FALSE}.
 #' @param digits [\code{integer(1)}]\cr
 #'   Round coordinates to this number of digits. Default is 2.
 #' @return Nothing
@@ -26,7 +30,9 @@
 exportToTSPlibFormat = function(x, filename,
   name = NULL, comment = NULL,
   use.extended.format = TRUE,
+  full.matrix = FALSE,
   digits = 2L) {
+  assertFlag(full.matrix)
   if (is.null(name) && is.null(x$name)) {
     stopf("Please provide a name for the instance via the 'name' parameter.")
   }
@@ -46,24 +52,33 @@ exportToTSPlibFormat = function(x, filename,
   }
   out = paste0(out, "TYPE : TSP\n")
   out = paste0(out, "DIMENSION : ", n, "\n")
-  out = paste0(out, "EDGE_WEIGHT_TYPE : EUC_2D\n")
-  if (use.extended.format) {
-    out = paste0(out, "LOWER : ", x$lower, "\n")
-    out = paste0(out, "UPPER : ", x$upper, "\n")
-  }
-  out = paste0(out, "NODE_COORD_SECTION\n")
-  #FIXME: this works only for the 2d case
-  for (i in seq(n)) {
-    out = paste0(out, i, " ",
-      round(coordinates[i, 1], digits = digits), " ",
-      round(coordinates[i, 2], digits = digits),
-      if (i < n || n.cluster > 1L) "\n" else "")
-  }
-  if (use.extended.format & n.cluster > 1L) {
-    out = paste0(out, "CLUSTER_MEMBERSHIP_SECTION\n")
-    membership = x$membership
+  if (!full.matrix) {
+    out = paste0(out, "EDGE_WEIGHT_TYPE : EUC_2D\n")
+    if (use.extended.format) {
+      out = paste0(out, "LOWER : ", x$lower, "\n")
+      out = paste0(out, "UPPER : ", x$upper, "\n")
+    }
+    out = paste0(out, "NODE_COORD_SECTION\n")
+    #FIXME: this works only for the 2d case
     for (i in seq(n)) {
-      out = paste0(out, membership[i], if (i < n) "\n" else "")
+      out = paste0(out, i, " ",
+        round(coordinates[i, 1], digits = digits), " ",
+        round(coordinates[i, 2], digits = digits),
+        if (i < n || n.cluster > 1L) "\n" else "")
+    }
+    if (use.extended.format & n.cluster > 1L) {
+      out = paste0(out, "CLUSTER_MEMBERSHIP_SECTION\n")
+      membership = x$membership
+      for (i in seq(n)) {
+        out = paste0(out, membership[i], if (i < n) "\n" else "")
+      }
+    }
+  } else {
+    out = paste0(out, "EDGE_WEIGHT_TYPE : EXPLICIT\n")
+    out = paste0(out, "EDGE_WEIGHT_FORMAT : FULL_MATRIX\n")
+    out = paste0(out, "EDGE_WEIGHT_SECTION\n")
+    for (i in seq(n)) {
+      out = paste(out, collapse(x$distance.matrix[i, ], sep = " "), if (i < n) "\n" else "")
     }
   }
   out = paste(out, "\nEOF", sep = "")
