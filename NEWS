@@ -1,6 +1,9 @@
 netgen v1.2.9000 (Release data: xxxx-xx-xx):
 ===========
-
+* Add function getTSPInstancesOverview to get an overview of files in TSPlib
+  format
+* Add function filterTSPInstances which allows to subset/filter TSP instances
+  in TSPlib format by properties.
 
 netgen v1.2 (Release data: 2015-11-24):
 ===========
