@@ -49,3 +49,18 @@ generateName = function(n.points, n.dim, n.cluster = 1L) {
     sep = "_"
   )
 }
+
+#' @title Quote variables to create a list of unevaluated expressions for later evaluation.
+#'
+#' @description This function is used by \code{filterTSPInstances} to pass
+#' unevaluated expressions.
+#'
+#' @param ... [any]
+#'   Unevaluated expressions to be recorded.
+#' @return List of symbol and language primitives.
+#' @aliases . quoted
+#' @rdname quoted
+#' @export
+. = function (...){
+  structure(as.list(match.call()[-1]), class = "quoted")
+}
