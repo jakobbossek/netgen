@@ -5,7 +5,7 @@
 \title{Exports a network to the TSPlib format.}
 \usage{
 exportToTSPlibFormat(x, filename, name = NULL, comment = NULL,
-  use.extended.format = TRUE, digits = 2L)
+  use.extended.format = TRUE, full.matrix = FALSE, digits = 2L)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
@@ -27,6 +27,11 @@ used. If the latter is \code{NULL}, no comment at all is saved.}
 \item{use.extended.format}{[\code{logical(1)}]\cr
 Use the \dQuote{extended tsplib format} with additional information like cluster
 membership and bounds? Default is \code{TRUE}.}
+
+\item{full.matrix}{[\code{logical(1)}]\cr
+Make use of \dQuote{FULL\_MATRIX} \dQuote{EDGE\_WEIGHT\_FORMAT} instead of
+node coordinates?
+Default is \code{FALSE}.}
 
 \item{digits}{[\code{integer(1)}]\cr
 Round coordinates to this number of digits. Default is 2.}
