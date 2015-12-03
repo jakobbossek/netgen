@@ -53,7 +53,7 @@ exportToTSPlibFormat = function(x, filename,
   out = paste0(out, "TYPE : TSP\n")
   out = paste0(out, "DIMENSION : ", n, "\n")
   if (!full.matrix) {
-    out = paste0(out, "EDGE_WEIGHT_TYPE : ", if(is.null(x$edge.weight)) "EUC_2D" else x$edge.weight, "\n")
+    out = paste0(out, "EDGE_WEIGHT_TYPE : ", if (is.null(x$edge.weight.type)) "EUC_2D" else x$edge.weight.type, "\n")
     if (use.extended.format) {
       out = paste0(out, "LOWER : ", x$lower, "\n")
       out = paste0(out, "UPPER : ", x$upper, "\n")

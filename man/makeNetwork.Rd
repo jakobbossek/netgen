@@ -5,8 +5,8 @@
 \title{Generate network based on coordinates.}
 \usage{
 makeNetwork(coordinates, distance.matrix = NULL, name = NULL,
-  comment = NULL, membership = NULL, depot.coordinates = NULL,
-  lower = NULL, upper = NULL)
+  comment = NULL, membership = NULL, edge.weight.type = NULL,
+  depot.coordinates = NULL, lower = NULL, upper = NULL)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
@@ -24,6 +24,13 @@ Optional additional comments on instance.}
 \item{membership}{[\code{numeric} | \code{NULL}]\cr
 Optional vector of memberships for clustered networks.}
 
+\item{edge.weight.type}{[\code{character(1)} | \code{NULL}]
+The edge weight type indicates how edge weights are represented in the TSPlib
+format. If \code{distance.matrix} is \code{NULL}, the passed value is ignored
+and EUC\_2D is assigned. Otherwise the edge weight type must be one of the
+following \code{{EUC\_2D, EUC\_3D, MAX\_2D, MAX\_3D, MAN\_2D, MAN\_3D, CEIL\_2D,
+GEO, ATT, EXPLICIT}}.}
+
 \item{depot.coordinates}{[\code{matrix} | \code{NULL}]\cr
 Numeric matrix of 2D coordinates of depots. Default is \code{NULL}, which
 means no depots at all.}
@@ -38,6 +45,6 @@ Upper box constraint of cube.}
 [\code{Network}]
 }
 \description{
-Generate network based on coordinates.
+Create a (clustered) network object.
 }
 
