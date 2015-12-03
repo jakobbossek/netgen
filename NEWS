@@ -4,6 +4,9 @@ netgen v1.2.9000 (Release data: xxxx-xx-xx):
   format
 * Add function filterTSPInstances which allows to subset/filter TSP instances
   in TSPlib format by properties.
+* Networks have an additional property edge.weight.type now (see TSPlib documentation
+  for details)
+* Add function getValidEdgeWeightTypes
 
 netgen v1.2 (Release data: 2015-11-24):
 ===========
