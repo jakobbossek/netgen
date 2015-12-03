@@ -40,7 +40,7 @@ makeNetwork = function(coordinates,
   !is.null(membership) && assertNumeric(membership, any.missing = FALSE)
   !is.null(depot.coordinates) && assertMatrix(depot.coordinates)
   !is.null(distance.matrix) && assertMatrix(distance.matrix)
-  !is.null(edge.weight.type) && assertChoice(edge.weight.type, getValidEdgeWeightsTypes())
+  !is.null(edge.weight.type) && assertChoice(edge.weight.type, getValidEdgeWeightTypes())
 
   if (is.null(lower) || is.null(upper)) {
     lower = min(coordinates)
