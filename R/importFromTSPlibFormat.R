@@ -54,7 +54,8 @@ importFromTSPlibFormat = function(filename, round.distances = TRUE) {
     distance.matrix = network$edge_weights,
     lower = if (!is.null(network$lower)) as.numeric(network$lower) else NULL,
     upper = if (!is.null(network$upper)) as.numeric(network$upper) else NULL,
-    membership = network$membership
+    membership = network$membership,
+    edge.weight = network$edge_weight_type
   )
 }
 
