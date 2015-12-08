@@ -35,12 +35,12 @@ makeNetwork = function(coordinates,
   membership = NULL, edge.weight.type = NULL,
   depot.coordinates = NULL, lower = NULL, upper = NULL) {
   assertMatrix(coordinates)
-  !is.null(name) && assertCharacter(name, len = 1L, any.missing = FALSE)
-  !is.null(comment) && assertCharacter(comment, min.len = 1L, any.missing = FALSE)
-  !is.null(membership) && assertNumeric(membership, any.missing = FALSE)
-  !is.null(depot.coordinates) && assertMatrix(depot.coordinates)
-  !is.null(distance.matrix) && assertMatrix(distance.matrix)
-  !is.null(edge.weight.type) && assertChoice(edge.weight.type, getValidEdgeWeightTypes())
+  if (!is.null(name)) assertCharacter(name, len = 1L, any.missing = FALSE)
+  if (!is.null(comment)) assertCharacter(comment, min.len = 1L, any.missing = FALSE)
+  if (!is.null(membership)) assertNumeric(membership, any.missing = FALSE)
+  if (!is.null(depot.coordinates)) assertMatrix(depot.coordinates)
+  if (!is.null(distance.matrix)) assertMatrix(distance.matrix)
+  if (!is.null(edge.weight.type)) assertChoice(edge.weight.type, getValidEdgeWeightTypes())
 
   if (is.null(lower) || is.null(upper)) {
     lower = min(coordinates)
