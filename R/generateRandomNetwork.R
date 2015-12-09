@@ -31,7 +31,7 @@ generateRandomNetwork = function(n.points, n.dim = 2L, n.depots = NULL,
 
   assertNumber(lower, lower = 0, finite = TRUE)
   assertNumber(upper, finite = TRUE)
-  !is.null(name) && assertCharacter(name, len = 1L, any.missing = FALSE)
+  if (!is.null(name)) assertCharacter(name, len = 1L, any.missing = FALSE)
 
   if (upper <= lower) {
     stopf("Argument 'upper' must be greater than argument 'lower'.")
