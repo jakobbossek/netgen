@@ -22,4 +22,5 @@ test_that("generate random instance works as expected", {
   x = generateRandomNetwork(n.points = 10L, n.depots = 1L, lower = lower, upper = upper)
   expect_true(all((x$coordinates >= lower) & (x$coordinates <= upper)))
   expect_equal(1, getNumberOfDepots(x))
+  expect_true(isEuclidean(x))
 })
