@@ -1,13 +1,13 @@
-#' Computes optimal point assignment for two sets of points of equal size.
+#' @title Computes optimal point assignment for two sets of points of equal size.
 #'
-#' Internally it handles the points and the possible matchings as a bi-partite
+#' @description Internally it handles the points and the possible matchings as a bi-partite
 #' graphs and finds an optimal matching due to euclidean distance by an
 #' efficient linear programming solver.
 #'
-#' @param coords1 [\code{matrix}]\cr
-#'   Matrix of coordinates of the first point set.
-#' @param coords2 [\code{matrix}]\cr
-#'   Matrix of coordinates of the second point set.
+#' @param x [\code{Network} | \code{matrix}]\cr
+#'   First network or matrix of coordinates of the first point set.
+#' @param y [\code{Network} | \code{matrix}]\cr
+#'   Second network or matrix of coordinates of the second point set.
 #' @param method [\code{character(1)}]\cr
 #'   Method used to solve the assignment problem. There are currently two methods
 #'   available:
@@ -23,7 +23,15 @@
 #'   Each row consists of the indizes of the pairwise matchings.
 #' @seealso \code{\link{visualizePointMatching}}
 #' @export
-getOptimalPointMatching = function(coords1, coords2, method = "lp") {
+getOptimalPointMatching = function(x, y, method = "lp") {
+  coords1 = x
+  coords2 = y
+  if (isNetwork(x)) {
+    coords1 = x$coordinates
+  }
+  if (isNetwork(y)) {
+    coords2 = y$coordinates
+  }
   assertMatrix(coords1, mode = "numeric")
   assertMatrix(coords2, mode = "numeric")
   if (ncol(coords1) > 2L || ncol(coords2) > 2L) {
@@ -34,13 +42,14 @@ getOptimalPointMatching = function(coords1, coords2, method = "lp") {
     stopf("Point matching: Both coordinate matrizes need to have the same dimension.")
   }
 
-  assertChoice(method, choices = c("lp", "push_relabel", "random"))
-
   mapping = list(
     "lp" = getPointMatchingBySolvingLP,
     "push_relabel" = getPointMatchingByPushRelabelAlgorithm,
     "random" = getRandomPointMatching
   )
+
+  assertChoice(method, choices = names(mapping))
+
   matching.algorithm = mapping[[method]]
   return(matching.algorithm(coords1, coords2))
 }

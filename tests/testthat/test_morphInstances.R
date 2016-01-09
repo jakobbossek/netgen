@@ -55,4 +55,10 @@ test_that("morphing generates a network", {
   expect_error(morphInstances(x, y, alpha = 0.5, point.matching = matrix(c(1:5, 2:6), ncol = 2)))
   z = morphInstances(x, y, alpha = 0.3, point.matching = matrix(c(1:5, sample(1:5)), ncol = 2))
   expect_is(z, "Network")
+
+  # check point matching when passing networks
+  x = generateRandomNetwork(n.points = 5L)
+  matching.matrix = getOptimalPointMatching(x$coordinates, y$coordinates, method = "lp")
+  matching.network = getOptimalPointMatching(x, y, method = "lp")
+  expect_true(all(matching.lp == matching.pr))
 })

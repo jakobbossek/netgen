@@ -4,14 +4,14 @@
 \alias{getOptimalPointMatching}
 \title{Computes optimal point assignment for two sets of points of equal size.}
 \usage{
-getOptimalPointMatching(coords1, coords2, method = "lp")
+getOptimalPointMatching(x, y, method = "lp")
 }
 \arguments{
-\item{coords1}{[\code{matrix}]\cr
-Matrix of coordinates of the first point set.}
+\item{x}{[\code{Network} | \code{matrix}]\cr
+First network or matrix of coordinates of the first point set.}
 
-\item{coords2}{[\code{matrix}]\cr
-Matrix of coordinates of the second point set.}
+\item{y}{[\code{Network} | \code{matrix}]\cr
+Second network or matrix of coordinates of the second point set.}
 
 \item{method}{[\code{character(1)}]\cr
 Method used to solve the assignment problem. There are currently two methods
