@@ -26,21 +26,23 @@ Default is \code{global2}, which leads to the most \dQuote{natural} rescaling.}
 [\code{Network}]
 }
 \description{
-Normalize network coordinates to the unit cube maintaining its geography.
+Normalize network coordinates to the unit cube while maintaining
+its geography.
 }
 \examples{
 \dontrun{
 library(gridExtra)
 x = generateClusteredNetwork(n.points = 100L, n.cluster = 4L, name = "Rescaling Demo")
 
-# here we "stretch" the instance x direction
+# here we "stretch" the instance x direction to visualize the differences of
+# the rescaling mehtods
 x$coordinates[, 1] = x$coordinates[, 1] * 10L
 x$upper = x$upper * 10L
 pls = list(
-    autoplot(x) + ggtitle("Original"),
-    autoplot(rescaleNetwork(x, method = "by.dimension")) + ggtitle("By dimension"),
-    autoplot(rescaleNetwork(x, method = "global")) + ggtitle("Global"),
-    autoplot(rescaleNetwork(x, method = "global2")) + ggtitle("Global2")
+  autoplot(x) + ggtitle("Original"),
+  autoplot(rescaleNetwork(x, method = "by.dimension")) + ggtitle("By dimension"),
+  autoplot(rescaleNetwork(x, method = "global")) + ggtitle("Global"),
+  autoplot(rescaleNetwork(x, method = "global2")) + ggtitle("Global2")
 )
 pls$nrow = 1L
 do.call(grid.arrange, pls)
