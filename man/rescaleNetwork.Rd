@@ -2,7 +2,7 @@
 % Please edit documentation in R/rescaleNetwork.R
 \name{rescaleNetwork}
 \alias{rescaleNetwork}
-\title{Normalize coordinates to unit cube maintaining its geography.}
+\title{Rescale network}
 \usage{
 rescaleNetwork(x, method = "global2")
 }
@@ -26,12 +26,13 @@ Default is \code{global2}, which leads to the most \dQuote{natural} rescaling.}
 [\code{Network}]
 }
 \description{
-Normalize coordinates to unit cube maintaining its geography.
+Normalize network coordinates to the unit cube maintaining its geography.
 }
 \examples{
 \dontrun{
 library(gridExtra)
 x = generateClusteredNetwork(n.points = 100L, n.cluster = 4L, name = "Rescaling Demo")
+
 # here we "stretch" the instance x direction
 x$coordinates[, 1] = x$coordinates[, 1] * 10L
 x$upper = x$upper * 10L

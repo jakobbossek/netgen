@@ -1,4 +1,6 @@
-#' Normalize coordinates to unit cube maintaining its geography.
+#' @title Rescale network
+#'
+#' @description Normalize network coordinates to the unit cube maintaining its geography.
 #'
 #' @template arg_network
 #' @param method [\code{character(1)}]\cr
@@ -16,6 +18,7 @@
 #' \dontrun{
 #' library(gridExtra)
 #' x = generateClusteredNetwork(n.points = 100L, n.cluster = 4L, name = "Rescaling Demo")
+#'
 #' # here we "stretch" the instance x direction
 #' x$coordinates[, 1] = x$coordinates[, 1] * 10L
 #' x$upper = x$upper * 10L
@@ -32,19 +35,32 @@
 #' @export
 rescaleNetwork = function(x, method = "global2") {
   assertClass(x, "Network")
-  if (hasDepots(x)) {
-    stopf("Rescaling of networks with depots currently not supported.")
+  if (!isEuclidean(x)) {
+    stopf("Rescaling for non-euclidean networks unsupported.")
   }
+
+  coordinates = x$coordinates
+  if (hasDepots(x)) {
+    coordinates = rbind(x$depot.coordinates, coordinates)
+  }
+
   method.mapping = list(
     "by.dimension" = rescaleNetworkByDimension,
     "global" = rescaleNetworkGlobal,
     "global2" = rescaleNetworkGlobal2
-    )
+  )
   assertChoice(method, choices = names(method.mapping))
   rescaleMethod = method.mapping[[method]]
-  x$coordinates = rescaleMethod(x$coordinates)
+  rescaled.coordinates = rescaleMethod(coordinates)
+  if (hasDepots(x)) {
+    n.depots = getNumberOfDepots(x)
+    x$depot.coordinates = rescaled.coordinates[1:n.depots, , drop = FALSE]
+    x$coordinates = rescaled.coordinates[-(1:n.depots), , drop = FALSE]
+  } else {
+    x$coordinates = rescaled.coordinates
+  }
 
-    # rescaling is a normalization to [0,1]^dim
+  # rescaling is a normalization to [0,1]^dim
   x$lower = 0
   x$upper = 1
   return(x)
