@@ -73,3 +73,13 @@ makeNetwork = function(coordinates,
   }
   return(network)
 }
+
+#' Check if object is \code{Network}.
+#'
+#' @param x [any]\cr
+#'   Arbitrary R object.
+#' @return [\code{logical(1)}]
+#' @export
+isNetwork = function(x) {
+  return(inherits(x, "Network"))
+}
