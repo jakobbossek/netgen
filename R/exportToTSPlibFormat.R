@@ -24,14 +24,14 @@
 #'   node coordinates?
 #'   Default is \code{FALSE}.
 #' @param digits [\code{integer(1)}]\cr
-#'   Round coordinates to this number of digits. Default is 2.
+#'   Round coordinates to this number of digits. Default is 10.
 #' @return Nothing
 #' @export
 exportToTSPlibFormat = function(x, filename,
   name = NULL, comment = NULL,
   use.extended.format = TRUE,
   full.matrix = FALSE,
-  digits = 2L) {
+  digits = 10L) {
   assertFlag(full.matrix)
   if (is.null(name) && is.null(x$name)) {
     stopf("Please provide a name for the instance via the 'name' parameter.")

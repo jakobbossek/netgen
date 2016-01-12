@@ -5,7 +5,7 @@
 \title{Exports a network to the TSPlib format.}
 \usage{
 exportToTSPlibFormat(x, filename, name = NULL, comment = NULL,
-  use.extended.format = TRUE, full.matrix = FALSE, digits = 2L)
+  use.extended.format = TRUE, full.matrix = FALSE, digits = 10L)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
@@ -34,7 +34,7 @@ node coordinates?
 Default is \code{FALSE}.}
 
 \item{digits}{[\code{integer(1)}]\cr
-Round coordinates to this number of digits. Default is 2.}
+Round coordinates to this number of digits. Default is 10.}
 }
 \value{
 Nothing
