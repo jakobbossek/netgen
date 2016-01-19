@@ -64,7 +64,7 @@ rescaleNetwork = function(x, method = "global2") {
 
   # distance matrix needs an update (probably there is a nice formula for that
   # without O(n^2) recomputation of the distance matrix)
-  #x$distance.matrix = as.matrix(dist(x))
+  x$distance.matrix = as.matrix(dist(x))
 
   # rescaling is a normalization to [0,1]^dim
   x$lower = 0
