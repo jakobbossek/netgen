@@ -1,5 +1,6 @@
-netgen v1.2.9000 (Release data: xxxx-xx-xx):
+netgen v1.3 (Release data: 2016-01-16):
 ===========
+* Default number of digits for exportToTSPlibFormat is 10 now
 * Added function isEuclidean
 * rescaleNetwork now supports instances with depots
 * rescaleNetwork now recomputes distance matrix
