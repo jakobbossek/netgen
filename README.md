@@ -52,6 +52,46 @@ print(x)
 autoplot(x)
 ```
 
+## News
+
+### netgen v1.3 (Release data: 2016-01-16):
+
+* Default number of digits for exportToTSPlibFormat is 10 now
+* Added function isEuclidean
+* rescaleNetwork now supports instances with depots
+* rescaleNetwork now recomputes distance matrix
+* rescaleNetwork throws error on non-euclidean networks
+* Added function getTSPInstancesOverview to get an overview of files in TSPlib
+  format
+* Added function filterTSPInstances which allows to subset/filter TSP instances
+  in TSPlib format by properties.
+* Networks have an additional property edge.weight.type now (see TSPlib documentation
+  for details)
+* Added function getValidEdgeWeightTypes
+
+### netgen v1.2 (Release data: 2015-11-24):
+
+* last line of TSPlib export now containts EOF string
+* function importFromTSPlibFormat now has an additional argument round.distances with default value
+  TRUE which decides whether distances of EUC_2D instances should be rounded to the nearest integer value
+
+### netgen v1.1 (Release data: 2015-05-19):
+
+* added rescaleNetwork
+* network objects now store the distance matrix internally
+* network objects now have name and comment field
+* lower and upper bound are now optional for makeNetwork/makeClusteredNetwork
+* added possibility to pass point matching or point matching algorithm to morphInstances
+* getOptimalPointAssignment now has another parameter method (new method to
+  solve the assigment to optimality)
+* importFromTSPlibFormat and exportToTSPlibFormat for storing networks in the TSPlib format
+* importFromFile and exportToFile for storing networks in proprietary format (similar to TSPlib format, but with additional information like cluster membership or arrival/request times)
+* generate{Random,Clustered,Grid}Network now automatically generate a random name if none is provided
+* there is no makeClusteredNetwork function anymore. Instead makeNetwork has an optional paramter membership
+
+### netgen v1.0 (Release date: 2015-02-03):
+
+* First submission to CRAN.
 
 ## Contact
 
