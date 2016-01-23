@@ -24,14 +24,14 @@ test_that("filterTSPInstances works as a filter", {
   n = length(actual.files)
 
   # check for dimension
-  df = filterTSPInstances(testdata, expr = .(dimension > 100))
+  df = filterTSPInstances(testdata, expr = quote(dimension > 100))
   expect_is(df, "data.frame")
   expect_true(nrow(df) < n)
   expect_true(all(df$dimension > 100))
 
   # check for more complicated subset
   df = filterTSPInstances(testdata,
-    expr = .(dimension >= 100 & dimension <= 1000 & edge_weight_type == "EUC_2D"))
+    expr = quote(dimension >= 100 & dimension <= 1000 & edge_weight_type == "EUC_2D"))
   expect_is(df, "data.frame")
   expect_true(nrow(df) < n)
   expect_true(all(df$dimension >= 100 & df$dimension <= 1000))
@@ -39,7 +39,7 @@ test_that("filterTSPInstances works as a filter", {
 
   # check for paths only
   df = filterTSPInstances(testdata,
-    expr = .(dimension > 100),
+    expr = quote(dimension > 100),
     paths.only = TRUE)
   expect_true(is.character(df))
   expect_true(length(df) > 0)

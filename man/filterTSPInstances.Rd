@@ -11,7 +11,7 @@ filterTSPInstances(directory = NULL, expr, paths.only = FALSE)
 Readable directory path.}
 
 \item{expr}{[\code{expression}]\cr
-Expression wrapped with the \code{\link{.}} function.}
+Expression wrapped with the \code{quote} function.}
 
 \item{paths.only}{[\code{logical(1)}]\cr
 Should only the full file names of the instances be returned?
@@ -28,12 +28,12 @@ of each TSPlib instance in that directory and returns a subset.
 \dontrun{
 # Get a data frame of instances and its properties for all instances
 # with more than 4000 nodes
-filterTSPInstances("path/to/instances", dimension > 4000)
+filterTSPInstances("path/to/instances", quote(dimension > 4000))
 
 # Now get only the full file names of all instances with edge weight type
 # EUC_2D or CEIL_2D (see tsplib documentation for details)
 filterTSPInstances("path/to/instances",
-  expr = edge_weight_type \%in\% c("EUC_2D", "CEIL_2D"),
+  expr = quote(edge_weight_type \%in\% c("EUC_2D", "CEIL_2D")),
   paths.only = TRUE
 )
 }
