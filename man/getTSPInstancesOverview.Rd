@@ -20,6 +20,9 @@ Default is \code{FALSE}.}
 \description{
 This function expects a directory and returns a
 data frame containing the most important properties, e. g., dimension,
-edge weight type, of all TSPlib instances in that directory.
+edge weight type, of all TSPlib instances (with file extensions tsp) in
+that directory. Moreover, the data frame contains information on the
+availiability of the optimal tour length (files tsp.opt) and optimal
+tour (tsp.tour).
 }
 

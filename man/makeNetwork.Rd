@@ -6,7 +6,8 @@
 \usage{
 makeNetwork(coordinates, distance.matrix = NULL, name = NULL,
   comment = NULL, membership = NULL, edge.weight.type = NULL,
-  depot.coordinates = NULL, lower = NULL, upper = NULL)
+  depot.coordinates = NULL, lower = NULL, upper = NULL,
+  opt.tour.length = NULL, opt.tour = NULL)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
@@ -40,6 +41,14 @@ Lower box constraint of cube.}
 
 \item{upper}{[\code{numeric(1)}]\cr
 Upper box constraint of cube.}
+
+\item{opt.tour.length}{[\code{numeric(1)}]\cr
+Optional length of the optimal roundtrip tour.
+Default is \code{NULL}, which means the tour length is unknown.}
+
+\item{opt.tour}{[\code{integer}]\cr
+Optional optimal permutation of node indizes.
+Default is \code{NULL}, which means the optimal tour is unknown.}
 }
 \value{
 [\code{Network}]

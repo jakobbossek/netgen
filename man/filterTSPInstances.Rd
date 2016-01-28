@@ -4,7 +4,8 @@
 \alias{filterTSPInstances}
 \title{Filter TSPlib instances according to its specifications.}
 \usage{
-filterTSPInstances(directory = NULL, expr, paths.only = FALSE)
+filterTSPInstances(directory = NULL, expr, paths.only = FALSE,
+  opt.known = FALSE)
 }
 \arguments{
 \item{directory}{[\code{character(1)}]\cr
@@ -16,13 +17,20 @@ Expression wrapped with the \code{quote} function.}
 \item{paths.only}{[\code{logical(1)}]\cr
 Should only the full file names of the instances be returned?
 Default is \code{FALSE}.}
+
+\item{opt.known}{[\code{logical(1)}]\cr
+Filter instances x with unknown optimal tour length (given in file x.tsp.tour)?
+Default is \code{FALSE}.}
 }
 \value{
 [\code{data.frame}]
 }
 \description{
-Given a directory, this function reads the specifications
-of each TSPlib instance in that directory and returns a subset.
+Given a directory of TSP problems in the TSPlib format with file extension .tsp,
+this function reads the specifications of each TSPlib instance in that directory
+and returns a data frame with rowwise information about each instance.
+
+Basically the function is a wrapper around \code{\link{getTSPInstancesOverview}}.
 }
 \examples{
 \dontrun{

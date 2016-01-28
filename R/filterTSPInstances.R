@@ -1,7 +1,13 @@
-#' @title Filter TSPlib instances according to its specifications.
+#' @title
+#' Filter TSPlib instances according to its specifications.
 #'
-#' @description Given a directory, this function reads the specifications
-#' of each TSPlib instance in that directory and returns a subset.
+#' @description
+#' Given a directory of TSP problems in the TSPlib format with file extension .tsp,
+#' this function reads the specifications of each TSPlib instance in that directory
+#' and returns a data frame with rowwise information about each instance.
+#'
+#' Basically the function is a wrapper around \code{\link{getTSPInstancesOverview}}.
+#'
 #'
 #' @param directory [\code{character(1)}]\cr
 #'   Readable directory path.
@@ -9,6 +15,9 @@
 #'   Expression wrapped with the \code{quote} function.
 #' @param paths.only [\code{logical(1)}]\cr
 #'   Should only the full file names of the instances be returned?
+#'   Default is \code{FALSE}.
+#' @param opt.known [\code{logical(1)}]\cr
+#'   Filter instances x with unknown optimal tour length (given in file x.tsp.tour)?
 #'   Default is \code{FALSE}.
 #' @return [\code{data.frame}]
 #'
@@ -28,13 +37,18 @@
 #'
 #' @seealso \code{\link{getTSPInstancesOverview}}
 #' @export
-filterTSPInstances = function(directory = NULL, expr, paths.only = FALSE) {
+filterTSPInstances = function(directory = NULL, expr, paths.only = FALSE, opt.known = FALSE) {
   assertDirectory(directory, access = "r")
-  assertFlag(paths.only)
+  assertFlag(paths.only, na.ok = FALSE)
+  assertFlag(opt.known, na.ok = FALSE)
+
   df = getTSPInstancesOverview(directory, append.filename = TRUE)
 
   idx = eval(expr, envir = df)
   df2 = df[idx, , drop = FALSE]
+  if (opt.known) {
+    df2 = df2[which(df2$opt.length.known), , drop = FALSE]
+  }
   if (paths.only)
     return(df2$file.path)
   return(df2)

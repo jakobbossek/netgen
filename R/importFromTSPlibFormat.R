@@ -46,6 +46,24 @@ importFromTSPlibFormat = function(filename, round.distances = TRUE) {
   network$edge_weights = getNetworkEdgeWeights(network, round.distances)
   network$coordinates = getNetworkCoordinates(network)
 
+  # check if optimal tour length / tour itself is available
+  opt.tour = NULL
+  opt.tour.length = NULL
+  filename.opt = paste0(filename, ".opt")
+  if (file.exists(filename.opt)) {
+    res = try({opt.tour.length = as.numeric(readLines(filename.opt))}, silent = TRUE)
+    if (inherits(res, "try-error")) {
+      warningf("Error reading optimal tour length for instance %s.", filename)
+    }
+  }
+  filename.opt = paste0(filename, ".tour")
+  if (file.exists(filename.opt)) {
+    res = try({opt.tour = as.integer(read.csv(filename.opt, sep = ",", header = FALSE))})
+    if (inherits(res, "try-error")) {
+      warningf("Error reading optimal tour for instance %s.", filename)
+    }
+  }
+
   # finally generate netgen {Clustered}Network object
   makeNetwork(
     name = network$name,
@@ -54,6 +72,8 @@ importFromTSPlibFormat = function(filename, round.distances = TRUE) {
     distance.matrix = network$edge_weights,
     lower = if (!is.null(network$lower)) as.numeric(network$lower) else NULL,
     upper = if (!is.null(network$upper)) as.numeric(network$upper) else NULL,
+    opt.tour.length = opt.tour.length,
+    opt.tour = opt.tour,
     membership = network$membership,
     edge.weight.type = network$edge_weight_type
   )

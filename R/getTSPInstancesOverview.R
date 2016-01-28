@@ -2,7 +2,10 @@
 #'
 #' @description This function expects a directory and returns a
 #' data frame containing the most important properties, e. g., dimension,
-#' edge weight type, of all TSPlib instances in that directory.
+#' edge weight type, of all TSPlib instances (with file extensions tsp) in
+#' that directory. Moreover, the data frame contains information on the
+#' availiability of the optimal tour length (files tsp.opt) and optimal
+#' tour (tsp.tour).
 #'
 #' @param directory [\code{character(1)}]\cr
 #'   Readable directory path.
@@ -21,6 +24,8 @@ getTSPInstancesOverview = function(directory, append.filename = FALSE) {
     on.exit(close(fh))
     specs = readSpecificationPart(fh, list())
     specs$file.path = file.path
+    specs$opt.length.known = file.exists(paste0(file.path, ".opt"))
+    specs$opt.tour.known = file.exists(paste0(file.path, ".tour"))
     return(specs)
   })
 
@@ -29,7 +34,9 @@ getTSPInstancesOverview = function(directory, append.filename = FALSE) {
     df = data.frame(
       name = spec$name,
       dimension = as.integer(spec$dimension),
-      edge_weight_type = spec$edge_weight_type
+      edge_weight_type = spec$edge_weight_type,
+      opt.tour.known = as.logical(spec$opt.tour.known),
+      opt.length.known = as.logical(spec$opt.length.known)
     )
     if (append.filename) {
       df$file.path = spec$file.path

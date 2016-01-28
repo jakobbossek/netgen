@@ -36,6 +36,13 @@ test_that("filterTSPInstances works as a filter", {
   expect_true(nrow(df) < n)
   expect_true(all(df$dimension >= 100 & df$dimension <= 1000))
   expect_true(all(df$edge_weight_type == "EUC_2D"))
+  expect_true(all(is.logical(df$opt.tour.known)))
+  expect_true(all(is.logical(df$opt.length.known)))
+
+  # check if we get only tours with optimal values known (only a280.tsp in our testdata)
+  df = filterTSPInstances(testdata, expr = TRUE, opt.known = TRUE)
+  expect_is(df, "data.frame")
+  expect_equal(nrow(df), 1L)
 
   # check for paths only
   df = filterTSPInstances(testdata,

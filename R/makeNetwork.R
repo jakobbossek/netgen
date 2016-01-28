@@ -20,6 +20,12 @@
 #'   Lower box constraint of cube.
 #' @param upper [\code{numeric(1)}]\cr
 #'   Upper box constraint of cube.
+#' @param opt.tour.length [\code{numeric(1)}]\cr
+#'   Optional length of the optimal roundtrip tour.
+#'   Default is \code{NULL}, which means the tour length is unknown.
+#' @param opt.tour [\code{integer}]\cr
+#'   Optional optimal permutation of node indizes.
+#'   Default is \code{NULL}, which means the optimal tour is unknown.
 #' @param edge.weight.type [\code{character(1)} | \code{NULL}]
 #'   The edge weight type indicates how edge weights are represented in the TSPlib
 #'   format. If \code{distance.matrix} is \code{NULL}, the passed value is ignored
@@ -33,7 +39,8 @@ makeNetwork = function(coordinates,
   distance.matrix = NULL,
   name = NULL, comment = NULL,
   membership = NULL, edge.weight.type = NULL,
-  depot.coordinates = NULL, lower = NULL, upper = NULL) {
+  depot.coordinates = NULL, lower = NULL, upper = NULL,
+  opt.tour.length = NULL, opt.tour = NULL) {
   assertMatrix(coordinates)
   if (!is.null(name)) assertCharacter(name, len = 1L, any.missing = FALSE)
   if (!is.null(comment)) assertCharacter(comment, min.len = 1L, any.missing = FALSE)
@@ -41,6 +48,12 @@ makeNetwork = function(coordinates,
   if (!is.null(depot.coordinates)) assertMatrix(depot.coordinates)
   if (!is.null(distance.matrix)) assertMatrix(distance.matrix)
   if (!is.null(edge.weight.type)) assertChoice(edge.weight.type, getValidEdgeWeightTypes())
+  if (!is.null(opt.tour.length)) assertNumber(opt.tour.length, na.ok = FALSE)
+  if (!is.null(opt.tour)) assertInteger(opt.tour, len = nrow(coordinates), any.missing = FALSE, all.missing = FALSE)
+
+  if (!is.null(opt.tour) && !is.null(depot.coordinates)) {
+    stopf("Optimal tours for instances with depots not supported at the moment.")
+  }
 
   if (is.null(lower) || is.null(upper)) {
     lower = min(coordinates)
@@ -65,6 +78,8 @@ makeNetwork = function(coordinates,
     comment = comment,
     lower = lower,
     upper = upper,
+    opt.tour.length = opt.tour.length,
+    opt.tour = opt.tour,
     edge.weight.type = edge.weight.type,
     classes = "Network"
   )
