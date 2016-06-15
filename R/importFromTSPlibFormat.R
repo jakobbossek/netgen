@@ -13,7 +13,7 @@
 #' @export
 importFromTSPlibFormat = function(filename, round.distances = TRUE) {
   requirePackages("stringr", why = "netgen::importFromTSPlibFormat")
-  assertFile(filename, access = "r")
+  assertFileExists(filename, access = "r")
   assertFlag(round.distances)
 
   fh = file(filename, open = "r")

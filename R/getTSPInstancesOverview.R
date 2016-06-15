@@ -15,7 +15,7 @@
 #' @return [\code{data.frame}]
 #' @export
 getTSPInstancesOverview = function(directory, append.filename = FALSE) {
-  assertDirectory(directory, access = "r")
+  assertDirectoryExists(directory, access = "r")
   files = list.files(directory, full.names = TRUE, pattern = ".tsp$")
 
   # get the raw specifications for each file extracting ets specification part

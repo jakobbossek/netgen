@@ -5,7 +5,7 @@
 #' @return Nothing
 #' @export
 importFromFile = function(filename) {
-  assertFile(filename, access = "r")
+  assertFileExists(filename, access = "r")
 
   fh = file(filename, open = "r")
   on.exit(close(fh))
