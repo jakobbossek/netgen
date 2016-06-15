@@ -34,7 +34,7 @@
 #'   }
 #' @export
 filterInstancesBy = function(path, by = "DIMENSION", expr = NULL, full.names = FALSE) {
-  assertDirectory(path, access = "r")
+  assertDirectoryExists(path, access = "r")
   assertCharacter(by, len = 1L)
   assertFlag(full.names)
   #FIXME: I do not know if this is the best solution, but it works well.

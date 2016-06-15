@@ -38,7 +38,7 @@
 #' @seealso \code{\link{getTSPInstancesOverview}}
 #' @export
 filterTSPInstances = function(directory = NULL, expr, paths.only = FALSE, opt.known = FALSE) {
-  assertDirectory(directory, access = "r")
+  assertDirectoryExists(directory, access = "r")
   assertFlag(paths.only, na.ok = FALSE)
   assertFlag(opt.known, na.ok = FALSE)
 
