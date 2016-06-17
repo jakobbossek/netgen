@@ -5,14 +5,15 @@
 \title{Autoplot function.}
 \usage{
 \method{autoplot}{Network}(object, path = NULL, close.path = FALSE,
-  path.colour = "gray", ...)
+  path.colour = "gray", use.opt.tour = FALSE, ...)
 }
 \arguments{
 \item{object}{[\code{Network}]\cr
 Network.}
 
 \item{path}{[\code{integer}]\cr
-An integer vector containing the order of cities of a path. Keep in mind,
+An integer vector containing the order of cities of a path or a list
+of multiple paths. Keep in mind
 that instances with \eqn{n} nodes and \eqn{m} depots have \eqn{n + m}
 coordinates, with the \eqn{1,\ldots,m} first coordinates belonging to
 the depots.}
@@ -23,6 +24,12 @@ closed to a cycle. Default is \code{FALSE}.}
 
 \item{path.colour}{[\code{character(1)}]\cr
 Colour of the lines linking nodes on a path. Default is \dQuote{gray}.}
+
+\item{use.opt.tour}{[\code{logical(1)}]\cr
+If the given network knows its optimal tour, should it be plotted?
+If this is the case and \code{path} is given additionally, the optimal
+tour is ignored.
+Default is \code{FALSE}.}
 
 \item{...}{[any]\cr
 Currently not used.}

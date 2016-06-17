@@ -1,5 +1,14 @@
-netgen v1.3 (Release data: xxxx-xx-xx):
+netgen v1.4.xxxx (Release data: xxxx-xx-xx):
 ===========
+
+* Networks now have additional optional slots opt.tour.length and opt.tour for
+  the optimal tour length and the optimal tour respectively.
+* importFromTSPlibFormat, when given a filename instance.tsp looks for instance.tsp.opt
+  and instance.tsp.tour respectively in the same folder and assigns opt.tour.length
+  and opt.tour accordingly.
+* autoplot now can be passed a list of paths. The function then makes use of ggplot2
+  facets and plots each path in a single facet. This works for clustered instances
+  and/or instances with depots as well.
 
 netgen v1.3 (Release data: 2016-01-16):
 ===========
