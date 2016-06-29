@@ -105,7 +105,7 @@ autoplot.Network = function(object,
   if (!is.null(df$membership)) {
     pl = pl + geom_point(aes_string(colour = "membership"))
   } else {
-    pl = pl + geom_point(colour = "tomato")
+    pl = pl + geom_point(colour = "black")
   }
 
   if (hasDepots(object)) {
