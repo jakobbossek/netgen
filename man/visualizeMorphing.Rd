@@ -5,7 +5,7 @@
 \title{Fancy visualization of morphing.}
 \usage{
 visualizeMorphing(x, y, point.matching = NULL, alphas = c(0.25, 0.5, 0.75),
-  arrows = TRUE, in.one.plot = TRUE)
+  arrows = TRUE, in.one.plot = TRUE, point.colour = NULL)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
@@ -32,6 +32,11 @@ is \code{TRUE}, which is the default value, the morphing is dipicted in one plot
 This is in particular useful for small instances. If set to \code{FALSE},
 a matrix of plots is generated via \code{\link[ggplot2]{facet_grid}}. One
 plot for each alpha value in \code{alphas}.}
+
+\item{point.colour}{[\code{character(1)}]\cr
+Which colour to use for the non-depot points?
+Default is \code{NULL}. In this case the points are coloured by membership.
+Only considered if \code{in.one.plot} is \code{FALSE}.}
 }
 \value{
 [\code{\link[ggplot2]{ggplot}}]

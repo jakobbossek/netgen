@@ -69,6 +69,14 @@ makeNetwork = function(coordinates,
     distance.matrix = as.matrix(dist(coordinates))
   }
 
+  # check for duplicated node coordinates
+  tmp = distance.matrix
+  diag(tmp) = Inf
+  if (any(tmp == 0)) {
+    warningf("There are zero distances in the distance matrix. Maybe there are
+      duplicate node coordinates.")
+  }
+
   network = makeS3Obj(
     coordinates = coordinates,
     distance.matrix = distance.matrix,
