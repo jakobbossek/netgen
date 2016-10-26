@@ -22,17 +22,25 @@
 #'   This is in particular useful for small instances. If set to \code{FALSE},
 #'   a matrix of plots is generated via \code{\link[ggplot2]{facet_grid}}. One
 #'   plot for each alpha value in \code{alphas}.
+#' @param point.colour [\code{character(1)}]\cr
+#'   Which colour to use for the non-depot points?
+#'   Default is \code{NULL}. In this case the points are coloured by membership.
+#'   Only considered if \code{in.one.plot} is \code{FALSE}.
 #' @return [\code{\link[ggplot2]{ggplot}}]
 #' @seealso \code{\link{morphInstances}}
 #' @export
 visualizeMorphing = function(x, y,
   point.matching = NULL,
-  alphas = c(0.25, 0.5, 0.75), arrows = TRUE, in.one.plot = TRUE) {
+  alphas = c(0.25, 0.5, 0.75), arrows = TRUE, in.one.plot = TRUE,
+  point.colour = NULL) {
   assertClass(x, "Network")
   assertClass(y, "Network")
   assertNumeric(alphas, any.missing = FALSE, lower = 0, upper = 1)
   assertFlag(arrows)
   assertFlag(in.one.plot)
+  if (!is.null(point.colour)) {
+    assertString(point.colour)
+  }
 
     # we compute the point matching here one time additionaly for later use
   if (is.null(point.matching)) {
@@ -90,7 +98,11 @@ visualizeMorphing = function(x, y,
     # we want nice 'alpha = value' labels for the facets
     df.points$alpha = paste("alpha == ", df.points$alpha)
     pl = ggplot(data = df.points[(df.points$types != "depot"), ], mapping = aes_string(x = "x1", y = "x2"))
-    pl = pl + geom_point(mapping = aes_string(colour = "membership"))
+    if (!is.null(point.colour)) {
+      pl = pl + geom_point(colour = point.colour)
+    } else {
+      pl = pl + geom_point(mapping = aes_string(colour = "membership"))
+    }
     pl = pl + geom_point(data = df.points[(df.points$types == "depot"), ], colour = "black", size = 4)
     pl = pl + geom_point(data = df.points[(df.points$types == "depot"), ], colour = "white", size = 3)
     # keep in mind labeller to parse expressions!
