@@ -17,7 +17,7 @@ test_that("import works well for all EDGE_WEIGHT_TYPES/EDGE_WEIGHT_FORMATS", {
 test_that("import of optimal tour and tour length works", {
   testdata = system.file("testdata", package = "netgen")
   test.file = file.path(testdata, "a280.tsp")
-  x = suppressWarnings(importFromTSPlibFormat(test.file))
+  x = suppressWarnings(importFromTSPlibFormat(test.file, read.opt = TRUE))
   expect_equal(x$name, "a280")
   expect_true(!is.null(x$opt.tour.length))
   expect_equal(length(x$opt.tour.length), 1L)

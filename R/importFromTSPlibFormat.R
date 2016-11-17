@@ -8,13 +8,19 @@
 #' @param round.distances [\code{logical(1)}]\cr
 #'   Should the distances of EUC_2D instances be rounded to the nearest integer value?
 #'   Default is \code{TRUE}.
+#' @param read.opt [\code{logical(1)}]\cr
+#'   Should the optimal tour length (in file filename.opt) and the optimal
+#'   tour (in file filename.tour) be loaded if avialable?
+#'   Default is \code{TRUE}.
 #' @return [\code{Network}]
 #'   Network object.
 #' @export
-importFromTSPlibFormat = function(filename, round.distances = TRUE) {
+importFromTSPlibFormat = function(filename, round.distances = TRUE,
+  read.opt = TRUE) {
   requirePackages("stringr", why = "netgen::importFromTSPlibFormat")
   assertFileExists(filename, access = "r")
   assertFlag(round.distances)
+  assertFlag(read.opt)
 
   fh = file(filename, open = "r")
   on.exit(close(fh))
@@ -49,18 +55,20 @@ importFromTSPlibFormat = function(filename, round.distances = TRUE) {
   # check if optimal tour length / tour itself is available
   opt.tour = NULL
   opt.tour.length = NULL
-  filename.opt = paste0(filename, ".opt")
-  if (file.exists(filename.opt)) {
-    res = try({opt.tour.length = as.numeric(readLines(filename.opt))}, silent = TRUE)
-    if (inherits(res, "try-error")) {
-      warningf("Error reading optimal tour length for instance %s.", filename)
+  if (read.opt) {
+    filename.opt = paste0(filename, ".opt")
+    if (file.exists(filename.opt)) {
+      res = try({opt.tour.length = as.numeric(readLines(filename.opt))}, silent = TRUE)
+      if (inherits(res, "try-error")) {
+        warningf("Error reading optimal tour length for instance %s.", filename)
+      }
     }
-  }
-  filename.opt = paste0(filename, ".tour")
-  if (file.exists(filename.opt)) {
-    res = try({opt.tour = as.integer(read.csv(filename.opt, sep = ",", header = FALSE))})
-    if (inherits(res, "try-error")) {
-      warningf("Error reading optimal tour for instance %s.", filename)
+    filename.opt = paste0(filename, ".tour")
+    if (file.exists(filename.opt)) {
+      res = try({opt.tour = as.integer(read.csv(filename.opt, sep = ",", header = FALSE))})
+      if (inherits(res, "try-error")) {
+        warningf("Error reading optimal tour for instance %s.", filename)
+      }
     }
   }
 
