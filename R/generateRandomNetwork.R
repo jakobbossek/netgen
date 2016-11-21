@@ -22,16 +22,16 @@
 #' @export
 generateRandomNetwork = function(n.points, n.dim = 2L, n.depots = NULL,
   lower = 0, upper = 100, name = NULL) {
-  assertCount(n.points, na.ok = FALSE)
-  assertInteger(n.dim, len = 1L, any.missing = FALSE, lower = 2L)
+  n.points = asCount(n.points, na.ok = FALSE)
+  n.dim = asInt(n.dim, lower = 2L)
 
   if (!is.null(n.depots)) {
-    assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
+    n.depots = asInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
   }
 
   assertNumber(lower, lower = 0, finite = TRUE)
   assertNumber(upper, finite = TRUE)
-  if (!is.null(name)) assertCharacter(name, len = 1L, any.missing = FALSE)
+  assertString(name, null.ok = TRUE)
 
   if (upper <= lower) {
     stopf("Argument 'upper' must be greater than argument 'lower'.")

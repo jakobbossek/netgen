@@ -12,14 +12,11 @@
 #' @note Grid networks with depots are not supported at the moment.
 #' @export
 generateGridNetwork = function(n.points.per.dim = NULL, n.dim = 2L, lower = 0, upper = 100, name = NULL) {
-  assertCount(n.points.per.dim, na.ok = FALSE)
-  assertInteger(n.dim, len = 1L, any.missing = FALSE, lower = 2L)
+  n.points.per.dim = asCount(n.points.per.dim, na.ok = FALSE)
+  n.dim = asInt(n.dim, lower = 2L)
   assertNumber(lower, lower = 0, finite = TRUE)
   assertNumber(upper, finite = TRUE)
-
-  if (!is.null(name)) {
-    assertCharacter(name, len = 1L, any.missing = FALSE)
-  }
+  assertString(name, null.ok = TRUE)
 
   if (upper <= lower) {
     stopf("Argument 'upper' must be greater than argument 'lower'.")
@@ -40,5 +37,5 @@ generateGridNetwork = function(n.points.per.dim = NULL, n.dim = 2L, lower = 0, u
     coordinates = coordinates,
     lower = lower,
     upper = upper
-    )
+  )
 }

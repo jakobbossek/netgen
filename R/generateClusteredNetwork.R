@@ -151,9 +151,9 @@ doSanityChecks = function(n.cluster,
   cluster.centers = NULL,
   out.of.bounds.handling = "mirror",
   name = NULL) {
-  assertInteger(n.cluster, lower = 2L, len = 1L, any.missing = FALSE)
-  assertInteger(n.points, lower = 2L, len = 1L, any.missing = FALSE)
-  assertInteger(n.dim, lower = 2L, len = 1L, any.missing = FALSE)
+  n.cluster = asInt(n.cluster, lower = 2L)
+  n.points = asInt(n.points, lower = 2L)
+  n.dim = asInt(n.dim, lower = 2L)
   assertFunction(generator)
   assertNumber(lower, lower = 0, finite = TRUE)
   assertNumber(upper, lower = 50, finite = TRUE)
@@ -166,12 +166,10 @@ doSanityChecks = function(n.cluster,
   }
 
   if (!is.null(n.depots)) {
-    assertInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
+    n.depots = asInteger(n.depots, len = 1L, lower = 1L, upper = 2L)
   }
 
-  if (!is.null(name)) {
-    assertCharacter(name, len = 1L, any.missing = FALSE)
-  }
+  assertString(name, null.ok = TRUE)
 
   assertChoice(distribution.strategy, choices = getPointDistributionStrategies())
 
