@@ -45,6 +45,7 @@ getOptimalPointMatching = function(x, y, method = "lp") {
   mapping = list(
     "lp" = getPointMatchingBySolvingLP,
     "push_relabel" = getPointMatchingByPushRelabelAlgorithm,
+    "greedy" = getGreedyPointMatching,
     "random" = getRandomPointMatching
   )
 
@@ -131,3 +132,47 @@ getRandomPointMatching = function(coords1, coords2) {
   matching = matrix(c(ids, sample(ids)), ncol = 2L)
   return(matching)
 }
+
+# greedy point matching
+getGreedyPointMatching = function(coords1, coords2) {
+  n = nrow(coords1)
+
+  # get list of distances: each list entry contains the
+  # distances from one point of coords1 to all points of coords
+  dist1to2 = lapply(seq_len(nrow(coords1)), function(i) {
+    euklideanDistances(coords1[i, ], coords2)
+  })
+
+  # initialize matching coords1 -> coords2
+  matching = matrix(c(1:n, rep(NA, n)), byrow = FALSE, ncol = 2L)
+
+  # now iterate over all points in coords1 and determine the point
+  # index of a point in coords2 with minimal distance in a greedy fashion
+  for (i in seq_len(n)) {
+    idx.minimal = which.min(unlist(lapply(dist1to2, function(x) min(x, na.rm = TRUE)))) # (*)
+    idx.matching.partner = which.min(dist1to2[[idx.minimal]])
+    matching[idx.minimal, 2L] = idx.matching.partner
+
+    # now we need to remove the matching partner from all remaining
+    # distances since it cannot be selected. We do so by setting it to NA.
+
+    for (j in seq_len(n)[-idx.minimal]) {
+      if (is.finite(dist1to2[[j]][1L]) | is.na(dist1to2[[j]][1L])) {
+        # assure that this is skipped in line (*)
+        dist1to2[[j]][matching[idx.minimal, 2L]] = NA
+      }
+    }
+
+    # this point should not be selected again
+    dist1to2[[idx.minimal]] = Inf
+  }
+  return(matching)
+}
+
+# Evolutionary points matching
+# getPointMatchingByEA = function(coords1, coords2, p = NULL) {
+#   n = nrow(coords1)
+#   if (is.null(p)) {
+
+#   }
+# }

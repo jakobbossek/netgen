@@ -25,11 +25,13 @@ test_that("point matching algorithm works correctly!", {
   p1 = getOptimalPointMatching(x.coords, y.coords, method = "lp")
   p2 = getOptimalPointMatching(x.coords, y.coords, method = "push_relabel")
   p3 = getOptimalPointMatching(x.coords, y.coords, method = "random")
+  p4 = getOptimalPointMatching(x.coords, y.coords, method = "greedy")
 
   # check if we really deal with assignments
   checkPointMatching(p1, n)
   checkPointMatching(p2, n)
   checkPointMatching(p3, n)
+  checkPointMatching(p4, n)
 
   # lpSolve and push relable algorithm both generate the same (optimal) assignment
   expect_true(all(p1 == p2))

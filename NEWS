@@ -9,6 +9,8 @@ netgen v1.4.xxxx (Release data: xxxx-xx-xx):
 * autoplot now can be passed a list of paths. The function then makes use of ggplot2
   facets and plots each path in a single facet. This works for clustered instances
   and/or instances with depots as well.
+* Added support for greedy point matching via method="greedy" argument of
+  getOptimalPointMatching
 
 netgen v1.3 (Release data: 2016-01-16):
 ===========
