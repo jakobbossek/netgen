@@ -1,9 +1,12 @@
 #' Visualize point matching.
 #'
-#' Draw the points and lines between the matched points for visualization.
+#' Visualize a point matchings. Points and lines between the matched points
+#' are drawn in order to visualize the assignment.
 #'
-#' @template arg_first_network
-#' @template arg_second_network
+#' @param x [Network | matrix]\cr
+#'   Network or (n x 2) matrix.
+#' @param y [Network | matrix]\cr
+#'   Network or (n x 2) matrix.
 #' @param point.matching [\code{matrix}]\cr
 #'   Point matching received via \code{getOptimalPointMatching} for example.
 #' @param highlight.longest [\code{integer(1)}]\cr
@@ -11,22 +14,41 @@
 #'   Default is \code{0}.
 #' @return [\code{\link[ggplot2]{ggplot}}]
 #' @examples
+#' # point matching on networks
 #' x = generateRandomNetwork(n.points = 20L, upper = 100)
 #' y = generateClusteredNetwork(n.points = 20L, n.cluster = 2L, upper = 100)
 #' \dontrun{
 #' pm = getOptimalPointMatching(x$coordinates, y$coordinates)
 #' print(visualizePointMatching(x, y, pm, highlight.longest = 2L))
 #' }
+#'
+#' # point matching on point clouds
+#' x = matrix(runif(20L), 2L)
+#' y = matrix(runif(20L), 2L)
+#' \dontrun{
+#' pm = getOptimalPointMatching(x, y)
+#' print(visualizePointMatching(x, y, pm))
+#' }
 #' @seealso \code{\link{getOptimalPointMatching}}, \code{\link{morphInstances}},
 #'   \code{\link{visualizeMorphing}}
 #' @export
 visualizePointMatching = function(x, y, point.matching, highlight.longest = 0L) {
-  assertClass(x, "Network")
-  assertClass(y, "Network")
-  assertMatrix(point.matching, mode = "numeric")
+  #FIXME: this is kind of ugly code
+  if (inherits(x, "Network") & inherits(y, "Network")) {
+    coords1 = x$coordinates
+    coords2 = y$coordinates
+    lower = x$lower
+    upper = x$upper
+  } else if (is.matrix(x) & is.matrix(y)) {
+    coords1 = x
+    coords2 = y
+    lower = min(apply(rbind(coords1, coords2), 2L, min))
+    upper = max(apply(rbind(coords1, coords2), 2L, max))
+  } else {
+    stopf("Both x and y need to be of type matrix or Network.")
+  }
 
-  coords1 = x$coordinates
-  coords2 = y$coordinates
+  assertMatrix(point.matching, mode = "numeric")
 
   if (highlight.longest > 0L) {
     assertInteger(highlight.longest, len = 1L, lower = 1L, upper = nrow(coords1), any.missing = FALSE)
@@ -48,14 +70,34 @@ visualizePointMatching = function(x, y, point.matching, highlight.longest = 0L) 
 
   if (highlight.longest > 0) {
     # highlight the longest distances in particular
-    pl = pl + geom_segment(data = df.lines[-longest.dist.idx, ], aes_string(x = "x1", y = "x2", xend = "end1", yend = "end2"), arrow = grid::arrow(length = grid::unit(0.1, "inches")), colour = "gray")
-    pl = pl + geom_segment(data = df.lines[longest.dist.idx, ], aes_string(x = "x1", y = "x2", xend = "end1", yend = "end2"), arrow = grid::arrow(length = grid::unit(0.1, "inches")), colour = "darkgray", size = 0.9)
+    pl = pl + geom_segment(
+      data = df.lines[-longest.dist.idx, ],
+      aes_string(
+        x = "x1", y = "x2",
+        xend = "end1", yend = "end2"),
+        arrow = grid::arrow(length = grid::unit(0.1, "inches")
+      ), colour = "gray")
+    pl = pl + geom_segment(
+      data = df.lines[longest.dist.idx, ],
+      aes_string(
+        x = "x1", y = "x2",
+        xend = "end1", yend = "end2"),
+        arrow = grid::arrow(length = grid::unit(0.1, "inches")
+      ), colour = "darkgray", size = 0.9)
   } else {
-    pl = pl + geom_segment(aes_string(x = "x1", y = "x2", xend = "end1", yend = "end2"), arrow = grid::arrow(length = grid::unit(0.1, "inches")), colour = "gray")
+    pl = pl + geom_segment(aes_string(
+      x = "x1", y = "x2",
+      xend = "end1", yend = "end2"
+    ), arrow = grid::arrow(length = grid::unit(0.1, "inches")), colour = "gray")
   }
-  pl = pl + geom_point(data = df.points, aes_string(x = "x1", y = "x2", shape = "type", colour = "type"))
+  pl = pl + geom_point(
+    data = df.points,
+    aes_string(
+      x = "x1", y = "x2",
+      shape = "type", colour = "type")
+    )
   pl = pl + ggtitle("point mapping")
-  pl = decorateGGPlot(pl, lower = x$lower, upper = x$upper)
+  pl = decorateGGPlot(pl, lower = lower, upper = upper)
   return(pl)
 }
 
@@ -73,11 +115,7 @@ computeDistancesOfPairedPoints = function(x.coords, y.coords, pm) {
   y.coords = y.coords[pm[, 2], ]
   distances = numeric(n)
   for (i in 1:n) {
-    distances[i] = euclidean(x.coords[i, ], y.coords[i, ])
+    distances[i] = euklideanDistance(x.coords[i, ], y.coords[i, ])
   }
   return(distances)
-}
-
-euclidean = function(x, y) {
-  sqrt(sum((x - y)^2))
 }

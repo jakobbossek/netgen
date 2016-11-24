@@ -31,9 +31,9 @@ euklideanDistance = function(x, y) {
 # @return [numeric]
 euklideanDistances = function(x, y) {
   assertNumeric(x, min.len = 2L, any.missing = FALSE, all.missing = FALSE)
-  assertMatrix(y, any.missing = FALSE, all.missing = FALSE, ncol = length(x))
+  assertMatrix(y, any.missing = FALSE, all.missing = FALSE, ncols = length(x))
   sapply(1:nrow(y), function(i) {
-    euclidean(x, y[i, ])
+    euklideanDistance(x, y[i, ])
   })
 }
 

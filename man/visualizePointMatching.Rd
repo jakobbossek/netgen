@@ -7,11 +7,11 @@
 visualizePointMatching(x, y, point.matching, highlight.longest = 0L)
 }
 \arguments{
-\item{x}{[\code{Network}]\cr
-First network.}
+\item{x}{[Network | matrix]\cr
+Network or (n x 2) matrix.}
 
-\item{y}{[\code{Network}]\cr
-Second network.}
+\item{y}{[Network | matrix]\cr
+Network or (n x 2) matrix.}
 
 \item{point.matching}{[\code{matrix}]\cr
 Point matching received via \code{getOptimalPointMatching} for example.}
@@ -24,14 +24,24 @@ Default is \code{0}.}
 [\code{\link[ggplot2]{ggplot}}]
 }
 \description{
-Draw the points and lines between the matched points for visualization.
+Visualize a point matchings. Points and lines between the matched points
+are drawn in order to visualize the assignment.
 }
 \examples{
+# point matching on networks
 x = generateRandomNetwork(n.points = 20L, upper = 100)
 y = generateClusteredNetwork(n.points = 20L, n.cluster = 2L, upper = 100)
 \dontrun{
 pm = getOptimalPointMatching(x$coordinates, y$coordinates)
 print(visualizePointMatching(x, y, pm, highlight.longest = 2L))
+}
+
+# point matching on point clouds
+x = matrix(runif(20L), 2L)
+y = matrix(runif(20L), 2L)
+\dontrun{
+pm = getOptimalPointMatching(x, y)
+print(visualizePointMatching(x, y, pm))
 }
 }
 \seealso{

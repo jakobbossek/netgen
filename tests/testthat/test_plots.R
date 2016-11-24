@@ -49,4 +49,7 @@ test_that("all of our plots produce nice gglot2 objects", {
   pm = netgen::getOptimalPointMatching(x$coordinates, y$coordinates)
   pl = visualizePointMatching(x, y, pm, highlight.longest = 3L)
   expect_is_ggplot(pl)
+  # should work when passing matrices only as well
+  pl = visualizePointMatching(x$coordinates, y$coordinates, pm, highlight.longest = 3L)
+  expect_is_ggplot(pl)
 })
