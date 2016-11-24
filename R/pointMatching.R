@@ -13,17 +13,26 @@
 #'   available:
 #'   \describe{
 #'     \item{lp}{Solves the problem be means of linear programming with the
-#'     \pkg{lpSolve} package. This is the default.}
+#'     \pkg{lpSolve} package to optimality. This is the default.}
 #'     \item{push_relabel}{The assignment problem can be formulated as a
 #'     matching problem on bipartite graphs. This method makes use of the
-#'     push-relabel algorithm from the \pkg{igraph}.}
-#'     \item{random}{Random point matching.}
+#'     push-relabel algorithm from the \pkg{igraph}. Solves to optimality.}
+#'     \item{random}{Random point matching. Just for comparisson.}
+#'     \item{greedy}{Greedy point matching, i.e., iterativeely assign two unmatched
+#'     points with minimal euclidean distance.}
 #'   }
-#' @return [\code{matrix}]
-#'   Each row consists of the indizes of the pairwise matchings.
+#' @param full.output [\code{logical(1)}]\cr
+#'   Should optimization process information, e.g., the weight of the best matching,
+#'   be returned?
+#'   Default is \code{FALSE}.
+#' @return [\code{matrix | list}]
+#'   Either a matrix where each row consists of the indizes of the pairwise
+#'   assigned points.
+#'   If \code{full.output = TRUE} a list is returned with the assignment matrix \dQuote{pm},
+#'   the method \dQuote{method} and the optimal weight \dQuote{opt.weight}.
 #' @seealso \code{\link{visualizePointMatching}}
 #' @export
-getOptimalPointMatching = function(x, y, method = "lp") {
+getOptimalPointMatching = function(x, y, method = "lp", full.output = FALSE) {
   coords1 = x
   coords2 = y
   if (isNetwork(x)) {
@@ -50,9 +59,20 @@ getOptimalPointMatching = function(x, y, method = "lp") {
   )
 
   assertChoice(method, choices = names(mapping))
+  assertFlag(full.output)
 
   matching.algorithm = mapping[[method]]
-  return(matching.algorithm(coords1, coords2))
+  st = system.time({
+    assignment = matching.algorithm(coords1, coords2)
+  }, gcFirst = TRUE)
+  if (!full.output)
+    return(assignment)
+  return(list(
+    assignment = assignment,
+    opt.weight = getMatchingWeight(assignment, coords1, coords2),
+    opt.time = st[3L],
+    opt.method = method
+  ))
 }
 
 # Solve assignement problem by means of linear programming with the lpSolve
@@ -169,10 +189,11 @@ getGreedyPointMatching = function(coords1, coords2) {
   return(matching)
 }
 
-# Evolutionary points matching
-# getPointMatchingByEA = function(coords1, coords2, p = NULL) {
-#   n = nrow(coords1)
-#   if (is.null(p)) {
-
-#   }
-# }
+getMatchingWeight = function(pm, coords1, coords2) {
+  n = nrow(pm)
+  matched.coords = coords2[pm[, 2L], ]
+  weights = sapply(seq_len(n), function(i) {
+    euklideanDistance(coords1[i, ], matched.coords[i, ])
+  })
+  return(sum(weights))
+}

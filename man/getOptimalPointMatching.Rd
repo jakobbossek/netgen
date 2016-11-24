@@ -4,7 +4,7 @@
 \alias{getOptimalPointMatching}
 \title{Computes optimal point assignment for two sets of points of equal size.}
 \usage{
-getOptimalPointMatching(x, y, method = "lp")
+getOptimalPointMatching(x, y, method = "lp", full.output = FALSE)
 }
 \arguments{
 \item{x}{[\code{Network} | \code{matrix}]\cr
@@ -18,16 +18,26 @@ Method used to solve the assignment problem. There are currently two methods
 available:
 \describe{
   \item{lp}{Solves the problem be means of linear programming with the
-  \pkg{lpSolve} package. This is the default.}
+  \pkg{lpSolve} package to optimality. This is the default.}
   \item{push_relabel}{The assignment problem can be formulated as a
   matching problem on bipartite graphs. This method makes use of the
-  push-relabel algorithm from the \pkg{igraph}.}
-  \item{random}{Random point matching.}
+  push-relabel algorithm from the \pkg{igraph}. Solves to optimality.}
+  \item{random}{Random point matching. Just for comparisson.}
+  \item{greedy}{Greedy point matching, i.e., iterativeely assign two unmatched
+  points with minimal euclidean distance.}
 }}
+
+\item{full.output}{[\code{logical(1)}]\cr
+Should optimization process information, e.g., the weight of the best matching,
+be returned?
+Default is \code{FALSE}.}
 }
 \value{
-[\code{matrix}]
-  Each row consists of the indizes of the pairwise matchings.
+[\code{matrix | list}]
+  Either a matrix where each row consists of the indizes of the pairwise
+  assigned points.
+  If \code{full.output = TRUE} a list is returned with the assignment matrix \dQuote{pm},
+  the method \dQuote{method} and the optimal weight \dQuote{opt.weight}.
 }
 \description{
 Internally it handles the points and the possible matchings as a bi-partite

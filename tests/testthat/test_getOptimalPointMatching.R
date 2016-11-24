@@ -35,4 +35,11 @@ test_that("point matching algorithm works correctly!", {
 
   # lpSolve and push relable algorithm both generate the same (optimal) assignment
   expect_true(all(p1 == p2))
+
+  # check if additional optimizer infos are returned
+  p5 = getOptimalPointMatching(x.coords, y.coords, method = "lp", full.output = TRUE)
+  expect_list(p5)
+  expect_matrix(p5$assignment, ncols = 2L, nrows = nrow(x.coords))
+  expect_number(p5$opt.weight)
+  expect_equal(p5$opt.method, "lp")
 })
