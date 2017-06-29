@@ -16,7 +16,10 @@ decorateGGPlot = function(pl, lower, upper) {
   )
   pl = pl + xlab(expression(x[1]))
   pl = pl + ylab(expression(x[2]))
-  pl = pl + xlim(c(lower, upper))
-  pl = pl + ylim(c(lower, upper))
+  pl = if (length(lower) == 1L) {
+    pl + xlim(c(lower, upper)) + ylim(c(lower, upper))
+  } else {
+    pl + xlim(c(lower[1L], upper[1L])) + ylim(c(lower[2L], upper[2L]))
+  }
   return(pl)
 }
