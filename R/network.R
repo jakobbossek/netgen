@@ -3,13 +3,13 @@
 #' @param n [\code{integer(1)}]\cr
 #'   Number of nodes.
 #' @return [\code{Network}]
-network = function(n, n.dims = 2L, lower, upper) {
-  n = asInt(n, lower = 2L)
+network = function(n.dims = 2L, lower, upper) {
+  #n = asInt(n, lower = 2L)
   if (length(lower) == 1L)
     lower = rep(lower, n.dims)
   if (length(upper) == 1L)
     upper = rep(upper, n.dims)
-  BBmisc::makeS3Obj(n = n, lower = lower, upper = upper, classes = "Network")
+  BBmisc::makeS3Obj(lower = lower, upper = upper, classes = "Network")
 }
 
 coordLHS = function(n, n.dims, lower = 0, upper = 1, method = lhs::maximinLHS) {
@@ -20,7 +20,6 @@ coordLHS = function(n, n.dims, lower = 0, upper = 1, method = lhs::maximinLHS) {
 }
 
 coordUniform = function(n, n.dims, lower, upper) {
-  print(lower)
   coords = lapply(seq_len(n.dims), function(i) {
     runif(n, min = lower[i], max = upper[i])
   })
@@ -28,8 +27,17 @@ coordUniform = function(n, n.dims, lower, upper) {
   return(coords)
 }
 
+coordGrid = function(n, n.dims, lower, upper) {
+  m = sqrt(n)
+  x1 = seq(lower[1], upper[2], length.out = m)
+  x2 = seq(lower[2], upper[2], length.out = m)
+  coords = expand.grid(x1, x2)
+  names(coords) = NULL
+  coords = as.matrix(coords)
+  return(coords)
+}
+
 addCenters = function(network, n.centers, generator, ...) {
-  print(generator)
   if (!is.null(network$coordinates))
     stopf("Network already has coordinates! Place centers before coordinates.")
   if (!is.null(network$center.coordinates))
@@ -39,43 +47,54 @@ addCenters = function(network, n.centers, generator, ...) {
   center.coordinates = generator(n.centers, n.dims = 2L, lower = network$lower, upper = network$upper, ...)
   network$center.coordinates = center.coordinates
   network$n.cluster = n.centers
+  if (!("ClusteredNetwork" %in% class(network)))
+    network = addClasses(network, "ClusteredNetwork")
   return(network)
 }
 
-addCoordinates = function(network, generator, ...) {
+addCoordinates = function(network, n, generator, by.centers = FALSE, par.fun = NULL, ...) {
   membership = NULL
-  if (is.null(network$n.cluster)) {
-    coords = generator(network$n, n.dim = 2L, lower = network$lower, upper = network$upper, ...)
+  if (!by.centers) {
+    coords = generator(n, n.dim = 2L, lower = network$lower, upper = network$upper, ...)
   } else {
-    n = network$n
     nc = network$n.cluster
-    #FIXME: handle case, that n/n_c is no integer
-    n.per.cluster = floor(n / nc)
-    n.per.cluster2 = rep(n.per.cluster, nc)
-    if (nc * n.per.cluster != n) {
-      idx = sample(seq_len(nc), 1L)
-      n.per.cluster2[idx] = n.per.cluster2[idx] + 1L
+    if (length(n) == nc) {
+      n.per.cluster2 = n
+    } else {
+      n.per.cluster = floor(n / nc)
+      n.per.cluster2 = rep(n.per.cluster, nc)
+      if (nc * n.per.cluster != n) {
+        idx = sample(seq_len(nc), 1L)
+        n.per.cluster2[idx] = n.per.cluster2[idx] + 1L
+      }
     }
+    catf("n per cluster %s", collapse(n))
     coords = lapply(seq_len(nc), function(i) {
-      generator(n.per.cluster2[i], n.dim = 2L, lower = network$lower, upper = network$upper, ...)
+      gen.args = list(n = n.per.cluster2[i], n.dim = 2L)
+      if (!is.null(par.fun))
+        gen.args = c(gen.args, par.fun(network$center.coordinates[i, ]))
+      gen.args = c(gen.args, list(...))
+      do.call(generator, gen.args)
     })
     coords = do.call(rbind, coords)
-    membership = rep(1:nc, rep(n.per.cluster, nc))
+    membership = rep(1:nc, n.per.cluster2)
   }
-  network$coordinates = coords
-  network$membership = membership
+  catf("n is %i", network$n.nodes)
+  network$n.nodes = if (!is.null(network$n.nodes)) network$n.nodes + sum(n) else sum(n)
+  network$coordinates = if (!is.null(network$coordinates)) rbind(network$coordinates, coords) else coords
+  network$membership = if (!is.null(network$membership)) c(network$membership, if (by.centers) membership else rep(0, nrow(coords))) else membership
   return(network)
 }
 
 addEdges = function(network, method = NULL) {
-  adj.mat = matrix(1L, ncol = network$n, nrow = network$n)
+  adj.mat = matrix(1L, ncol = network$n.nodes, nrow = network$n.nodes)
   diag(adj.mat) = 0
   network$adj.mat = adj.mat
   return(network)
 }
 
 addWeights = function(network, method = "euclidean", weight.fun = NULL, symmetric = TRUE, ...) {
-  n = network$n
+  n = network$n.nodes
   ws = network$weights
   n.weights = if (is.null(ws)) 0L else length(ws)
 
@@ -86,7 +105,7 @@ addWeights = function(network, method = "euclidean", weight.fun = NULL, symmetri
     # if not all edges exist, set the remaining to infinifty
     # but keep zero distances on the diagonal
     if (!is.null(network$adj.mat)) {
-      ww[adj.mat == 0] = Inf
+      ww[network$adj.mat == 0] = Inf
       diag(ww) = 0
     }
   } else {
@@ -114,42 +133,4 @@ addWeights = function(network, method = "euclidean", weight.fun = NULL, symmetri
   if (!("moNetwork" %in% class(network)))
     network = BBmisc::addClasses(network, "moNetwork")
   return(network)
-
 }
-
-# workflow
-n = 100
-lower = 0
-upper = 10
-nw = network(n, lower = lower, upper = upper) %>%
-  addCenters(n.centers = 3L, generator = coordLHS) %>%
-  addCoordinates(generator = coordUniform) %>%
-  # addEdges() %>%
-  addWeights(method = "euclidean") %>%
-#  addWeights(method = "random", weight.fun = runif, min = 10, max = 50)
-  addWeights(method = "random", weight.fun = rnorm, mean = 6, sd = 10)
-#  addWeights(method = "random", weight.fun = rexp)
-
-
-print(nw)
-
-opar = par(mfrow = c(1, 2))
-plot(nw$coordinates, xlim = c(0, upper), ylim = c(0, upper))
-points(nw$center.coordinates, col = "tomato")
-plot(as.numeric(nw$weights[[1L]]), as.numeric(nw$weights[[2L]]))
-par(opar)
-
-
-  #   coordinates = coordinates,
-  #   distance.matrix = distance.matrix,
-  #   depot.coordinates = depot.coordinates,
-  #   membership = membership,
-  #   name = name,
-  #   comment = comment,
-  #   lower = lower,
-  #   upper = upper,
-  #   opt.tour.length = opt.tour.length,
-  #   opt.tour = opt.tour,
-  #   edge.weight.type = edge.weight.type,
-  #   classes = "Network"
-  # )
