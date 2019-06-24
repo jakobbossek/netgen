@@ -20,4 +20,3 @@ Get the number of clusters of a network.
 \note{
 For simple random or grid networks this function always returns 1.
 }
-

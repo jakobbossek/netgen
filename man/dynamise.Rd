@@ -4,7 +4,8 @@
 \alias{dynamise}
 \title{Add dynamic arrival times to nodes.}
 \usage{
-dynamise(x, n.dynamic = NULL, dyn.customers.ratio = NULL, arrival.limit)
+dynamise(x, n.dynamic = NULL, dyn.customers.ratio = NULL,
+  arrival.limit)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
@@ -41,4 +42,3 @@ print(x)
 \code{\link{generateRandomNetwork}}, \code{\link{generateClusteredNetwork}},
 \code{\link{generateGridNetwork}}
 }
-

@@ -19,4 +19,3 @@ Not used at the moment.}
 \description{
 Get basic network information as a string.
 }
-

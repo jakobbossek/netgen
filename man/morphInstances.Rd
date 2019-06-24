@@ -53,4 +53,3 @@ do.call(grid.arrange, plot.list)
 \seealso{
 \code{\link{visualizeMorphing}}, \code{\link{visualizePointMatching}}
 }
-

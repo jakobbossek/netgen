@@ -9,4 +9,3 @@ getValidEdgeWeightTypes()
 \description{
 Get TSPlib edge weight types.
 }
-

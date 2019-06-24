@@ -16,4 +16,3 @@ Network.}
 \description{
 Get coordinates of depots.
 }
-

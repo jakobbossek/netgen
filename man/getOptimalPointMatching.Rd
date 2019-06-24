@@ -47,4 +47,3 @@ efficient linear programming solver.
 \seealso{
 \code{\link{visualizePointMatching}}
 }
-

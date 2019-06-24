@@ -16,4 +16,3 @@ Network.}
 \description{
 Check if a \code{Network} object has euclidean coordinates.
 }
-

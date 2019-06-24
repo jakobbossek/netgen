@@ -50,4 +50,3 @@ filterTSPInstances("path/to/instances",
 \seealso{
 \code{\link{getTSPInstancesOverview}}
 }
-

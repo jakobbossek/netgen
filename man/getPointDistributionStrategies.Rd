@@ -12,4 +12,3 @@ getPointDistributionStrategies()
 \description{
 Returns the available strategies for distributing points around clusters.
 }
-

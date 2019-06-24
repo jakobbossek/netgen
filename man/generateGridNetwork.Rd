@@ -36,4 +36,3 @@ Grid networks with depots are not supported at the moment.
 \examples{
 x = generateGridNetwork(n.points.per.dim = 10L, upper = 50)
 }
-

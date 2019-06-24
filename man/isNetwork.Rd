@@ -16,4 +16,3 @@ Arbitrary R object.}
 \description{
 Check if object is \code{Network}.
 }
-

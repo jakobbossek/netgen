@@ -56,4 +56,3 @@ Default is \code{NULL}, which means the optimal tour is unknown.}
 \description{
 Create a (clustered) network object.
 }
-

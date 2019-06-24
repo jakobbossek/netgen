@@ -51,4 +51,3 @@ x = generateRandomNetwork(n.points = 30L, n.depots = 2L)
 pl = autoplot(x, path = 1:3, path.colour = "tomato")
 }
 }
-

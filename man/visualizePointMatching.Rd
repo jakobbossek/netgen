@@ -48,4 +48,3 @@ print(visualizePointMatching(x, y, pm))
 \code{\link{getOptimalPointMatching}}, \code{\link{morphInstances}},
   \code{\link{visualizeMorphing}}
 }
-

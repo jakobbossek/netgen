@@ -16,4 +16,3 @@ Network.}
 \description{
 Returns the number of depots of a network.
 }
-

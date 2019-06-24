@@ -17,4 +17,3 @@ Network.}
 \description{
 Returns number of nodes of a network.
 }
-

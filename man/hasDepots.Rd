@@ -16,4 +16,3 @@ Network.}
 \description{
 Check if network has depots.
 }
-

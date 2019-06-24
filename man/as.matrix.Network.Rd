@@ -23,4 +23,3 @@ Convert network to matrix.
 If the instance contains of \eqn{n} depots, the depot coordinates fill the
   first \eqn{n} rows of the matrix.
 }
-

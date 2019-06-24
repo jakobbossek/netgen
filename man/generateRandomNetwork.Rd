@@ -4,8 +4,8 @@
 \alias{generateRandomNetwork}
 \title{Generates a random graph in a hypercube.}
 \usage{
-generateRandomNetwork(n.points, n.dim = 2L, n.depots = NULL, lower = 0,
-  upper = 100, name = NULL)
+generateRandomNetwork(n.points, n.dim = 2L, n.depots = NULL,
+  lower = 0, upper = 100, name = NULL)
 }
 \arguments{
 \item{n.points}{[\code{integer(1)}]\cr
@@ -41,4 +41,3 @@ Generates a random graph in a hypercube.
 \examples{
 x = generateRandomNetwork(n.points = 100L, n.depots = 2L, upper = 50)
 }
-

@@ -25,4 +25,3 @@ that directory. Moreover, the data frame contains information on the
 availiability of the optimal tour length (files tsp.opt) and optimal
 tour (tsp.tour).
 }
-

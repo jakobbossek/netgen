@@ -16,4 +16,3 @@ Nothing
 \description{
 Import a network from proprietary format.
 }
-

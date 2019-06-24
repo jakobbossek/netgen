@@ -24,4 +24,3 @@ The format used is similar to the TSPlib format (see \code{\link{exportToTSPlibF
 but it saves not only the point coordinates. It also saves the arrival times
 of dynamic customers.
 }
-
