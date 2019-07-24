@@ -32,7 +32,9 @@
 #'   and EUC\_2D is assigned. Otherwise the edge weight type must be one of the
 #'   following \code{{EUC\_2D, EUC\_3D, MAX\_2D, MAX\_3D, MAN\_2D, MAN\_3D, CEIL\_2D,
 #'   GEO, ATT, EXPLICIT}}.
-#'
+#' @param node.weights [\code{numeric}]\cr
+#'   Vector of node weights (for weighted version of TSP). Default is \code{NULL},
+#'   i.e., no node weights at all.
 #' @return [\code{Network}]
 #' @export
 makeNetwork = function(coordinates,
@@ -40,8 +42,10 @@ makeNetwork = function(coordinates,
   name = NULL, comment = NULL,
   membership = NULL, edge.weight.type = NULL,
   depot.coordinates = NULL, lower = NULL, upper = NULL,
-  opt.tour.length = NULL, opt.tour = NULL) {
+  opt.tour.length = NULL, opt.tour = NULL,
+  node.weights = NULL) {
   assertMatrix(coordinates)
+  n.points = nrow(coordinates)
   if (!is.null(name)) assertCharacter(name, len = 1L, any.missing = FALSE)
   if (!is.null(comment)) assertCharacter(comment, min.len = 1L, any.missing = FALSE)
   if (!is.null(membership)) assertNumeric(membership, any.missing = FALSE)
@@ -49,7 +53,8 @@ makeNetwork = function(coordinates,
   if (!is.null(distance.matrix)) assertMatrix(distance.matrix)
   if (!is.null(edge.weight.type)) assertChoice(edge.weight.type, getValidEdgeWeightTypes())
   if (!is.null(opt.tour.length)) assertNumber(opt.tour.length, na.ok = FALSE)
-  if (!is.null(opt.tour)) assertInteger(opt.tour, len = nrow(coordinates), any.missing = FALSE, all.missing = FALSE)
+  if (!is.null(opt.tour)) assertInteger(opt.tour, len = n.points, any.missing = FALSE, all.missing = FALSE)
+  if (!is.null(node.weights)) assertNumeric(node.weights, len = n.points, any.missing = FALSE, all.missing = FALSE)
 
   if (!is.null(opt.tour) && !is.null(depot.coordinates)) {
     stopf("Optimal tours for instances with depots not supported at the moment.")
@@ -89,10 +94,14 @@ makeNetwork = function(coordinates,
     opt.tour.length = opt.tour.length,
     opt.tour = opt.tour,
     edge.weight.type = edge.weight.type,
+    node.weights = node.weights,
     classes = "Network"
   )
   if (!is.null(membership)) {
     network = addClasses(network, "ClusteredNetwork")
+  }
+  if (!is.null(node.weights)) {
+    network = addClasses(network, "NodeWeightedNetwork")
   }
   return(network)
 }

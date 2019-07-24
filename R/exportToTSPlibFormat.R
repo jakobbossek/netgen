@@ -82,7 +82,7 @@ exportToTSPlibFormat = function(x, filename,
     }
   }
   if (!is.null(x$node.weights)) {
-    out = paste0(out, "\nNODE_WEIGHT_SECTION\n")
+    out = paste0(out, "NODE_WEIGHT_SECTION\n")
     for (i in seq_len(n)) {
       out = paste0(out, i, " ", x$node.weights[i], if (i < n) "\n")
     }

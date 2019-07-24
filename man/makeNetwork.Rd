@@ -7,7 +7,7 @@
 makeNetwork(coordinates, distance.matrix = NULL, name = NULL,
   comment = NULL, membership = NULL, edge.weight.type = NULL,
   depot.coordinates = NULL, lower = NULL, upper = NULL,
-  opt.tour.length = NULL, opt.tour = NULL)
+  opt.tour.length = NULL, opt.tour = NULL, node.weights = NULL)
 }
 \arguments{
 \item{coordinates}{[\code{matrix}]\cr
@@ -49,6 +49,10 @@ Default is \code{NULL}, which means the tour length is unknown.}
 \item{opt.tour}{[\code{integer}]\cr
 Optional optimal permutation of node indizes.
 Default is \code{NULL}, which means the optimal tour is unknown.}
+
+\item{node.weights}{[\code{numeric}]\cr
+Vector of node weights (for weighted version of TSP). Default is \code{NULL},
+i.e., no node weights at all.}
 }
 \value{
 [\code{Network}]
