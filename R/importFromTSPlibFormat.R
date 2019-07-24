@@ -32,9 +32,7 @@ importFromTSPlibFormat = function(filename, round.distances = TRUE,
   n.points = as.integer(network$dimension)
 
   line = str_trim(readLines(fh, 1L))
-  print(line)
   while (length(line) > 0 && line != "EOF" && line != "" && !is.na(line)) {
-    print(line)
     if (line == "NODE_COORD_SECTION") {
       network[["coordinates"]] = readNodeCoordinates(fh, n.points)
     }
@@ -50,9 +48,7 @@ importFromTSPlibFormat = function(filename, round.distances = TRUE,
     if (line == "NODE_WEIGHT_SECTION") {
       network[["node_weights"]] = readNodeWeightsSection(fh, n.points)
     }
-    print(line)
     line = str_trim(readLines(fh, 1L))
-    print(line)
   }
 
   # postprocessing
