@@ -131,12 +131,21 @@ This procedure works well if the box constraints of the hypercube are
 not too low (see the lower bound for the <code>upper</code> parameter).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>generateClusteredNetwork</span><span class='op'>(</span><span class='va'>n.cluster</span>, <span class='va'>n.points</span>, n.dim <span class='op'>=</span> <span class='fl'>2L</span>,
-  generator <span class='op'>=</span> <span class='fu'>lhs</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/lhs/man/maximinLHS.html'>maximinLHS</a></span>, lower <span class='op'>=</span> <span class='fl'>0</span>, upper <span class='op'>=</span> <span class='fl'>100</span>,
-  sigmas <span class='op'>=</span> <span class='cn'>NULL</span>, n.depots <span class='op'>=</span> <span class='cn'>NULL</span>,
+    <pre class="usage"><span class='fu'>generateClusteredNetwork</span><span class='op'>(</span>
+  <span class='va'>n.cluster</span>,
+  <span class='va'>n.points</span>,
+  n.dim <span class='op'>=</span> <span class='fl'>2L</span>,
+  generator <span class='op'>=</span> <span class='fu'>lhs</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/lhs/man/maximinLHS.html'>maximinLHS</a></span>,
+  lower <span class='op'>=</span> <span class='fl'>0</span>,
+  upper <span class='op'>=</span> <span class='fl'>100</span>,
+  sigmas <span class='op'>=</span> <span class='cn'>NULL</span>,
+  n.depots <span class='op'>=</span> <span class='cn'>NULL</span>,
   distribution.strategy <span class='op'>=</span> <span class='st'>"equally.distributed"</span>,
-  cluster.centers <span class='op'>=</span> <span class='cn'>NULL</span>, out.of.bounds.handling <span class='op'>=</span> <span class='st'>"mirror"</span>,
-  name <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+  cluster.centers <span class='op'>=</span> <span class='cn'>NULL</span>,
+  out.of.bounds.handling <span class='op'>=</span> <span class='st'>"mirror"</span>,
+  name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

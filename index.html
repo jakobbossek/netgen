@@ -69,10 +69,95 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-Methods for the generation of a wide range of network geographies,
-    e.g., grid networks or clustered networks. Useful for the generation of
-    benchmarking instances for the investigation of, e.g., Vehicle-Routing-Problems
-    or Travelling Salesperson Problems.
+<div id="netgen-generating-random-clustered-networks-in-r" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#netgen-generating-random-clustered-networks-in-r" class="anchor"></a>netgen: Generating random (clustered) networks in R</h1></div>
+<!-- badges: start -->
+
+<div id="description" class="section level2">
+<h2 class="hasAnchor">
+<a href="#description" class="anchor"></a>Description</h2>
+<p>The <em>netgen</em> package offers several methods to generate random graphs respectively networks for benchmarking purposes. You may want to generate some random graphs or clustered graphs to perform benchmark studies on some fine algorithms for the travelling salesperson problem as an example. Examples of generated networks are depicted in the following figure. <img src="https://raw.githubusercontent.com/jakobbossek/netgen/master/images/instance_examples.png" alt="Examplary networks"></p>
+</div>
+<div id="installation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation" class="anchor"></a>Installation</h2>
+<p>The package has recently been submitted to CRAN. Find additional information on the <a href="http://cran.r-project.org/web/packages/netgen/">official CRAN website</a>. To install the current developement version of the package, install the <a href="http://cran.r-project.org/web/packages/devtools/index.html">devtools package</a> by Hadley Wickham, load it and type the following line to a R session:</p>
+<pre class="splus"><code>install_github("jakobbossek/netgen")</code></pre>
+</div>
+<div id="quickstart" class="section level2">
+<h2 class="hasAnchor">
+<a href="#quickstart" class="anchor"></a>Quickstart</h2>
+<p>To generate a random network in the euclidean plane <br><span class="math display">0, 1</span><br> x <br><span class="math display">0, 1</span><br> we simply load the package and call the <code>generateRandomNetwork</code> function, providing the desired number of nodes.</p>
+<pre class="splus"><code><a href="https://github.com/jakobbossek/netgen">library(netgen)
+set.seed(123)
+x = generateRandomNetwork(n.points = 50L)
+print(x)
+autoplot(x)</a></code></pre>
+<p>To generate a network with points distributed around several clusters in the <br><span class="math display">0, 100</span><br> x <br><span class="math display">0, 100</span><br> space make use of the more powerful <code>generateClusteredNetwork</code> function. It is mandatory to provide the number of points <code>n.points</code> and the number of clusters <code>n.cluster</code>.</p>
+<p><strong>Note:</strong> See the documentation of the function to read about how it works internally.</p>
+<pre class="splus"><code><a href="https://github.com/jakobbossek/netgen">library(netgen)
+set.seed(1)
+x = generateClusteredNetwork(n.cluster = 5L, n.points = 150L, upper = 100)
+print(x)
+autoplot(x)</a></code></pre>
+</div>
+<div id="news" class="section level2">
+<h2 class="hasAnchor">
+<a href="#news" class="anchor"></a>News</h2>
+<div id="netgen-v13-release-data-2016-01-16" class="section level3">
+<h3 class="hasAnchor">
+<a href="#netgen-v13-release-data-2016-01-16" class="anchor"></a>netgen v1.3 (Release data: 2016-01-16):</h3>
+<ul>
+<li>Default number of digits for exportToTSPlibFormat is 10 now</li>
+<li>Added function isEuclidean</li>
+<li>rescaleNetwork now supports instances with depots</li>
+<li>rescaleNetwork now recomputes distance matrix</li>
+<li>rescaleNetwork throws error on non-euclidean networks</li>
+<li>Added function getTSPInstancesOverview to get an overview of files in TSPlib format</li>
+<li>Added function filterTSPInstances which allows to subset/filter TSP instances in TSPlib format by properties.</li>
+<li>Networks have an additional property edge.weight.type now (see TSPlib documentation for details)</li>
+<li>Added function getValidEdgeWeightTypes</li>
+</ul>
+</div>
+<div id="netgen-v12-release-data-2015-11-24" class="section level3">
+<h3 class="hasAnchor">
+<a href="#netgen-v12-release-data-2015-11-24" class="anchor"></a>netgen v1.2 (Release data: 2015-11-24):</h3>
+<ul>
+<li>last line of TSPlib export now containts EOF string</li>
+<li>function importFromTSPlibFormat now has an additional argument round.distances with default value TRUE which decides whether distances of EUC_2D instances should be rounded to the nearest integer value</li>
+</ul>
+</div>
+<div id="netgen-v11-release-data-2015-05-19" class="section level3">
+<h3 class="hasAnchor">
+<a href="#netgen-v11-release-data-2015-05-19" class="anchor"></a>netgen v1.1 (Release data: 2015-05-19):</h3>
+<ul>
+<li>added rescaleNetwork</li>
+<li>network objects now store the distance matrix internally</li>
+<li>network objects now have name and comment field</li>
+<li>lower and upper bound are now optional for makeNetwork/makeClusteredNetwork</li>
+<li>added possibility to pass point matching or point matching algorithm to morphInstances</li>
+<li>getOptimalPointAssignment now has another parameter method (new method to solve the assigment to optimality)</li>
+<li>importFromTSPlibFormat and exportToTSPlibFormat for storing networks in the TSPlib format</li>
+<li>importFromFile and exportToFile for storing networks in proprietary format (similar to TSPlib format, but with additional information like cluster membership or arrival/request times)</li>
+<li>generate{Random,Clustered,Grid}Network now automatically generate a random name if none is provided</li>
+<li>there is no makeClusteredNetwork function anymore. Instead makeNetwork has an optional paramter membership</li>
+</ul>
+</div>
+<div id="netgen-v10-release-date-2015-02-03" class="section level3">
+<h3 class="hasAnchor">
+<a href="#netgen-v10-release-date-2015-02-03" class="anchor"></a>netgen v1.0 (Release date: 2015-02-03):</h3>
+<ul>
+<li>First submission to CRAN.</li>
+</ul>
+</div>
+</div>
+<div id="contact" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contact" class="anchor"></a>Contact</h2>
+<p>Please address questions and missing features about the <strong>netgen package</strong> to the author Jakob Bossek <a href="mailto:j.bossek@gmail.com" class="email">j.bossek@gmail.com</a>. Found some nasty bugs? Please use the <a href="https://github.com/jbossek/netgen/issues">issue tracker</a> for this. Pay attention to explain the problem as good as possible. At its best you provide an example, so I can reproduce your problem.</p>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -102,7 +187,16 @@ Methods for the generation of a wide range of network geographies,
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="http://cran.r-project.org/web/packages/netgen"><img src="http://www.r-pkg.org/badges/version/netgen" alt="CRAN Status Badge"></a></li>
+<li><a href="http://cran.rstudio.com/web/packages/netgen/index.html"><img src="http://cranlogs.r-pkg.org/badges/netgen" alt="CRAN Downloads"></a></li>
+<li><a href="https://github.com/jakobbossek/netgen/actions"><img src="https://github.com/jakobbossek/netgen/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/jakobbossek/netgen?branch=master"><img src="https://codecov.io/gh/jakobbossek/netgen/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
