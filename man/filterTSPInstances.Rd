@@ -4,8 +4,12 @@
 \alias{filterTSPInstances}
 \title{Filter TSPlib instances according to its specifications.}
 \usage{
-filterTSPInstances(directory = NULL, expr, paths.only = FALSE,
-  opt.known = FALSE)
+filterTSPInstances(
+  directory = NULL,
+  expr,
+  paths.only = FALSE,
+  opt.known = FALSE
+)
 }
 \arguments{
 \item{directory}{[\code{character(1)}]\cr

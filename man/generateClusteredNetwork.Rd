@@ -4,12 +4,21 @@
 \alias{generateClusteredNetwork}
 \title{Function for generation of clustered networks}
 \usage{
-generateClusteredNetwork(n.cluster, n.points, n.dim = 2L,
-  generator = lhs::maximinLHS, lower = 0, upper = 100,
-  sigmas = NULL, n.depots = NULL,
+generateClusteredNetwork(
+  n.cluster,
+  n.points,
+  n.dim = 2L,
+  generator = lhs::maximinLHS,
+  lower = 0,
+  upper = 100,
+  sigmas = NULL,
+  n.depots = NULL,
   distribution.strategy = "equally.distributed",
-  cluster.centers = NULL, out.of.bounds.handling = "mirror",
-  name = NULL, ...)
+  cluster.centers = NULL,
+  out.of.bounds.handling = "mirror",
+  name = NULL,
+  ...
+)
 }
 \arguments{
 \item{n.cluster}{[\code{integer(1)}]\cr

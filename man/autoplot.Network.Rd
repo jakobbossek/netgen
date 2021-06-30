@@ -4,8 +4,14 @@
 \alias{autoplot.Network}
 \title{Autoplot function.}
 \usage{
-\method{autoplot}{Network}(object, path = NULL, close.path = FALSE,
-  path.colour = "gray", use.opt.tour = FALSE, ...)
+\method{autoplot}{Network}(
+  object,
+  path = NULL,
+  close.path = FALSE,
+  path.colour = "gray",
+  use.opt.tour = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{[\code{Network}]\cr

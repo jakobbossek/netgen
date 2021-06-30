@@ -4,8 +4,13 @@
 \alias{morphInstances}
 \title{Morphing of two networks with a convex combination of the coordinates.}
 \usage{
-morphInstances(x, y, alpha, point.matching = NULL,
-  point.matching.algorithm = "push_relabel")
+morphInstances(
+  x,
+  y,
+  alpha,
+  point.matching = NULL,
+  point.matching.algorithm = "push_relabel"
+)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr

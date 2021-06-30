@@ -4,8 +4,13 @@
 \alias{as.data.frame.Network}
 \title{Convert network to data frame.}
 \usage{
-\method{as.data.frame}{Network}(x, row.names = NULL, optional = FALSE,
-  include.extras = TRUE, ...)
+\method{as.data.frame}{Network}(
+  x,
+  row.names = NULL,
+  optional = FALSE,
+  include.extras = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr

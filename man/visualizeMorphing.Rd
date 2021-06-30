@@ -4,8 +4,15 @@
 \alias{visualizeMorphing}
 \title{Fancy visualization of morphing.}
 \usage{
-visualizeMorphing(x, y, point.matching = NULL, alphas = c(0.25, 0.5,
-  0.75), arrows = TRUE, in.one.plot = TRUE, point.colour = NULL)
+visualizeMorphing(
+  x,
+  y,
+  point.matching = NULL,
+  alphas = c(0.25, 0.5, 0.75),
+  arrows = TRUE,
+  in.one.plot = TRUE,
+  point.colour = NULL
+)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr

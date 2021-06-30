@@ -4,8 +4,15 @@
 \alias{exportToTSPlibFormat}
 \title{Exports a network to the TSPlib format.}
 \usage{
-exportToTSPlibFormat(x, filename, name = NULL, comment = NULL,
-  use.extended.format = TRUE, full.matrix = FALSE, digits = 10L)
+exportToTSPlibFormat(
+  x,
+  filename,
+  name = NULL,
+  comment = NULL,
+  use.extended.format = TRUE,
+  full.matrix = FALSE,
+  digits = 10L
+)
 }
 \arguments{
 \item{x}{[\code{Network}]\cr

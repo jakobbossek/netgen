@@ -4,8 +4,13 @@
 \alias{generateGridNetwork}
 \title{Generates a grid network.}
 \usage{
-generateGridNetwork(n.points.per.dim = NULL, n.dim = 2L, lower = 0,
-  upper = 100, name = NULL)
+generateGridNetwork(
+  n.points.per.dim = NULL,
+  n.dim = 2L,
+  lower = 0,
+  upper = 100,
+  name = NULL
+)
 }
 \arguments{
 \item{n.points.per.dim}{[\code{integer(1)}]\cr
