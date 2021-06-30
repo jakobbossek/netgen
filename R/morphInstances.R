@@ -18,13 +18,14 @@
 #'   Default is \code{NULL}. Currently it is just possible to pass a point matching
 #'   for instances without depots.
 #' @param point.matching.algorithm [\code{function}]\cr
-#'   Algorithm used to find a point matching. Default is \code{\link{getOptimalPointMatching}}.
+#'   Algorithm used to find a point matching.
+#'.  See argument \code{method} of \code{\link{getOptimalPointMatching}}.
 #' @return [\code{Network}]
-#'   Morphed network
+#'   Morphed network.
 #' @examples
 #' x = generateRandomNetwork(n.points = 40L, n.depots = 2L)
 #' y = generateClusteredNetwork(n.points = 40L, n.cluster = 2L, n.depots = 2L)
-#' z = morphInstances(x, y, alpha = 0.2)
+#' z = morphInstances(x, y, alpha = 0.2, point.matching.algorithm = "push_relabel")
 #' \dontrun{
 #' library(gridExtra)
 #' plot.list = list(autoplot(x), autoplot(z), autoplot(y))
@@ -35,14 +36,15 @@
 #' @export
 morphInstances = function(x, y, alpha,
   point.matching = NULL,
-  point.matching.algorithm = getOptimalPointMatching) {
+  point.matching.algorithm = "push_relabel") {
   assertClass(x, "Network")
   assertClass(y, "Network")
   assertNumber(alpha, lower = 0, upper = 1, na.ok = FALSE)
-  assertFunction(point.matching.algorithm)
+  assertChoice(point.matching.algorithm, c("lp", "push_relabel", "greedy", "random"))
 
   getPointMatchingAndMorphCoordinates = function(coords1, coords2) {
-    point.matching = point.matching.algorithm(coords1, coords2)
+    point.matching = getOptimalPointMatching(coords1, coords2,
+      method = point.matching.algorithm, full.output = FALSE)
     coordinates = makeConvexCombination(coords1, coords2[point.matching[, 2], ], alpha)
     return(coordinates)
   }

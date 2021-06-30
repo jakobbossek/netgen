@@ -16,3 +16,8 @@ images
 todo-files
 appveyor.yml
 man-roxygen
+^codecov\.yml$
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

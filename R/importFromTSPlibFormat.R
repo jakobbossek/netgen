@@ -75,8 +75,6 @@ importFromTSPlibFormat = function(filename, round.distances = TRUE,
     }
   }
 
-  print(network)
-
   # finally generate netgen {Clustered}Network object
   makeNetwork(
     name = network$name,

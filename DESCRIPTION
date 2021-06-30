@@ -5,8 +5,8 @@ Description: Methods for the generation of a wide range of network geographies,
     e.g., grid networks or clustered networks. Useful for the generation of
     benchmarking instances for the investigation of, e.g., Vehicle-Routing-Problems
     or Travelling Salesperson Problems.
-Version: 1.3.0.9000
-Date: 2016-01-21
+Version: 1.3.2
+Date: 2020-01-08
 Authors@R: c(person("Jakob", "Bossek", email = "j.bossek@gmail.com", role =
     c("aut", "cre")))
 Maintainer: Jakob Bossek <j.bossek@gmail.com>
@@ -20,11 +20,12 @@ Depends:
     checkmate (>= 1.8.0)
 Imports:
     ggplot2,
-    lpSolve,
     igraph (>= 0.7.1),
     stringr (>= 0.6.2)
 Suggests:
-    testthat
+    testthat,
+    lpSolve,
+    covr
 LazyData: yes
 ByteCompile: yes
 RoxygenNote: 6.1.1

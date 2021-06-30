@@ -85,8 +85,12 @@ getPointMatchingBySolvingLP = function(coords1, coords2) {
     }
   }
 
-  requirePackages("lpSolve", why = "netgen::getPointMatchingBySolvingLP")
-  lp.res = lp.assign(dist.matrix)
+  if (!requireNamespace("lpSolve", quietly = TRUE)) {
+    BBmisc::stopf("Package 'lpSolve' required, but not available. Please install it.")
+  }
+
+  #requirePackages("lpSolve", why = "netgen::getPointMatchingBySolvingLP")
+  lp.res = lpSolve::lp.assign(dist.matrix)
   if (lp.res$status != 0) {
     stop("Failed to find LP solution! No point matching possible.")
   }

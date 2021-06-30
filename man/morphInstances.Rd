@@ -5,7 +5,7 @@
 \title{Morphing of two networks with a convex combination of the coordinates.}
 \usage{
 morphInstances(x, y, alpha, point.matching = NULL,
-  point.matching.algorithm = getOptimalPointMatching)
+  point.matching.algorithm = "push_relabel")
 }
 \arguments{
 \item{x}{[\code{Network}]\cr
@@ -24,11 +24,12 @@ Default is \code{NULL}. Currently it is just possible to pass a point matching
 for instances without depots.}
 
 \item{point.matching.algorithm}{[\code{function}]\cr
-Algorithm used to find a point matching. Default is \code{\link{getOptimalPointMatching}}.}
+  Algorithm used to find a point matching.
+.  See argument \code{method} of \code{\link{getOptimalPointMatching}}.}
 }
 \value{
 [\code{Network}]
-  Morphed network
+  Morphed network.
 }
 \description{
 This function takes two (clustered) networks with equal number of nodes and,
@@ -42,7 +43,7 @@ and the remaining nodes.
 \examples{
 x = generateRandomNetwork(n.points = 40L, n.depots = 2L)
 y = generateClusteredNetwork(n.points = 40L, n.cluster = 2L, n.depots = 2L)
-z = morphInstances(x, y, alpha = 0.2)
+z = morphInstances(x, y, alpha = 0.2, point.matching.algorithm = "push_relabel")
 \dontrun{
 library(gridExtra)
 plot.list = list(autoplot(x), autoplot(z), autoplot(y))

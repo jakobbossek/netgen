@@ -1,10 +1,14 @@
+---
+output: github_document
+---
 # netgen: Generating random (clustered) networks in R
 
+<!-- badges: start -->
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/netgen)](http://cran.r-project.org/web/packages/netgen)
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/netgen)](http://cran.rstudio.com/web/packages/netgen/index.html)
-[![Build Status](https://travis-ci.org/jakobbossek/netgen.svg?branch=master)](https://travis-ci.org/jakobbossek/netgen)
-[![Build status](https://ci.appveyor.com/api/projects/status/gpbans0vvbfcwyty/branch/master?svg=true)](https://ci.appveyor.com/project/jakobbossek/netgen/branch/master)
-[![Coverage Status](https://coveralls.io/repos/jakobbossek/netgen/badge.svg)](https://coveralls.io/r/jakobbossek/netgen)
+[![R-CMD-check](https://github.com/jakobbossek/netgen/workflows/R-CMD-check/badge.svg)](https://github.com/jakobbossek/netgen/actions)
+[![Codecov test coverage](https://codecov.io/gh/jakobbossek/netgen/branch/master/graph/badge.svg)](https://codecov.io/gh/jakobbossek/netgen?branch=master)
+<!-- badges: end -->
 
 ## Description
 
