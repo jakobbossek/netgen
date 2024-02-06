@@ -36,7 +36,7 @@ Use the \dQuote{extended tsplib format} with additional information like cluster
 membership and bounds? Default is \code{TRUE}.}
 
 \item{full.matrix}{[\code{logical(1)}]\cr
-Make use of \dQuote{FULL\_MATRIX} \dQuote{EDGE\_WEIGHT\_FORMAT} instead of
+Make use of \dQuote{FULL_MATRIX} \dQuote{EDGE_WEIGHT_FORMAT} instead of
 node coordinates?
 Default is \code{FALSE}.}
 

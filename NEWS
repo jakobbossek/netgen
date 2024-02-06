@@ -1,4 +1,4 @@
-netgen v1.4.xxxx (Release data: xxxx-xx-xx):
+netgen v1.4.0 (Release data: xxxx-xx-xx):
 ===========
 
 * Networks now have additional optional slots opt.tour.length and opt.tour for

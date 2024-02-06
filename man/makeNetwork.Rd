@@ -38,8 +38,8 @@ Optional vector of memberships for clustered networks.}
 \item{edge.weight.type}{[\code{character(1)} | \code{NULL}]
 The edge weight type indicates how edge weights are represented in the TSPlib
 format. If \code{distance.matrix} is \code{NULL}, the passed value is ignored
-and EUC\_2D is assigned. Otherwise the edge weight type must be one of the
-following \code{{EUC\_2D, EUC\_3D, MAX\_2D, MAX\_3D, MAN\_2D, MAN\_3D, CEIL\_2D,
+and EUC_2D is assigned. Otherwise the edge weight type must be one of the
+following \code{{EUC_2D, EUC_3D, MAX_2D, MAX_3D, MAN_2D, MAN_3D, CEIL_2D,
 GEO, ATT, EXPLICIT}}.}
 
 \item{depot.coordinates}{[\code{matrix} | \code{NULL}]\cr
